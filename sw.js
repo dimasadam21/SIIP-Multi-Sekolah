@@ -1,14 +1,18 @@
-// Service Worker untuk Presensi Sholat & Ibadah PWA / WebAPK Cache (Edisi Kloning)
-const CACHE_NAME = 'presensi-kloning-v22';
+// Service Worker untuk S I I P - Sistem Informasi Ibadah Pelajar (PWA / WebAPK)
+const CACHE_NAME = 'siip-pwa-v24';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/config.js',
-  '/islamic_features.js',
-  '/ramadhan_feature.js',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png'
+  './',
+  './index.html',
+  './config.js',
+  './islamic_features.js',
+  './ramadhan_feature.js',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png',
+  './logo-siip.png',
+  './favicon.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -55,7 +59,7 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         })
-        .catch(() => caches.match(event.request).then((res) => res || caches.match('/index.html')))
+        .catch(() => caches.match(event.request).then((res) => res || caches.match('./index.html')))
     );
     return;
   }
@@ -71,8 +75,7 @@ self.addEventListener('fetch', (event) => {
         }).catch(() => {});
         return cachedResponse;
       }
-      return fetch(event.request).catch(() => caches.match('/index.html'));
+      return fetch(event.request).catch(() => caches.match('./index.html'));
     })
   );
 });
-

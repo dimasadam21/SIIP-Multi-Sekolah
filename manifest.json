@@ -1,26 +1,38 @@
 {
-  "id": "/presensi-kloning/",
-  "name": "Presensi Sholat & Ibadah (Kloning)",
-  "short_name": "Presensi Kloning",
-  "description": "Aplikasi Presensi Sholat 5 Waktu & Dhuha Siswa (Edisi Kloning) terintegrasi Cloud Supabase, GPS Radius, dan Kamera Selfie",
-  "start_url": "/",
-  "scope": "/",
+  "id": "siip-presensi-ibadah",
+  "name": "S I I P - Sistem Informasi Ibadah Pelajar",
+  "short_name": "S I I P",
+  "description": "Aplikasi Presensi Sholat 5 Waktu & Dhuha Siswa terintegrasi Cloud Supabase, GPS Radius, dan Kamera Selfie",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#0d9488",
+  "background_color": "#060b17",
+  "theme_color": "#060b17",
   "orientation": "portrait-primary",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

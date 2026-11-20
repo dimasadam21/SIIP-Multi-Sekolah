@@ -7,13 +7,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>S I I P - Sistem Informasi Ibadah Pelajar</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="icon-192.png">
-  <link rel="shortcut icon" href="icon-192.png">
-  <meta name="theme-color" content="#0d9488">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <meta name="theme-color" content="#060b17">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="S I I P">
+
+  <!-- Apple / iOS Specific Web App Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="S I I P">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap"
@@ -4915,7 +4923,7 @@
     <div class="app-header header-stacked" id="headerLogin">
       <div class="header-inner">
         <div class="header-logo-box" id="logoBoxLogin">
-          <span class="emoji-logo">🕌</span>
+          <img src="icon-192.png" alt="Logo S I I P">
         </div>
         <div class="header-text-box">
           <h1 id="titleLogin">S I I P</h1>
@@ -4944,6 +4952,24 @@
           setelah masuk.</div>
         <button id="loginBtn" class="btn btn-primary" style="margin-top:16px;"><span>Masuk</span></button>
       </div>
+
+      <!-- KARTU DOWNLOAD / PASANG APLIKASI S I I P (CROSS-PLATFORM: ANDROID, IOS, APPLE, DESKTOP) -->
+      <div id="pwaInstallCard" class="card" style="margin-top:14px; padding:12px 14px; background:linear-gradient(135deg, rgba(16,185,129,0.18), rgba(6,78,59,0.28)); border:1px solid rgba(52,211,153,0.35); border-radius:14px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="icon-192.png" alt="S I I P" style="width:42px; height:42px; border-radius:10px; background:#ffffff; padding:2px; object-fit:contain; box-shadow:0 4px 10px rgba(0,0,0,0.35); flex-shrink:0;">
+          <div style="flex:1; min-width:0;">
+            <div style="font-weight:700; font-size:13.5px; color:#f8fafc; display:flex; align-items:center; gap:6px;">
+              <span>Instal Aplikasi S I I P</span>
+              <span style="font-size:10px; background:rgba(16,185,129,0.3); color:#34d399; padding:1px 6px; border-radius:10px; font-weight:600;">App</span>
+            </div>
+            <div style="font-size:11.5px; color:#94a3b8; margin-top:2px;">Bisa di-install di Android, iPhone (iOS) & Komputer</div>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="bukaModalInstalApp()" style="padding:7px 12px; font-size:12.5px; font-weight:700; border-radius:9px; display:inline-flex; align-items:center; gap:4px; flex-shrink:0;">
+            <span>📲</span><span>Pasang</span>
+          </button>
+        </div>
+      </div>
+
       <button type="button" id="btnPanelMasukAdmin" class="btn btn-outline btn-block-mt" onclick="bukaAdminLogin()">⚙️ Panel Masuk Admin</button>
       <div class="foot">&copy; S I I P - Sistem Informasi Ibadah Pelajar</div>
     </div>
@@ -4954,7 +4980,7 @@
     <div class="app-header header-stacked" id="headerDash">
       <div class="header-inner">
         <div class="header-logo-box" id="logoBoxDash">
-          <span class="emoji-logo">🕌</span>
+          <img src="icon-192.png" alt="Logo S I I P">
         </div>
         <div class="header-text-box">
           <h1 id="titleDash">S I I P</h1>
@@ -5267,6 +5293,9 @@
               </button>
             </div>
           </div>
+          <button type="button" class="btn btn-outline btn-block-mt" onclick="bukaModalInstalApp()" style="display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>📲 Pasang Aplikasi S I I P di HP / Komputer</span>
+          </button>
           <button class="btn btn-danger btn-block-mt" onclick="logout()">🚪 Keluar dari Aplikasi</button>
         </div>
       </div>
@@ -6750,6 +6779,94 @@
         <button class="btn btn-primary btn-block-mt"
           style="margin: 0; font-size: 14px; font-weight: 700; border-radius: 14px; padding: 13px;"
           onclick="tutupSuksesModal()">🤲 Alhamdulillah / Tutup</button>
+      </div>
+    </div>
+
+    <!-- ============ MODAL INSTAL APLIKASI CROSS-PLATFORM (ANDROID, IOS, APPLE, PC) ============ -->
+    <div id="modalInstalApp" class="modal center hidden" style="z-index: 99999;">
+      <div class="modal-box" style="max-width: 480px; width: 92vw; padding: 22px 20px;">
+        <div class="modal-head" style="align-items: flex-start; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="icon-192.png" alt="S I I P" style="width: 48px; height: 48px; border-radius: 12px; background: #ffffff; padding: 2px; object-fit: contain; box-shadow: 0 4px 14px rgba(0,0,0,0.35);">
+            <div>
+              <h3 style="font-size: 17px; margin: 0; color: #f8fafc; font-weight: 800;">Pasang Aplikasi S I I P</h3>
+              <p style="font-size: 12px; color: #94a3b8; margin: 2px 0 0 0;">Tersedia untuk Android, iPhone (iOS) & Komputer</p>
+            </div>
+          </div>
+          <button type="button" class="close-x" onclick="tutupModalInstalApp()">&times;</button>
+        </div>
+
+        <!-- TAB NAVIGASI PLATFORM -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: rgba(255,255,255,0.06); padding: 4px; border-radius: 12px; margin-bottom: 16px;">
+          <button type="button" id="tabBtnAndroid" class="btn-plat-tab" onclick="switchPlatTab('android')" style="padding: 8px 4px; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; background: var(--primary, #10b981); color: #ffffff;">🤖 Android</button>
+          <button type="button" id="tabBtnIos" class="btn-plat-tab" onclick="switchPlatTab('ios')" style="padding: 8px 4px; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; background: transparent; color: #94a3b8;">🍎 iOS / Apple</button>
+          <button type="button" id="tabBtnPc" class="btn-plat-tab" onclick="switchPlatTab('pc')" style="padding: 8px 4px; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; background: transparent; color: #94a3b8;">💻 Komputer</button>
+        </div>
+
+        <!-- KONTEN TAB ANDROID -->
+        <div id="contentPlatAndroid" class="plat-content">
+          <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 14px; text-align: center;">
+            <div style="font-weight: 700; font-size: 14px; color: #34d399; margin-bottom: 4px;">Instal Otomatis di HP Android</div>
+            <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 12px;">Aplikasi akan langsung terpasang di layar utama HP Anda dengan ikon resmi tanpa perlu unduh file berat dari Play Store.</p>
+            <button type="button" id="btnPromptInstallAndroid" class="btn btn-primary" onclick="triggerPwaPromptAction()" style="width: 100%; padding: 11px; font-weight: 700; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>📲</span><span>Pasang Sekarang (Instal Otomatis)</span>
+            </button>
+          </div>
+          <div style="font-size: 12px; color: #94a3b8; line-height: 1.6; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.07);">
+            <div style="font-weight: 700; color: #e2e8f0; margin-bottom: 6px;">💡 Cara Manual di HP Android:</div>
+            <ol style="margin-left: 18px; padding-left: 0;">
+              <li>Buka situs ini di <b>Google Chrome</b> atau <b>Samsung Internet</b>.</li>
+              <li>Ketuk ikon <b>titik tiga (⋮)</b> di pojok kanan atas browser.</li>
+              <li>Pilih menu <b>"Instal aplikasi"</b> atau <b>"Tambahkan ke Layar Utama"</b> (<i>Add to Home Screen</i>).</li>
+              <li>Ketuk <b>Instal</b> &mdash; Ikon S I I P akan langsung muncul di beranda HP Anda!</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- KONTEN TAB IOS / IPHONE / IPAD -->
+        <div id="contentPlatIos" class="plat-content hidden">
+          <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(96, 165, 250, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+            <div style="font-weight: 700; font-size: 14px; color: #60a5fa; margin-bottom: 4px; text-align: center;">Cara Pasang di iPhone / iPad (Apple iOS)</div>
+            <p style="font-size: 12px; color: #cbd5e1; text-align: center; margin-bottom: 14px;">Apple mendukung instalasi aplikasi web instan via browser bawaan <b>Safari</b>:</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12.5px; color: #e2e8f0;">
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="background: rgba(96, 165, 250, 0.2); color: #93c5fd; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 11px;">1</div>
+                <div>Buka link ini menggunakan browser resmi iPhone yaitu <b>Safari</b>.</div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="background: rgba(96, 165, 250, 0.2); color: #93c5fd; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 11px;">2</div>
+                <div>Ketuk tombol <b>Bagikan (Share)</b> <span style="display: inline-block; padding: 1px 6px; background: rgba(255,255,255,0.15); border-radius: 5px; font-size: 13px;">📤</span> di bilah menu bawah Safari.</div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="background: rgba(96, 165, 250, 0.2); color: #93c5fd; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 11px;">3</div>
+                <div>Gulir ke bawah dan ketuk menu <b>"Tambahkan ke Layar Utama"</b> (<i>Add to Home Screen</i> <span style="display: inline-block; padding: 1px 6px; background: rgba(255,255,255,0.15); border-radius: 5px; font-size: 13px;">➕</span>).</div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="background: rgba(96, 165, 250, 0.2); color: #93c5fd; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 11px;">4</div>
+                <div>Ketuk tombol <b>"Tambah"</b> (<i>Add</i>) di pojok kanan atas layar iPhone Anda.</div>
+              </div>
+            </div>
+            <div style="margin-top: 12px; font-size: 11.5px; color: #34d399; background: rgba(16,185,129,0.1); padding: 8px 10px; border-radius: 8px; border: 1px dashed rgba(52,211,153,0.3);">
+              ✨ <b>Selesai!</b> Ikon resmi S I I P akan muncul di layar utama iPhone Anda dan berjalan layar penuh (<i>full screen</i>) tanpa navigasi browser, persis seperti aplikasi App Store!
+            </div>
+          </div>
+        </div>
+
+        <!-- KONTEN TAB KOMPUTER / MAC / WINDOWS -->
+        <div id="contentPlatPc" class="plat-content hidden">
+          <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(167, 139, 250, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+            <div style="font-weight: 700; font-size: 14px; color: #a78bfa; margin-bottom: 4px; text-align: center;">Pasang di Komputer / Laptop (Windows & Mac)</div>
+            <p style="font-size: 12px; color: #cbd5e1; text-align: center; margin-bottom: 12px;">Dapat dipasang menjadi aplikasi mandiri (<i>Desktop App</i>) tanpa emulator:</p>
+            <ol style="margin-left: 18px; padding-left: 0; font-size: 12px; color: #cbd5e1; line-height: 1.6;">
+              <li>Buka di browser <b>Google Chrome</b>, <b>Microsoft Edge</b>, atau <b>Safari Mac</b>.</li>
+              <li>Lihat di sebelah kanan kolom URL / address bar, klik ikon <b>Instal</b> <span style="display:inline-block; padding:1px 5px; background:rgba(255,255,255,0.15); border-radius:4px;">💻 / 📥</span>.</li>
+              <li>Atau klik menu titik tiga di browser &rarr; <b>Simpan dan bagikan</b> &rarr; <b>Instal S I I P...</b></li>
+              <li>Aplikasi akan langsung memiliki shortcut di Desktop & Start Menu komputer Anda.</li>
+            </ol>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-outline" onclick="tutupModalInstalApp()" style="width: 100%; margin-top: 6px; padding: 10px; font-size: 13px;">Tutup</button>
       </div>
     </div>
 
@@ -9533,7 +9650,7 @@
             box.innerHTML = '<span class="emoji-logo">' + b64 + '</span>';
           } else {
             var isAdm = box.closest('.admin');
-            box.innerHTML = '<span class="emoji-logo">' + (isAdm ? '🛡️' : '🕌') + '</span>';
+            box.innerHTML = isAdm ? '<span class="emoji-logo">🛡️</span>' : '<img src="icon-192.png" alt="Logo S I I P">';
           }
         });
       }
@@ -14142,6 +14259,112 @@
         hitungDanRenderRaporAktif();
         toast('Nilai dikembalikan ke hitungan otomatis sistem.', 'ok');
       }
+
+      // ================= PWA INSTALLATION SYSTEM (CROSS-PLATFORM: ANDROID, IOS, APPLE, PC) =================
+      var deferredPwaPrompt = null;
+
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredPwaPrompt = e;
+        var btnPrompt = $('btnPromptInstallAndroid');
+        if (btnPrompt) {
+          btnPrompt.style.display = 'flex';
+          btnPrompt.innerHTML = '<span>📲</span><span>Pasang Sekarang (Instal Otomatis)</span>';
+        }
+        var pwaCard = $('pwaInstallCard');
+        if (pwaCard && !isPwaStandalone()) {
+          pwaCard.style.display = 'block';
+        }
+      });
+
+      window.addEventListener('appinstalled', function () {
+        deferredPwaPrompt = null;
+        toast('Alhamdulillah! Aplikasi S I I P berhasil dipasang di perangkat Anda.', 'ok');
+        updatePwaStatusUI();
+      });
+
+      function isPwaStandalone() {
+        return (window.matchMedia('(display-mode: standalone)').matches ||
+                window.navigator.standalone === true ||
+                document.referrer.indexOf('android-app://') > -1);
+      }
+
+      function detectPlatform() {
+        var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+        if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+        if (/Macintosh/.test(ua) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1) return 'ios'; // iPadOS
+        if (/android/i.test(ua)) return 'android';
+        return 'pc';
+      }
+
+      function bukaModalInstalApp() {
+        var m = $('modalInstalApp');
+        if (!m) return;
+        var plat = detectPlatform();
+        switchPlatTab(plat);
+        m.classList.remove('hidden');
+        m.style.setProperty('display', 'flex', 'important');
+      }
+
+      function tutupModalInstalApp() {
+        var m = $('modalInstalApp');
+        if (m) {
+          m.classList.add('hidden');
+          m.style.removeProperty('display');
+        }
+      }
+
+      function switchPlatTab(plat) {
+        ['android', 'ios', 'pc'].forEach(function (p) {
+          var btn = $('tabBtn' + p.charAt(0).toUpperCase() + p.slice(1));
+          var content = $('contentPlat' + p.charAt(0).toUpperCase() + p.slice(1));
+          if (btn) {
+            if (p === plat) {
+              btn.style.background = 'var(--primary, #10b981)';
+              btn.style.color = '#ffffff';
+            } else {
+              btn.style.background = 'transparent';
+              btn.style.color = '#94a3b8';
+            }
+          }
+          if (content) {
+            content.classList.toggle('hidden', p !== plat);
+          }
+        });
+      }
+
+      function triggerPwaPromptAction() {
+        if (deferredPwaPrompt) {
+          deferredPwaPrompt.prompt();
+          deferredPwaPrompt.userChoice.then(function (choice) {
+            if (choice.outcome === 'accepted') {
+              toast('Memasang aplikasi S I I P...', 'ok');
+              tutupModalInstalApp();
+            }
+            deferredPwaPrompt = null;
+          }).catch(function (err) {
+            console.warn('PWA prompt error:', err);
+          });
+        } else {
+          toast('Silakan ikuti panduan: ketuk menu browser (titik 3 di atas) lalu pilih "Instal Aplikasi".', 'info', 5000);
+        }
+      }
+
+      function updatePwaStatusUI() {
+        var pwaCard = $('pwaInstallCard');
+        if (pwaCard) {
+          if (isPwaStandalone()) {
+            pwaCard.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#34d399;font-weight:600;"><span style="font-size:16px;">✅</span><span>Aplikasi S I I P Berjalan dalam Mode Terpasang</span></div>';
+            pwaCard.style.padding = '8px 12px';
+            pwaCard.style.background = 'rgba(16, 185, 129, 0.1)';
+            pwaCard.style.border = '1px solid rgba(52, 211, 153, 0.2)';
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        updatePwaStatusUI();
+      });
     </script>
     <script>
       if ('serviceWorker' in navigator) {
