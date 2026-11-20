@@ -2624,15 +2624,6 @@
     inp.addEventListener('input',function(){ 
       inp.removeAttribute('data-nis'); 
       sel=-1; 
-      var val = inp.value.trim().toLowerCase();
-      var hintEl = $('loginPassHint');
-      if(hintEl){
-        if(val === 'admin'){
-          hintEl.innerHTML = '🛡️ <b style="color:var(--admin, #4f46e5);">Mode Admin Terdeteksi:</b> Masukkan password admin (default: <b>admin123</b>) lalu klik Masuk.';
-        } else {
-          hintEl.innerHTML = 'Password default = <b>Nomor NIS</b> masing-masing siswa. Segera ganti setelah masuk.';
-        }
-      }
       render(); 
     });
     inp.addEventListener('keydown',function(e){
