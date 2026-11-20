@@ -7421,117 +7421,143 @@
       </div>
     </div>
 
-    <!-- ============ MODAL EXPORT EXCEL PER KELAS ============ -->
+    <!-- ============ MODAL EXPORT EXCEL PER KELAS & RENTANG TANGGAL ============ -->
     <div id="modalExportExcel" class="modal center hidden" style="z-index: 99995;">
-      <div class="modal-box" style="max-width: 580px; width: 95%;">
-        <div class="modal-head">
+      <div class="modal-box" style="max-width: 620px; width: 95%; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-head" style="position: sticky; top: 0; background: var(--card); z-index: 2; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:38px;height:38px;border-radius:10px;background:rgba(16,185,129,0.15);color:#10b981;display:flex;align-items:center;justify-content:center;font-size:20px;">📊</div>
+            <div style="width:40px;height:40px;border-radius:12px;background:rgba(16,185,129,0.15);color:#10b981;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(16,185,129,0.3);">📊</div>
             <div>
-              <h3 style="margin:0;font-size:16px;">Export Laporan ke Excel (.xlsx)</h3>
-              <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Format rapi per-kelas untuk mempermudah pengecekan siswa</p>
+              <h3 style="margin:0;font-size:16.5px;color:var(--text);font-weight:700;">Export Laporan Presensi ke Excel (.xlsx)</h3>
+              <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Ambil data dari tanggal sekian s.d. sekian, kelas tertentu atau semua kelas</p>
             </div>
           </div>
           <button class="close-x" onclick="tutupModalExportExcel()">&times;</button>
         </div>
 
-        <div style="padding:4px 0 10px;">
-          <!-- Pilihan Jenis Laporan -->
-          <label style="font-size:12.5px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">1. Pilih Jenis Laporan Sholat</label>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:8px;margin-bottom:14px;">
-            <label style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expJenis" value="fardhu" checked onchange="updateOpsiExportUI()">
+        <div style="padding:14px 2px 10px;">
+          <!-- 1. Rentang Tanggal -->
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+              <label style="font-size:12.5px;font-weight:700;color:var(--text);margin:0;display:flex;align-items:center;gap:6px;">
+                <span>📅</span> 1. Rentang Tanggal (Dari Tanggal s.d. Tanggal):
+              </label>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                <button type="button" class="btn btn-outline btn-sm" onclick="setPeriodeExport('hari_ini')" style="font-size:11px;padding:3px 8px;border-radius:6px;">Hari Ini</button>
+                <button type="button" class="btn btn-outline btn-sm" onclick="setPeriodeExport('7_hari')" style="font-size:11px;padding:3px 8px;border-radius:6px;">7 Hari</button>
+                <button type="button" class="btn btn-outline btn-sm" onclick="setPeriodeExport('30_hari')" style="font-size:11px;padding:3px 8px;border-radius:6px;">30 Hari</button>
+                <button type="button" class="btn btn-outline btn-sm" onclick="setPeriodeExport('bulan_ini')" style="font-size:11px;padding:3px 8px;border-radius:6px;">Bulan Ini</button>
+              </div>
+            </div>
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;">Dari Tanggal (Mulai):</label>
+                <input type="date" id="expTglMulai" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-weight:600;">
+              </div>
+              <div>
+                <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600;">Sampai Tanggal (Selesai):</label>
+                <input type="date" id="expTglSelesai" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-weight:600;">
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Target Kelas -->
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+            <label style="font-size:12.5px;font-weight:700;color:var(--text);display:block;margin-bottom:8px;">
+              👥 2. Target Kelas yang Diinginkan:
+            </label>
+            <select id="expSelectKelas" onchange="updateOpsiExportUI()" style="width:100%;box-sizing:border-box;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:13.5px;font-weight:600;">
+              <option value="">🌟 Semua Kelas (Seluruh Siswa)</option>
+            </select>
+            <div style="font-size:11px;color:var(--muted);margin-top:5px;">
+              Pilih kelas tertentu jika hanya ingin mengunduh kelas tersebut, atau pilih <b>"Semua Kelas"</b> untuk rekap seluruh sekolah.
+            </div>
+          </div>
+
+          <!-- 3. Pilihan Jenis Laporan -->
+          <label style="font-size:12.5px;font-weight:700;color:var(--text);display:block;margin-bottom:8px;">3. Pilih Jenis Laporan Sholat</label>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:8px;margin-bottom:14px;">
+            <!-- Khusus Sholat Dhuha -->
+            <label style="display:flex;align-items:flex-start;gap:8px;background:rgba(245,158,11,0.08);border:1.5px solid #f59e0b;border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
+              <input type="radio" name="expJenis" value="dhuha" checked onchange="updateOpsiExportUI()" style="margin-top:2px;">
+              <div>
+                <b style="color:#d97706;">🌤️ Khusus Sholat Dhuha</b>
+                <div style="font-size:11px;color:var(--muted);">Laporan pembiasaan Dhuha harian/rentang (matriks hadir harian, jam absen, & persentase)</div>
+              </div>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
+              <input type="radio" name="expJenis" value="fardhu" onchange="updateOpsiExportUI()" style="margin-top:2px;">
               <div>
                 <b>🕌 Sholat Fardhu (5 Waktu)</b>
                 <div style="font-size:11px;color:var(--muted);">Subuh, Dzuhur, Ashar, Maghrib, Isya (Σ 5)</div>
               </div>
             </label>
-            <label style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expJenis" value="dhuha" onchange="updateOpsiExportUI()">
+            <label style="display:flex;align-items:flex-start;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
+              <input type="radio" name="expJenis" value="lengkap" onchange="updateOpsiExportUI()" style="margin-top:2px;">
               <div>
-                <b>🌤️ Khusus Sholat Dhuha</b>
-                <div style="font-size:11px;color:var(--muted);">Laporan tersendiri sholat sunnah dhuha</div>
+                <b>📋 Gabungan Lengkap (6 Sholat)</b>
+                <div style="font-size:11px;color:var(--muted);">Fardhu 5 waktu + sholat sunnah Dhuha</div>
               </div>
             </label>
-            <label style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expJenis" value="lengkap" onchange="updateOpsiExportUI()">
+            <label style="display:flex;align-items:flex-start;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
+              <input type="radio" name="expJenis" value="detail" onchange="updateOpsiExportUI()" style="margin-top:2px;">
               <div>
-                <b>📋 Gabungan (6 Waktu Sholat)</b>
-                <div style="font-size:11px;color:var(--muted);">Lengkap fardhu & dhuha sekaligus</div>
-              </div>
-            </label>
-            <label style="display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expJenis" value="kalender" onchange="updateOpsiExportUI()">
-              <div>
-                <b>📅 Rekap Kalender Bulanan</b>
-                <div style="font-size:11px;color:var(--muted);">Matriks kehadiran harian per siswa</div>
+                <b>📝 Detail Riwayat Log Transaksi</b>
+                <div style="font-size:11px;color:var(--muted);">Tiap transaksi absen lengkap (jam, jarak, koordinat, link foto)</div>
               </div>
             </label>
           </div>
 
-          <!-- Format Pembagian Kelas -->
-          <label style="font-size:12.5px;font-weight:700;color:var(--text);display:block;margin-bottom:6px;">2. Format Pengelompokan Kelas</label>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
-            <label style="display:flex;align-items:flex-start;gap:10px;background:rgba(16,185,129,0.06);border:1.5px solid #10b981;border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expFormat" value="multi_sheet" checked onchange="updateOpsiExportUI()" style="margin-top:3px;">
-              <div>
-                <b style="color:#047857;">📑 1 File Excel (Multi-Sheet: Tiap Kelas 1 Sheet Terpisah) — [DIREKOMENDASIKAN]</b>
-                <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
-                  Setiap kelas otomatis memiliki tab Sheet tersendiri di Excel (misal: Sheet "X RPL", "X TITL A") + Sheet "Rekap Semua Kelas". Paling mudah dicek oleh wali kelas dan admin!
+          <!-- 4. Format Pembagian Kelas di File Excel -->
+          <div id="boxExpFormat">
+            <label style="font-size:12.5px;font-weight:700;color:var(--text);display:block;margin-bottom:8px;">4. Format File Excel (.xlsx)</label>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+              <label id="optFmtMultiSheet" style="display:flex;align-items:flex-start;gap:10px;background:rgba(16,185,129,0.06);border:1.5px solid #10b981;border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
+                <input type="radio" name="expFormat" value="multi_sheet" checked onchange="updateOpsiExportUI()" style="margin-top:3px;">
+                <div>
+                  <b style="color:#047857;">📑 Multi-Sheet: 1 File Excel (Tiap Kelas 1 Sheet + Rekap Sekolah) — [DIREKOMENDASIKAN]</b>
+                  <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
+                    Setiap kelas otomatis memiliki sheet tersendiri di Excel + Sheet Rekap Semua Kelas. Paling rapi dan siap didistribusikan!
+                  </div>
                 </div>
-              </div>
-            </label>
-            <label style="display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expFormat" value="single_class" onchange="updateOpsiExportUI()" style="margin-top:3px;">
-              <div>
-                <b>📄 Hanya 1 Kelas Tertentu</b>
-                <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
-                  Ekspor file Excel khusus 1 kelas yang Anda pilih di bawah.
+              </label>
+              <label id="optFmtGabungan" style="display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
+                <input type="radio" name="expFormat" value="gabungan" onchange="updateOpsiExportUI()" style="margin-top:3px;">
+                <div>
+                  <b>📊 1 Sheet Gabungan</b>
+                  <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
+                    Semua siswa disatukan dalam satu sheet tabel Excel, tetap terurut rapi per kelas.
+                  </div>
                 </div>
-              </div>
-            </label>
-            <label style="display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expFormat" value="gabungan" onchange="updateOpsiExportUI()" style="margin-top:3px;">
-              <div>
-                <b>📊 Semua Siswa dalam 1 Sheet Gabungan</b>
-                <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
-                  Seluruh siswa disatukan dalam satu sheet, tetap terurut rapi per kelas.
+              </label>
+              <label id="optFmtZip" style="display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
+                <input type="radio" name="expFormat" value="zip" onchange="updateOpsiExportUI()" style="margin-top:3px;">
+                <div>
+                  <b>📦 Download Paket ZIP (File .xlsx Terpisah Tiap Kelas)</b>
+                  <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
+                    Setiap kelas dibuatkan 1 file `.xlsx` sendiri dan dibundel dalam 1 file ZIP (siap dibagikan ke masing-masing wali kelas).
+                  </div>
                 </div>
-              </div>
-            </label>
-            <label style="display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12.5px;">
-              <input type="radio" name="expFormat" value="zip" onchange="updateOpsiExportUI()" style="margin-top:3px;">
-              <div>
-                <b>📦 Download ZIP (File .xlsx Terpisah Tiap Kelas)</b>
-                <div style="font-size:11.5px;color:var(--muted);margin-top:2px;">
-                  Setiap kelas dibuatkan file `.xlsx` sendiri-sendiri dan dibundel dalam 1 file ZIP (siap dikirim ke masing-masing wali kelas).
-                </div>
-              </div>
-            </label>
-          </div>
-
-          <!-- Opsi Kelas (jika single_class) -->
-          <div id="rowExpPilihKelas" class="hidden" style="margin-bottom:14px;background:var(--bg);padding:10px 12px;border-radius:10px;border:1px solid var(--border);">
-            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:4px;">Pilih Kelas yang Ingin Diekspor:</label>
-            <select id="expSelectKelas" style="width:100%;box-sizing:border-box;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;">
-            </select>
+              </label>
+            </div>
           </div>
 
           <!-- Quick Action Buttons -->
           <div style="background:var(--bg);padding:10px 12px;border-radius:10px;border:1px dashed var(--border);margin-bottom:16px;">
             <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">⚡ Tombol Cepat 1-Klik:</div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
-              <button class="btn btn-outline btn-sm" onclick="exportCepatPerKelas('fardhu')" style="font-size:11px;padding:4px 10px;">🕌 Export 5 Fardhu (Per Kelas)</button>
-              <button class="btn btn-outline btn-sm" onclick="exportCepatPerKelas('dhuha')" style="font-size:11px;padding:4px 10px;border-color:#f59e0b;color:#d97706;">🌤️ Export Dhuha (Per Kelas)</button>
-              <button class="btn btn-outline btn-sm" onclick="exportCepatPerKelas('zip')" style="font-size:11px;padding:4px 10px;">📦 Paket ZIP Semua Kelas</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="exportCepatPerKelas('dhuha')" style="font-size:11px;padding:4px 10px;border-color:#f59e0b;color:#d97706;font-weight:700;">🌤️ Export Khusus Dhuha</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="exportCepatPerKelas('fardhu')" style="font-size:11px;padding:4px 10px;">🕌 Export 5 Fardhu</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="exportCepatPerKelas('detail')" style="font-size:11px;padding:4px 10px;">📝 Export Riwayat Detail</button>
             </div>
           </div>
         </div>
 
         <div style="display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--border);padding-top:12px;">
-          <button class="btn btn-outline btn-sm" onclick="tutupModalExportExcel()">Batal</button>
-          <button id="btnEksekusiExport" class="btn btn-admin btn-sm" onclick="eksekusiExportExcel()" style="padding:8px 18px;font-weight:700;">
-            🚀 Unduh Excel Sekarang
+          <button type="button" class="btn btn-outline btn-sm" onclick="tutupModalExportExcel()">Batal</button>
+          <button type="button" id="btnEksekusiExport" class="btn btn-admin btn-sm" onclick="eksekusiExportExcel()" style="padding:8px 20px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;">
+            <span>🚀</span><span>Unduh File Excel Sekarang</span>
           </button>
         </div>
       </div>
@@ -9161,6 +9187,82 @@
             ringkasan: ringkasan,
             daftarKelas: Object.keys(kelasSet).sort(),
             sholatList: URUTAN
+          };
+        },
+
+        getLaporanRentang: async function(token, startTgl, endTgl, kelas, nis) {
+          startTgl = String(startTgl || '').trim();
+          endTgl = String(endTgl || '').trim();
+          var today = getJakartaDateStr();
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(startTgl)) startTgl = today;
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(endTgl)) endTgl = startTgl;
+          if (startTgl > endTgl) { var _tmp = startTgl; startTgl = endTgl; endTgl = _tmp; }
+
+          var sFilter = 'siswa?status=eq.Aktif';
+          if (kelas) sFilter += '&kelas=eq.' + encodeURIComponent(kelas);
+          if (nis) sFilter += '&nis=eq.' + encodeURIComponent(nis);
+          sFilter += '&order=kelas.asc,nama.asc';
+
+          var aFilter = 'absen_sholat?tanggal=gte.' + startTgl + '&tanggal=lte.' + endTgl;
+          if (kelas) aFilter += '&kelas=eq.' + encodeURIComponent(kelas);
+          if (nis) aFilter += '&nis=eq.' + encodeURIComponent(nis);
+          aFilter += '&order=tanggal.asc,jam.asc';
+
+          var resPromise = await Promise.all([sbFetchAll(sFilter), sbFetchAll(aFilter)]);
+          var sRows = resPromise[0] || [];
+          var aRows = resPromise[1] || [];
+
+          var kelasSet = {};
+          var siswaList = sRows.map(function(s) {
+            if (s.kelas) kelasSet[s.kelas] = true;
+            return { nis: s.nis, nama: s.nama, kelas: s.kelas, jurusan: s.jurusan, jk: s.jk };
+          });
+
+          // Bangun array tanggal berurutan dari startTgl s.d. endTgl (maksimal 366 hari)
+          var dList = [];
+          var curDate = new Date(startTgl + 'T00:00:00');
+          var stopDate = new Date(endTgl + 'T00:00:00');
+          var safety = 0;
+          while (curDate <= stopDate && safety < 366) {
+            var cy = curDate.getFullYear();
+            var cm = ('0' + (curDate.getMonth() + 1)).slice(-2);
+            var cd = ('0' + curDate.getDate()).slice(-2);
+            dList.push(cy + '-' + cm + '-' + cd);
+            curDate.setDate(curDate.getDate() + 1);
+            safety++;
+          }
+
+          var absenMap = {};
+          var ringkasan = { Hadir: 0, Terlambat: 0, Halangan: 0, total: aRows.length };
+
+          aRows.forEach(function(r) {
+            if (ringkasan[r.status] !== undefined) ringkasan[r.status]++;
+            if (!absenMap[r.nis]) absenMap[r.nis] = {};
+            if (!absenMap[r.nis][r.tanggal]) absenMap[r.nis][r.tanggal] = {};
+            absenMap[r.nis][r.tanggal][r.sholat] = {
+              absenId: r.absen_id,
+              tanggal: r.tanggal,
+              sholat: r.sholat,
+              jam: r.jam,
+              status: r.status,
+              keterangan: r.keterangan || '',
+              jarak: r.jarak != null ? String(r.jarak) : '-',
+              mapsLink: r.maps_link || '',
+              fotoUrl: r.foto_url || ''
+            };
+          });
+
+          return {
+            success: true,
+            startTgl: startTgl,
+            endTgl: endTgl,
+            jumlahHari: dList.length,
+            daftarTanggal: dList,
+            daftarKelas: Object.keys(kelasSet).sort(),
+            siswaList: siswaList,
+            records: aRows,
+            absenMap: absenMap,
+            ringkasan: ringkasan
           };
         },
 
@@ -12044,35 +12146,82 @@
         }
       }
 
-      // ================= EXPORT EXCEL MENU & LOGIC =================
+      // ================= EXPORT EXCEL MENU & LOGIC (RENTANG TANGGAL & KELAS) =================
       function exportLaporan() {
         bukaModalExportExcel();
       }
 
+      function setPeriodeExport(mode) {
+        var today = hariIniStr();
+        var dNow = new Date();
+        var y = dNow.getFullYear();
+        var m = dNow.getMonth();
+        var pad = function (n) { return ('0' + n).slice(-2); };
+
+        var start = today;
+        var end = today;
+
+        if (mode === 'hari_ini') {
+          start = today;
+          end = today;
+        } else if (mode === '7_hari') {
+          var d7 = new Date();
+          d7.setDate(d7.getDate() - 6);
+          start = d7.getFullYear() + '-' + pad(d7.getMonth() + 1) + '-' + pad(d7.getDate());
+          end = today;
+        } else if (mode === '30_hari') {
+          var d30 = new Date();
+          d30.setDate(d30.getDate() - 29);
+          start = d30.getFullYear() + '-' + pad(d30.getMonth() + 1) + '-' + pad(d30.getDate());
+          end = today;
+        } else if (mode === 'bulan_ini') {
+          start = y + '-' + pad(m + 1) + '-01';
+          end = today;
+        } else if (mode === 'bulan_lalu') {
+          var dPrev = new Date(y, m, 0);
+          var lastDate = dPrev.getDate();
+          var prevM = dPrev.getMonth() + 1;
+          var prevY = dPrev.getFullYear();
+          start = prevY + '-' + pad(prevM) + '-01';
+          end = prevY + '-' + pad(prevM) + '-' + pad(lastDate);
+        }
+
+        if ($('expTglMulai')) $('expTglMulai').value = start;
+        if ($('expTglSelesai')) $('expTglSelesai').value = end;
+      }
+
       function bukaModalExportExcel(defaultJenis) {
-        if (!$('modalExportExcel')) {
-          if (tabLaporan === 'harian') exportLaporanHarian(); else exportLaporanExcel();
-          return;
+        if (!$('modalExportExcel')) return;
+
+        var today = hariIniStr();
+        if ($('expTglSelesai') && !$('expTglSelesai').value) $('expTglSelesai').value = today;
+        if ($('expTglMulai') && !$('expTglMulai').value) {
+          var activeTgl = ($('filterTanggal') && $('filterTanggal').value) || today;
+          var parts = activeTgl.split('-');
+          $('expTglMulai').value = parts[0] + '-' + parts[1] + '-01';
         }
 
         var radiosJenis = document.getElementsByName('expJenis');
-        var targetJenis = defaultJenis || (tabLaporan === 'dhuha' ? 'dhuha' : (tabLaporan === 'kalender' ? 'kalender' : (tabLaporan === 'detail' ? 'detail' : 'fardhu')));
+        var targetJenis = defaultJenis || (tabLaporan === 'dhuha' ? 'dhuha' : (tabLaporan === 'detail' ? 'detail' : 'dhuha'));
         for (var i = 0; i < radiosJenis.length; i++) {
           radiosJenis[i].checked = (radiosJenis[i].value === targetJenis);
         }
 
-        // Isi dropdown kelas dari data laporan yang aktif atau data siswa
         var selKelas = $('expSelectKelas');
         if (selKelas) {
-          var daftar = (LAPORAN_HARIAN && LAPORAN_HARIAN.daftarKelas) || [];
-          if (!daftar.length && SISWA_ADMIN && SISWA_ADMIN.length) {
+          var daftar = [];
+          if (SISWA_ADMIN && SISWA_ADMIN.length) {
             var kSet = {}; SISWA_ADMIN.forEach(function (s) { if (s.kelas) kSet[s.kelas] = true; });
             daftar = Object.keys(kSet).sort();
+          } else if (LAPORAN_HARIAN && LAPORAN_HARIAN.daftarKelas && LAPORAN_HARIAN.daftarKelas.length) {
+            daftar = LAPORAN_HARIAN.daftarKelas.slice().sort();
           }
-          var curFilter = ($('filterKelas') ? $('filterKelas').value : '') || (daftar[0] || '');
-          selKelas.innerHTML = daftar.map(function (k) {
-            return '<option value="' + esc(k) + '"' + (k === curFilter ? ' selected' : '') + '>' + esc(k) + '</option>';
-          }).join('');
+          var curFilter = ($('filterKelas') ? $('filterKelas').value : '') || '';
+          var htmlOpts = '<option value="">🌟 Semua Kelas (Seluruh Siswa)</option>';
+          daftar.forEach(function (k) {
+            htmlOpts += '<option value="' + esc(k) + '"' + (k === curFilter ? ' selected' : '') + '>' + esc(k) + '</option>';
+          });
+          selKelas.innerHTML = htmlOpts;
         }
 
         updateOpsiExportUI();
@@ -12084,30 +12233,34 @@
       }
 
       function updateOpsiExportUI() {
-        var fmtRadios = document.getElementsByName('expFormat');
-        var fmt = 'multi_sheet';
-        for (var i = 0; i < fmtRadios.length; i++) {
-          if (fmtRadios[i].checked) { fmt = fmtRadios[i].value; break; }
-        }
-        if ($('rowExpPilihKelas')) {
-          $('rowExpPilihKelas').classList.toggle('hidden', fmt !== 'single_class');
+        var selKelas = $('expSelectKelas');
+        var kelasVal = selKelas ? selKelas.value.trim() : '';
+        var isSpecificClass = !!kelasVal;
+
+        var optMulti = $('optFmtMultiSheet');
+        var optZip = $('optFmtZip');
+
+        if (isSpecificClass) {
+          if (optMulti) optMulti.style.opacity = '0.35';
+          if (optZip) optZip.style.opacity = '0.35';
+        } else {
+          if (optMulti) optMulti.style.opacity = '1';
+          if (optZip) optZip.style.opacity = '1';
         }
       }
 
       function exportCepatPerKelas(mode) {
-        if (mode === 'fardhu') {
-          pilihRadio('expJenis', 'fardhu');
-          pilihRadio('expFormat', 'multi_sheet');
-          eksekusiExportExcel();
-        } else if (mode === 'dhuha') {
+        if (mode === 'dhuha') {
           pilihRadio('expJenis', 'dhuha');
-          pilihRadio('expFormat', 'multi_sheet');
-          eksekusiExportExcel();
+        } else if (mode === 'fardhu') {
+          pilihRadio('expJenis', 'fardhu');
+        } else if (mode === 'detail') {
+          pilihRadio('expJenis', 'detail');
         } else if (mode === 'zip') {
           pilihRadio('expJenis', tabLaporan === 'dhuha' ? 'dhuha' : 'fardhu');
           pilihRadio('expFormat', 'zip');
-          eksekusiExportExcel();
         }
+        eksekusiExportExcel();
       }
 
       function pilihRadio(name, val) {
@@ -12144,83 +12297,70 @@
         }, 150);
       }
 
-      // Eksekusi Export Excel dengan fitur Per-Kelas (Multi-Sheet / ZIP / Per-Kelas)
+      // Eksekusi Export Excel dengan fitur Rentang Tanggal & Pilihan Kelas
       async function eksekusiExportExcel() {
         var btn = $('btnEksekusiExport');
         var oldBtnHtml = btn ? btn.innerHTML : '';
 
-        // Ambil jenis laporan yang dipilih
+        // 1. Ambil Parameter Tanggal
+        var tglMulai = ($('expTglMulai') && $('expTglMulai').value) || hariIniStr();
+        var tglSelesai = ($('expTglSelesai') && $('expTglSelesai').value) || tglMulai;
+        if (tglMulai > tglSelesai) {
+          var _tmp = tglMulai; tglMulai = tglSelesai; tglSelesai = _tmp;
+          if ($('expTglMulai')) $('expTglMulai').value = tglMulai;
+          if ($('expTglSelesai')) $('expTglSelesai').value = tglSelesai;
+        }
+        var isSingleDate = (tglMulai === tglSelesai);
+        var periodeLabel = isSingleDate ? tglMulai : (tglMulai + '_sd_' + tglSelesai);
+
+        // 2. Ambil Parameter Kelas
+        var kelasTarget = ($('expSelectKelas') ? $('expSelectKelas').value : '').trim();
+        var isSpecificClass = !!kelasTarget;
+
+        // 3. Ambil Jenis Laporan
         var jRadios = document.getElementsByName('expJenis');
-        var jenis = 'fardhu';
+        var jenis = 'dhuha';
         for (var i = 0; i < jRadios.length; i++) { if (jRadios[i].checked) { jenis = jRadios[i].value; break; } }
 
-        // Ambil format kelas yang dipilih
+        // 4. Ambil Format Kelas
         var fRadios = document.getElementsByName('expFormat');
         var formatKelas = 'multi_sheet';
         for (var i = 0; i < fRadios.length; i++) { if (fRadios[i].checked) { formatKelas = fRadios[i].value; break; } }
+        if (isSpecificClass) formatKelas = 'single_class';
 
-        var kelasTarget = ($('expSelectKelas') ? $('expSelectKelas').value : '').trim();
-
-        // 1. Export Kalender Bulanan
-        if (jenis === 'kalender') {
-          tutupModalExportExcel();
-          if (!LAPORAN || !LAPORAN.records || !LAPORAN.records.length) {
-            toast('Memuat data kalender bulanan terlebih dahulu...', 'wait');
-            var bulan = $('filterBulan').value || bulanIni();
-            gas().withSuccessHandler(function (res) {
-              LAPORAN = res;
-              exportLaporanExcel();
-            }).getLaporan(ADMIN_TOKEN, bulan, '', '');
-            return;
-          }
-          exportLaporanExcel();
-          return;
-        }
-
-        // 2. Export Detail Log
-        if (jenis === 'detail') {
-          tutupModalExportExcel();
-          if (!LAPORAN || !LAPORAN.records || !LAPORAN.records.length) {
-            toast('Tidak ada riwayat detail untuk diekspor.', 'err');
-            return;
-          }
-          var wbDet = XLSX.utils.book_new();
-          var detRows = [['Tanggal', 'NIS', 'Nama', 'Kelas', 'Sholat', 'Jam', 'Status', 'Jarak(m)', 'Keterangan', 'FotoUrl']];
-          LAPORAN.records.forEach(function (r) {
-            detRows.push([r.tanggal, r.nis, r.nama, r.kelas, r.sholat, (r.jam || '').slice(0, 8), r.status, r.jarak, r.keterangan, r.fotoUrl]);
-          });
-          XLSX.utils.book_append_sheet(wbDet, XLSX.utils.aoa_to_sheet(detRows), 'Log Absen');
-          XLSX.writeFile(wbDet, 'Log_Presensi_Sholat_' + (LAPORAN.bulan || hariIniStr()) + '.xlsx');
-          toast('Detail riwayat diekspor ke Excel.', 'ok');
-          return;
-        }
-
-        // 3. Export Harian (Fardhu 5 Waktu, Dhuha, atau Lengkap 6 Waktu)
-        if (!LAPORAN_HARIAN || !LAPORAN_HARIAN.siswaList || !LAPORAN_HARIAN.siswaList.length) {
-          toast('Data presensi harian belum siap. Memuat ulang...', 'wait');
-          muatLaporanHarian();
-          return;
-        }
-
-        if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Menyiapkan Excel...'; }
+        if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Mengambil data (' + tglMulai + ' s.d. ' + tglSelesai + ')...'; }
 
         try {
-          var tgl = LAPORAN_HARIAN.tanggal || hariIniStr();
-          var allStudents = LAPORAN_HARIAN.siswaList || [];
+          // Ambil data presensi & siswa untuk rentang tanggal tersebut
+          var dataRes = await SB_API.getLaporanRentang(ADMIN_TOKEN, tglMulai, tglSelesai, kelasTarget);
+          if (!dataRes || !dataRes.success) {
+            toast('Gagal memuat data presensi dari server.', 'err');
+            if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml; }
+            return;
+          }
 
-          // Tentukan daftar sholat sesuai jenis
-          var sholatList = SHOLAT_FARDHU; // Default 5 waktu
-          var judulJenis = 'Sholat Fardhu (5 Waktu)';
-          var filePrefix = 'Laporan_Sholat_Fardhu_5_Waktu';
+          var allStudents = dataRes.siswaList || [];
+          var daftarTanggal = dataRes.daftarTanggal || [tglMulai];
+          var absenMap = dataRes.absenMap || {};
+          var records = dataRes.records || [];
 
+          if (!allStudents.length) {
+            toast('Tidak ada siswa aktif' + (isSpecificClass ? ' di kelas ' + kelasTarget : '') + ' untuk diekspor.', 'err');
+            if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml; }
+            return;
+          }
+
+          // Tentukan jenis sholat & judul file
+          var sholatList = SHOLAT_FARDHU;
+          var filePrefix = 'Laporan_Sholat_Fardhu';
           if (jenis === 'dhuha') {
             sholatList = ['Dhuha'];
-            judulJenis = 'Sholat Sunnah Dhuha';
             filePrefix = 'Laporan_Sholat_Dhuha';
           } else if (jenis === 'lengkap') {
             sholatList = URUTAN;
-            judulJenis = 'Semua Sholat (6 Waktu)';
-            filePrefix = 'Laporan_Lengkap_6_Sholat';
+            filePrefix = 'Laporan_Sholat_Lengkap_6_Waktu';
+          } else if (jenis === 'detail') {
+            filePrefix = 'Log_Presensi_Sholat';
           }
 
           // Kelompokkan siswa berdasarkan Kelas
@@ -12232,14 +12372,21 @@
           });
           var listKelas = Object.keys(perKelas).sort();
 
-          if (!listKelas.length) {
-            toast('Tidak ada data kelas yang dapat diekspor.', 'err');
+          // ================= KHUSUS MODE DETAIL LOG =================
+          if (jenis === 'detail') {
+            var wbDet = XLSX.utils.book_new();
+            var wsDet = buatSheetLogDetail(records, 'LOG RIWAYAT PRESENSI SHOLAT', isSpecificClass ? kelasTarget : 'Semua Kelas', tglMulai, tglSelesai);
+            XLSX.utils.book_append_sheet(wbDet, wsDet, 'Log Absen');
+            var fnDetail = filePrefix + '_' + (isSpecificClass ? ('Kelas_' + kelasTarget.replace(/[^a-zA-Z0-9_-]/g, '_') + '_') : 'Semua_Kelas_') + periodeLabel + '.xlsx';
+            XLSX.writeFile(wbDet, fnDetail);
+            tutupModalExportExcel();
+            toast('✅ Log detail ' + records.length + ' transaksi berhasil diunduh.', 'ok');
             if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml; }
             return;
           }
 
-          // === FORMAT A: SINGLE CLASS (HANYA 1 KELAS TERTENTU) ===
-          if (formatKelas === 'single_class') {
+          // ================= FORMAT A: HANYA 1 KELAS TERTENTU =================
+          if (isSpecificClass || formatKelas === 'single_class') {
             var targetK = kelasTarget || listKelas[0];
             var studentsTarget = perKelas[targetK] || [];
             if (!studentsTarget.length) {
@@ -12249,77 +12396,118 @@
             }
 
             var wbSingle = XLSX.utils.book_new();
-            var wsSingle = buatSheetKelas(studentsTarget, targetK, tgl, jenis, sholatList);
-            XLSX.utils.book_append_sheet(wbSingle, wsSingle, safeSheetName(targetK));
-            XLSX.writeFile(wbSingle, filePrefix + '_Kelas_' + targetK.replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + tgl + '.xlsx');
+            var wsMain = isSingleDate ?
+              (jenis === 'dhuha' ? buatSheetDhuhaHarian(studentsTarget, targetK, tglMulai, absenMap) : buatSheetFardhuHarian(studentsTarget, targetK, tglMulai, sholatList, jenis, absenMap)) :
+              (jenis === 'dhuha' ? buatSheetDhuhaRentang(studentsTarget, targetK, tglMulai, tglSelesai, daftarTanggal, absenMap) : buatSheetFardhuRentang(studentsTarget, targetK, tglMulai, tglSelesai, daftarTanggal, absenMap, sholatList, jenis));
+
+            XLSX.utils.book_append_sheet(wbSingle, wsMain, safeSheetName(targetK));
+
+            // Tambahkan juga Sheet Log Detail untuk kelas ini
+            var recKelas = records.filter(function (r) {
+              return (jenis === 'dhuha' ? r.sholat === 'Dhuha' : true) && (!targetK || r.kelas === targetK);
+            });
+            if (recKelas.length) {
+              var wsLogSingle = buatSheetLogDetail(recKelas, 'DETAIL LOG ABSEN ' + targetK, targetK, tglMulai, tglSelesai);
+              XLSX.utils.book_append_sheet(wbSingle, wsLogSingle, 'Detail Log');
+            }
+
+            var fnSingle = filePrefix + '_Kelas_' + targetK.replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + periodeLabel + '.xlsx';
+            XLSX.writeFile(wbSingle, fnSingle);
             tutupModalExportExcel();
-            toast('Laporan kelas ' + targetK + ' berhasil diunduh.', 'ok');
+            toast('✅ Laporan ' + (jenis === 'dhuha' ? 'Dhuha ' : '') + 'Kelas ' + targetK + ' (' + periodeLabel + ') berhasil diunduh.', 'ok');
             if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml; }
             return;
           }
 
-          // === FORMAT B: 1 SHEET GABUNGAN ===
+          // ================= FORMAT B: 1 SHEET GABUNGAN =================
           if (formatKelas === 'gabungan') {
             var wbGabungan = XLSX.utils.book_new();
-            var wsGabungan = buatSheetGabungan(allStudents, tgl, jenis, sholatList);
-            XLSX.utils.book_append_sheet(wbGabungan, wsGabungan, 'Semua Siswa');
-            XLSX.writeFile(wbGabungan, filePrefix + '_Semua_Kelas_' + tgl + '.xlsx');
+            var wsGab = buatSheetGabunganRentang(allStudents, tglMulai, tglSelesai, daftarTanggal, absenMap, jenis, sholatList, isSingleDate);
+            XLSX.utils.book_append_sheet(wbGabungan, wsGab, 'Semua Siswa');
+
+            // Tambahkan Sheet Log Detail
+            var recFilter = (jenis === 'dhuha') ? records.filter(function (r) { return r.sholat === 'Dhuha'; }) : records;
+            if (recFilter.length) {
+              var wsLogGab = buatSheetLogDetail(recFilter, 'DETAIL LOG ABSEN SEMUA SISWA', 'Semua Kelas', tglMulai, tglSelesai);
+              XLSX.utils.book_append_sheet(wbGabungan, wsLogGab, 'Detail Log');
+            }
+
+            var fnGab = filePrefix + '_Semua_Kelas_' + periodeLabel + '.xlsx';
+            XLSX.writeFile(wbGabungan, fnGab);
             tutupModalExportExcel();
-            toast('Laporan gabungan semua kelas berhasil diunduh.', 'ok');
+            toast('✅ Laporan gabungan seluruh kelas (' + allStudents.length + ' siswa) berhasil diunduh.', 'ok');
             if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml; }
             return;
           }
 
-          // === FORMAT C: DOWNLOAD ZIP (FILE .XLSX TERPISAH PER KELAS) ===
+          // ================= FORMAT C: DOWNLOAD ZIP (FILE .XLSX TERPISAH PER KELAS) =================
           if (formatKelas === 'zip') {
             if (typeof JSZip === 'undefined') {
               toast('Komponen ZIP belum siap. Mengalihkan ke format Multi-Sheet...', 'wait');
-              // Lanjut ke multi-sheet
+              // Lanjut ke multi-sheet di bawah
             } else {
               var zip = new JSZip();
               listKelas.forEach(function (k) {
                 var stList = perKelas[k];
                 var wbTemp = XLSX.utils.book_new();
-                var wsTemp = buatSheetKelas(stList, k, tgl, jenis, sholatList);
-                XLSX.utils.book_append_sheet(wbTemp, wsTemp, safeSheetName(k));
+                var wsMain = isSingleDate ?
+                  (jenis === 'dhuha' ? buatSheetDhuhaHarian(stList, k, tglMulai, absenMap) : buatSheetFardhuHarian(stList, k, tglMulai, sholatList, jenis, absenMap)) :
+                  (jenis === 'dhuha' ? buatSheetDhuhaRentang(stList, k, tglMulai, tglSelesai, daftarTanggal, absenMap) : buatSheetFardhuRentang(stList, k, tglMulai, tglSelesai, daftarTanggal, absenMap, sholatList, jenis));
+                XLSX.utils.book_append_sheet(wbTemp, wsMain, safeSheetName(k));
+
+                var recK = records.filter(function (r) { return (jenis === 'dhuha' ? r.sholat === 'Dhuha' : true) && r.kelas === k; });
+                if (recK.length) {
+                  XLSX.utils.book_append_sheet(wbTemp, buatSheetLogDetail(recK, 'LOG ABSEN ' + k, k, tglMulai, tglSelesai), 'Detail Log');
+                }
+
                 var wbout = XLSX.write(wbTemp, { bookType: 'xlsx', type: 'array' });
-                zip.file(filePrefix + '_Kelas_' + k.replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + tgl + '.xlsx', wbout);
+                zip.file(filePrefix + '_Kelas_' + k.replace(/[^a-zA-Z0-9_-]/g, '_') + '_' + periodeLabel + '.xlsx', wbout);
               });
 
-              // Tambahkan juga file rekapitulasi sekolah ke dalam ZIP
+              // Rekapitulasi Sekolah
               var wbRekapZip = XLSX.utils.book_new();
-              var wsRekapZip = buatSheetRekapSekolah(perKelas, listKelas, tgl, jenis, sholatList);
+              var wsRekapZip = buatSheetRekapSekolahRentang(perKelas, listKelas, tglMulai, tglSelesai, daftarTanggal, absenMap, jenis, sholatList, isSingleDate);
               XLSX.utils.book_append_sheet(wbRekapZip, wsRekapZip, 'Rekapitulasi');
-              zip.file('00_Rekap_Presensi_Semua_Kelas_' + tgl + '.xlsx', XLSX.write(wbRekapZip, { bookType: 'xlsx', type: 'array' }));
+              zip.file('00_Rekap_Presensi_Semua_Kelas_' + periodeLabel + '.xlsx', XLSX.write(wbRekapZip, { bookType: 'xlsx', type: 'array' }));
 
               var zipContent = await zip.generateAsync({ type: 'blob' });
-              downloadBlob(zipContent, filePrefix + '_Per_Kelas_' + tgl + '.zip');
+              downloadBlob(zipContent, filePrefix + '_Per_Kelas_' + periodeLabel + '.zip');
               tutupModalExportExcel();
-              toast('Paket ZIP berisi ' + listKelas.length + ' kelas berhasil diunduh!', 'ok');
+              toast('✅ Paket ZIP berisi ' + listKelas.length + ' kelas berhasil diunduh!', 'ok');
               if (btn) { btn.disabled = false; btn.innerHTML = oldBtnHtml; }
               return;
             }
           }
 
-          // === FORMAT D (DEFAULT): MULTI-SHEET (TIAP KELAS 1 SHEET TERPISAH DALAM 1 WORKBOOK) ===
+          // ================= FORMAT D (DEFAULT): MULTI-SHEET (TIAP KELAS 1 SHEET + REKAP) =================
           var wbMulti = XLSX.utils.book_new();
           var usedSheetNames = {};
 
-          // 1. Sheet Utama: Rekapitulasi Sekolah
-          var wsRekap = buatSheetRekapSekolah(perKelas, listKelas, tgl, jenis, sholatList);
+          // 1. Sheet Rekapitulasi Sekolah
+          var wsRekap = buatSheetRekapSekolahRentang(perKelas, listKelas, tglMulai, tglSelesai, daftarTanggal, absenMap, jenis, sholatList, isSingleDate);
           XLSX.utils.book_append_sheet(wbMulti, wsRekap, safeSheetName('Rekap Semua Kelas', usedSheetNames));
 
-          // 2. Sheet Masing-masing Kelas (Tiap kelas memiliki sheet sendiri)
+          // 2. Sheet Masing-masing Kelas
           listKelas.forEach(function (k) {
             var stList = perKelas[k];
-            var wsKelas = buatSheetKelas(stList, k, tgl, jenis, sholatList);
+            var wsKelas = isSingleDate ?
+              (jenis === 'dhuha' ? buatSheetDhuhaHarian(stList, k, tglMulai, absenMap) : buatSheetFardhuHarian(stList, k, tglMulai, sholatList, jenis, absenMap)) :
+              (jenis === 'dhuha' ? buatSheetDhuhaRentang(stList, k, tglMulai, tglSelesai, daftarTanggal, absenMap) : buatSheetFardhuRentang(stList, k, tglMulai, tglSelesai, daftarTanggal, absenMap, sholatList, jenis));
             var sheetTitle = safeSheetName(k, usedSheetNames);
             XLSX.utils.book_append_sheet(wbMulti, wsKelas, sheetTitle);
           });
 
-          XLSX.writeFile(wbMulti, filePrefix + '_Per_Kelas_' + tgl + '.xlsx');
+          // 3. Sheet Log Detail Transaksi
+          var recAll = (jenis === 'dhuha') ? records.filter(function (r) { return r.sholat === 'Dhuha'; }) : records;
+          if (recAll.length) {
+            var wsLogAll = buatSheetLogDetail(recAll, 'DETAIL LOG ABSEN SELURUH KELAS', 'Semua Kelas', tglMulai, tglSelesai);
+            XLSX.utils.book_append_sheet(wbMulti, wsLogAll, safeSheetName('Log Detail', usedSheetNames));
+          }
+
+          var fnMulti = filePrefix + '_Semua_Kelas_' + periodeLabel + '.xlsx';
+          XLSX.writeFile(wbMulti, fnMulti);
           tutupModalExportExcel();
-          toast('Berhasil mengekspor ' + listKelas.length + ' kelas ke Excel (Multi-Sheet)!', 'ok');
+          toast('✅ Berhasil mengekspor ' + listKelas.length + ' kelas ke Excel (' + periodeLabel + ')!', 'ok');
 
         } catch (err) {
           console.error('Error saat export Excel:', err);
@@ -12329,139 +12517,327 @@
         }
       }
 
-      // Helper membuat sheet per-kelas yang rapi & berbobot
-      function buatSheetKelas(students, kelasName, tanggal, jenis, sholatList) {
+      // ================= HELPER SHEET BUILDERS =================
+
+      // 1. Sheet Khusus Sholat Dhuha Harian (1 Hari)
+      function buatSheetDhuhaHarian(students, kelasName, tanggal, absenMap) {
         var rows = [];
-
-        // Judul & Header Info
-        var judul = (jenis === 'dhuha') ? 'LAPORAN PRESENSI SHOLAT SUNNAH DHUHA' :
-                    (jenis === 'fardhu' ? 'LAPORAN PRESENSI SHOLAT FARDHU (5 WAKTU)' : 'LAPORAN PRESENSI SHOLAT LENGKAP');
-        rows.push([judul]);
+        rows.push(['LAPORAN PRESENSI SHOLAT SUNNAH DHUHA']);
         rows.push(['Kelas: ' + kelasName, 'Tanggal: ' + tanggal, 'Jumlah Siswa: ' + students.length]);
-        rows.push([]); // Baris kosong
+        rows.push([]);
 
-        // Kolom Tabel
-        var cols = ['No', 'NIS', 'Nama Siswa', 'JK'];
-        if (jenis === 'dhuha') {
-          cols.push('Status Dhuha', 'Jam Absen', 'Jarak (m)', 'Keterangan', 'Link Foto');
-        } else {
-          sholatList.forEach(function (s) {
-            cols.push(s + ' Status');
-            cols.push(s + ' Jam');
-          });
-          cols.push('Total Hadir (/' + sholatList.length + ')');
-          cols.push('% Kehadiran');
-        }
+        var cols = ['No', 'NIS', 'Nama Siswa', 'JK', 'Status Dhuha', 'Jam Absen', 'Jarak (m)', 'Keterangan', 'Link Foto'];
         rows.push(cols);
 
-        // Baris Siswa
-        var totalHadirPerSholat = {};
-        sholatList.forEach(function (s) { totalHadirPerSholat[s] = 0; });
-        var totalHadirSemuaSiswa = 0;
-
+        var totH = 0, totT = 0, totR = 0, totB = 0;
         students.forEach(function (sw, idx) {
-          var r = [(idx + 1), sw.nis, sw.nama, sw.jk || '-'];
-          if (jenis === 'dhuha') {
-            var d = (sw.sholat && sw.sholat['Dhuha']) || {};
-            var st = d.status || 'Belum';
-            if (st === 'Hadir' || st === 'Terlambat') totalHadirPerSholat['Dhuha']++;
-            r.push(st);
-            r.push((d.jam || '').slice(0, 8));
-            r.push(d.jarak ? String(d.jarak) : '-');
-            r.push(d.keterangan || '-');
-            r.push(d.fotoUrl || '-');
-          } else {
-            var hCount = 0;
-            sholatList.forEach(function (s) {
-              var d = (sw.sholat && sw.sholat[s]) || {};
-              var st = d.status || 'Belum';
-              if (st === 'Hadir' || st === 'Terlambat') {
-                hCount++;
-                totalHadirPerSholat[s]++;
-              }
-              r.push(st);
-              r.push((d.jam || '').slice(0, 8));
-            });
-            totalHadirSemuaSiswa += hCount;
-            r.push(hCount);
-            r.push(Math.round((hCount / sholatList.length) * 100) + '%');
-          }
-          rows.push(r);
+          var d = (absenMap[sw.nis] && absenMap[sw.nis][tanggal] && absenMap[sw.nis][tanggal]['Dhuha']) || {};
+          var st = d.status || 'Belum';
+          if (st === 'Hadir') totH++;
+          else if (st === 'Terlambat') totT++;
+          else if (st === 'Halangan') totR++;
+          else totB++;
+
+          rows.push([
+            (idx + 1),
+            sw.nis,
+            sw.nama,
+            sw.jk || '-',
+            st,
+            (d.jam || '').slice(0, 8),
+            d.jarak ? String(d.jarak) : '-',
+            d.keterangan || '-',
+            d.fotoUrl || '-'
+          ]);
         });
 
-        // Baris Rekapitulasi di bawah tabel
-        rows.push([]); // Baris kosong
-        if (jenis === 'dhuha') {
-          var hDhuha = totalHadirPerSholat['Dhuha'] || 0;
-          rows.push(['REKAPITULASI KELAS', '', '', '', 'Total Hadir: ' + hDhuha + ' dari ' + students.length + ' siswa (' + (students.length ? Math.round((hDhuha / students.length) * 100) : 0) + '%)']);
-        } else {
-          var rekapRow = ['TOTAL HADIR KELAS', '', '', ''];
-          sholatList.forEach(function (s) {
-            rekapRow.push(totalHadirPerSholat[s] || 0);
-            rekapRow.push('');
-          });
-          rekapRow.push(totalHadirSemuaSiswa);
-          var totalMaks = students.length * sholatList.length;
-          rekapRow.push(totalMaks ? Math.round((totalHadirSemuaSiswa / totalMaks) * 100) + '%' : '0%');
-          rows.push(rekapRow);
-        }
+        rows.push([]);
+        var pct = students.length ? Math.round(((totH + totT) / students.length) * 100) : 0;
+        rows.push(['REKAPITULASI KELAS', '', '', '', 'Total Hadir: ' + (totH + totT) + ' dari ' + students.length + ' siswa (' + pct + '%) | Terlambat: ' + totT + ' | Halangan: ' + totR + ' | Belum: ' + totB]);
 
         var ws = XLSX.utils.aoa_to_sheet(rows);
-
-        // Lebar kolom rapi
-        if (jenis === 'dhuha') {
-          ws['!cols'] = [
-            { wch: 5 }, { wch: 14 }, { wch: 28 }, { wch: 6 },
-            { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 20 }, { wch: 30 }
-          ];
-        } else {
-          var wcols = [{ wch: 5 }, { wch: 14 }, { wch: 28 }, { wch: 6 }];
-          sholatList.forEach(function () {
-            wcols.push({ wch: 14 }); // status
-            wcols.push({ wch: 10 }); // jam
-          });
-          wcols.push({ wch: 18 }); // total hadir
-          wcols.push({ wch: 12 }); // %
-          ws['!cols'] = wcols;
-        }
-
+        ws['!cols'] = [
+          { wch: 5 }, { wch: 14 }, { wch: 28 }, { wch: 6 },
+          { wch: 15 }, { wch: 12 }, { wch: 10 }, { wch: 20 }, { wch: 30 }
+        ];
         return ws;
       }
 
-      // Helper membuat sheet Rekapitulasi Sekolah (ringkasan semua kelas)
-      function buatSheetRekapSekolah(perKelas, listKelas, tanggal, jenis, sholatList) {
+      // 2. Sheet Khusus Sholat Dhuha Rentang Tanggal (Matriks Harian)
+      function buatSheetDhuhaRentang(students, kelasName, startTgl, endTgl, daftarTanggal, absenMap) {
+        var rows = [];
+        rows.push(['LAPORAN KEHADIRAN SHOLAT SUNNAH DHUHA']);
+        rows.push(['Kelas: ' + kelasName, 'Periode: ' + startTgl + ' s.d. ' + endTgl + ' (' + daftarTanggal.length + ' Hari)', 'Jumlah Siswa: ' + students.length]);
+        rows.push(["Catatan: H = Hadir Tepat Waktu, T = Terlambat, R = Halangan Syar'i, – = Belum Absen"]);
+        rows.push([]);
+
+        // Header Kolom: No, NIS, Nama, JK, [Tanggal 1 ... Tanggal N], Hadir, Terlambat, Halangan, Belum, % Hadir
+        var cols = ['No', 'NIS', 'Nama Siswa', 'JK'];
+        daftarTanggal.forEach(function (t) {
+          cols.push(t.slice(8, 10) + '/' + t.slice(5, 7));
+        });
+        cols.push('Hadir (H)', 'Telat (T)', 'Halangan (R)', 'Belum (–)', '% Kehadiran');
+        rows.push(cols);
+
+        // Rekap per tanggal untuk baris total di bawah
+        var hadirPerTgl = {};
+        daftarTanggal.forEach(function (t) { hadirPerTgl[t] = 0; });
+        var totHAll = 0, totTAll = 0, totRAll = 0, totBAll = 0;
+
+        students.forEach(function (sw, idx) {
+          var h = 0, t = 0, r = 0, b = 0;
+          var tglCells = [];
+
+          daftarTanggal.forEach(function (tgl) {
+            var d = (absenMap[sw.nis] && absenMap[sw.nis][tgl] && absenMap[sw.nis][tgl]['Dhuha']);
+            if (!d) {
+              b++;
+              tglCells.push('–');
+            } else {
+              var st = d.status || 'Belum';
+              if (st === 'Hadir') {
+                h++;
+                hadirPerTgl[tgl]++;
+                tglCells.push(d.jam ? ('H (' + d.jam.slice(0, 5) + ')') : 'H');
+              } else if (st === 'Terlambat') {
+                t++;
+                hadirPerTgl[tgl]++;
+                tglCells.push(d.jam ? ('T (' + d.jam.slice(0, 5) + ')') : 'T');
+              } else if (st === 'Halangan') {
+                r++;
+                tglCells.push('R');
+              } else {
+                b++;
+                tglCells.push('–');
+              }
+            }
+          });
+
+          totHAll += h; totTAll += t; totRAll += r; totBAll += b;
+          var pct = daftarTanggal.length ? Math.round(((h + t) / daftarTanggal.length) * 100) : 0;
+          var rSiswa = [(idx + 1), sw.nis, sw.nama, sw.jk || '-'].concat(tglCells).concat([h, t, r, b, pct + '%']);
+          rows.push(rSiswa);
+        });
+
+        // Baris Total Hadir Kelas per Hari
+        rows.push([]);
+        var rowTotal = ['TOTAL HADIR KELAS', '', '', ''];
+        daftarTanggal.forEach(function (tgl) {
+          rowTotal.push(hadirPerTgl[tgl]);
+        });
+        var kapasitasTotal = students.length * daftarTanggal.length;
+        var avgPct = kapasitasTotal ? Math.round(((totHAll + totTAll) / kapasitasTotal) * 100) : 0;
+        rowTotal.push(totHAll, totTAll, totRAll, totBAll, avgPct + '%');
+        rows.push(rowTotal);
+
+        var ws = XLSX.utils.aoa_to_sheet(rows);
+        var colWidths = [{ wch: 5 }, { wch: 14 }, { wch: 28 }, { wch: 6 }];
+        daftarTanggal.forEach(function () { colWidths.push({ wch: 11 }); });
+        colWidths.push({ wch: 10 }, { wch: 10 }, { wch: 12 }, { wch: 10 }, { wch: 13 });
+        ws['!cols'] = colWidths;
+        return ws;
+      }
+
+      // 3. Sheet Sholat Fardhu / Lengkap Harian (1 Hari)
+      function buatSheetFardhuHarian(students, kelasName, tanggal, sholatList, jenis, absenMap) {
+        var rows = [];
+        var judul = (jenis === 'lengkap') ? 'LAPORAN PRESENSI SHOLAT LENGKAP (6 WAKTU)' : 'LAPORAN PRESENSI SHOLAT FARDHU (5 WAKTU)';
+        rows.push([judul]);
+        rows.push(['Kelas: ' + kelasName, 'Tanggal: ' + tanggal, 'Jumlah Siswa: ' + students.length]);
+        rows.push([]);
+
+        var cols = ['No', 'NIS', 'Nama Siswa', 'JK'];
+        sholatList.forEach(function (s) {
+          cols.push(s + ' Status');
+          cols.push(s + ' Jam');
+        });
+        cols.push('Total Hadir (/' + sholatList.length + ')');
+        cols.push('% Kehadiran');
+        rows.push(cols);
+
+        var totHadirPerSholat = {};
+        sholatList.forEach(function (s) { totHadirPerSholat[s] = 0; });
+        var totalHadirSemua = 0;
+
+        students.forEach(function (sw, idx) {
+          var r = [(idx + 1), sw.nis, sw.nama, sw.jk || '-'];
+          var hCount = 0;
+          sholatList.forEach(function (s) {
+            var d = (absenMap[sw.nis] && absenMap[sw.nis][tanggal] && absenMap[sw.nis][tanggal][s]) || {};
+            var st = d.status || 'Belum';
+            if (st === 'Hadir' || st === 'Terlambat') {
+              hCount++;
+              totHadirPerSholat[s]++;
+            }
+            r.push(st);
+            r.push((d.jam || '').slice(0, 8));
+          });
+          totalHadirSemua += hCount;
+          r.push(hCount);
+          r.push(Math.round((hCount / sholatList.length) * 100) + '%');
+          rows.push(r);
+        });
+
+        rows.push([]);
+        var rekapRow = ['TOTAL HADIR KELAS', '', '', ''];
+        sholatList.forEach(function (s) {
+          rekapRow.push(totHadirPerSholat[s] || 0);
+          rekapRow.push('');
+        });
+        rekapRow.push(totalHadirSemua);
+        var totalMaks = students.length * sholatList.length;
+        rekapRow.push(totalMaks ? Math.round((totalHadirSemua / totalMaks) * 100) + '%' : '0%');
+        rows.push(rekapRow);
+
+        var ws = XLSX.utils.aoa_to_sheet(rows);
+        var wcols = [{ wch: 5 }, { wch: 14 }, { wch: 28 }, { wch: 6 }];
+        sholatList.forEach(function () {
+          wcols.push({ wch: 14 });
+          wcols.push({ wch: 10 });
+        });
+        wcols.push({ wch: 18 });
+        wcols.push({ wch: 12 });
+        ws['!cols'] = wcols;
+        return ws;
+      }
+
+      // 4. Sheet Sholat Fardhu / Lengkap Rentang Tanggal (Rekap Per Sholat)
+      function buatSheetFardhuRentang(students, kelasName, startTgl, endTgl, daftarTanggal, absenMap, sholatList, jenis) {
+        var rows = [];
+        var judul = (jenis === 'lengkap') ? 'REKAPITULASI PRESENSI SHOLAT LENGKAP (6 WAKTU)' : 'REKAPITULASI PRESENSI SHOLAT FARDHU (5 WAKTU)';
+        rows.push([judul]);
+        var targetPerSiswa = daftarTanggal.length * sholatList.length;
+        rows.push(['Kelas: ' + kelasName, 'Periode: ' + startTgl + ' s.d. ' + endTgl + ' (' + daftarTanggal.length + ' Hari)', 'Target Sholat / Siswa: ' + targetPerSiswa]);
+        rows.push([]);
+
+        var cols = ['No', 'NIS', 'Nama Siswa', 'JK'];
+        sholatList.forEach(function (s) { cols.push('Hadir ' + s); });
+        cols.push('Total Hadir', 'Target (' + targetPerSiswa + ')', '% Kehadiran');
+        rows.push(cols);
+
+        var sumPerSholat = {};
+        sholatList.forEach(function (s) { sumPerSholat[s] = 0; });
+        var grandHadirKelas = 0;
+
+        students.forEach(function (sw, idx) {
+          var hMap = {};
+          sholatList.forEach(function (s) { hMap[s] = 0; });
+          var hTotSiswa = 0;
+
+          daftarTanggal.forEach(function (tgl) {
+            sholatList.forEach(function (s) {
+              var d = (absenMap[sw.nis] && absenMap[sw.nis][tgl] && absenMap[sw.nis][tgl][s]);
+              if (d && (d.status === 'Hadir' || d.status === 'Terlambat')) {
+                hMap[s]++;
+                sumPerSholat[s]++;
+                hTotSiswa++;
+                grandHadirKelas++;
+              }
+            });
+          });
+
+          var r = [(idx + 1), sw.nis, sw.nama, sw.jk || '-'];
+          sholatList.forEach(function (s) { r.push(hMap[s]); });
+          var pct = targetPerSiswa ? Math.round((hTotSiswa / targetPerSiswa) * 100) : 0;
+          r.push(hTotSiswa, targetPerSiswa, pct + '%');
+          rows.push(r);
+        });
+
+        rows.push([]);
+        var rowTotal = ['TOTAL KEHADIRAN KELAS', '', '', ''];
+        sholatList.forEach(function (s) { rowTotal.push(sumPerSholat[s]); });
+        var grandTargetKelas = students.length * targetPerSiswa;
+        var avgPct = grandTargetKelas ? Math.round((grandHadirKelas / grandTargetKelas) * 100) : 0;
+        rowTotal.push(grandHadirKelas, grandTargetKelas, avgPct + '%');
+        rows.push(rowTotal);
+
+        var ws = XLSX.utils.aoa_to_sheet(rows);
+        var wcols = [{ wch: 5 }, { wch: 14 }, { wch: 28 }, { wch: 6 }];
+        sholatList.forEach(function () { wcols.push({ wch: 14 }); });
+        wcols.push({ wch: 14 }, { wch: 14 }, { wch: 14 });
+        ws['!cols'] = wcols;
+        return ws;
+      }
+
+      // 5. Sheet Log Detail Transaksi Absen (Sangat Lengkap & Informatif)
+      function buatSheetLogDetail(records, judul, labelKelas, startTgl, endTgl) {
+        var rows = [];
+        rows.push([judul || 'LOG RIWAYAT TRANSAKSI PRESENSI SHOLAT']);
+        rows.push(['Target: ' + (labelKelas || 'Semua Kelas'), 'Periode: ' + (startTgl ? (startTgl + ' s.d. ' + endTgl) : '-'), 'Total Transaksi: ' + records.length]);
+        rows.push([]);
+
+        var cols = ['No', 'Tanggal', 'Jam', 'NIS', 'Nama Siswa', 'Kelas', 'Sholat', 'Status', 'Jarak (m)', 'Keterangan', 'Link Foto', 'Link Maps'];
+        rows.push(cols);
+
+        records.forEach(function (r, idx) {
+          rows.push([
+            (idx + 1),
+            r.tanggal || '-',
+            (r.jam || '').slice(0, 8),
+            r.nis,
+            r.nama,
+            r.kelas || '-',
+            r.sholat,
+            r.status,
+            (r.jarak != null && r.jarak !== '-') ? r.jarak : '-',
+            r.keterangan || '-',
+            r.foto_url || r.fotoUrl || '-',
+            r.maps_link || r.mapsLink || '-'
+          ]);
+        });
+
+        var ws = XLSX.utils.aoa_to_sheet(rows);
+        ws['!cols'] = [
+          { wch: 5 }, { wch: 13 }, { wch: 10 }, { wch: 14 }, { wch: 28 },
+          { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 10 }, { wch: 25 }, { wch: 35 }, { wch: 35 }
+        ];
+        return ws;
+      }
+
+      // 6. Sheet Rekapitulasi Sekolah (Per Kelas)
+      function buatSheetRekapSekolahRentang(perKelas, listKelas, startTgl, endTgl, daftarTanggal, absenMap, jenis, sholatList, isSingleDate) {
         var rows = [];
         var judul = (jenis === 'dhuha') ? 'REKAPITULASI KEHADIRAN SHOLAT SUNNAH DHUHA' :
-                    (jenis === 'fardhu' ? 'REKAPITULASI KEHADIRAN SHOLAT FARDHU (5 WAKTU)' : 'REKAPITULASI KEHADIRAN SHOLAT LENGKAP');
+                    (jenis === 'lengkap' ? 'REKAPITULASI KEHADIRAN SHOLAT LENGKAP (6 WAKTU)' : 'REKAPITULASI KEHADIRAN SHOLAT FARDHU (5 WAKTU)');
 
         rows.push([judul]);
-        rows.push(['Tanggal: ' + tanggal, 'Total Kelas: ' + listKelas.length]);
+        var periodeStr = isSingleDate ? ('Tanggal: ' + startTgl) : ('Periode: ' + startTgl + ' s.d. ' + endTgl + ' (' + daftarTanggal.length + ' Hari)');
+        rows.push([periodeStr, 'Total Kelas: ' + listKelas.length]);
         rows.push([]);
 
         if (jenis === 'dhuha') {
-          rows.push(['No', 'Nama Kelas', 'Jumlah Siswa', 'Hadir Dhuha', 'Terlambat', 'Halangan', 'Belum Absen', '% Kehadiran']);
+          rows.push(['No', 'Nama Kelas', 'Jumlah Siswa', 'Total Hadir Dhuha', 'Terlambat', 'Halangan', 'Belum Absen', '% Kehadiran Kelas']);
           var totSiswa = 0, totH = 0, totT = 0, totR = 0, totB = 0;
+
           listKelas.forEach(function (k, idx) {
             var stList = perKelas[k];
             var h = 0, t = 0, r = 0, b = 0;
             stList.forEach(function (sw) {
-              var st = (sw.sholat && sw.sholat['Dhuha'] && sw.sholat['Dhuha'].status) || 'Belum';
-              if (st === 'Hadir') h++;
-              else if (st === 'Terlambat') t++;
-              else if (st === 'Halangan') r++;
-              else b++;
+              daftarTanggal.forEach(function (tgl) {
+                var d = (absenMap[sw.nis] && absenMap[sw.nis][tgl] && absenMap[sw.nis][tgl]['Dhuha']);
+                if (!d) b++;
+                else if (d.status === 'Hadir') h++;
+                else if (d.status === 'Terlambat') t++;
+                else if (d.status === 'Halangan') r++;
+                else b++;
+              });
             });
+
             totSiswa += stList.length; totH += h; totT += t; totR += r; totB += b;
-            var pct = stList.length ? Math.round(((h + t) / stList.length) * 100) : 0;
+            var kapKelas = stList.length * daftarTanggal.length;
+            var pct = kapKelas ? Math.round(((h + t) / kapKelas) * 100) : 0;
             rows.push([(idx + 1), k, stList.length, h, t, r, b, pct + '%']);
           });
-          var pctTotal = totSiswa ? Math.round(((totH + totT) / totSiswa) * 100) : 0;
+
           rows.push([]);
+          var kapAll = totSiswa * daftarTanggal.length;
+          var pctTotal = kapAll ? Math.round(((totH + totT) / kapAll) * 100) : 0;
           rows.push(['TOTAL KESELURUHAN', '', totSiswa, totH, totT, totR, totB, pctTotal + '%']);
+
         } else {
           var header = ['No', 'Nama Kelas', 'Jumlah Siswa'];
           sholatList.forEach(function (s) { header.push('Hadir ' + s); });
-          header.push('Rata-rata Hadir (/' + sholatList.length + ')', '% Kehadiran Kelas');
+          header.push('Total Hadir', 'Target (' + (daftarTanggal.length * sholatList.length) + '/siswa)', '% Kehadiran Kelas');
           rows.push(header);
 
           var totSiswaAll = 0, totHadirGlobal = 0;
@@ -12475,13 +12851,15 @@
             var totalHadirKelas = 0;
 
             stList.forEach(function (sw) {
-              sholatList.forEach(function (s) {
-                var st = (sw.sholat && sw.sholat[s] && sw.sholat[s].status) || 'Belum';
-                if (st === 'Hadir' || st === 'Terlambat') {
-                  hMap[s]++;
-                  sumPerSholat[s]++;
-                  totalHadirKelas++;
-                }
+              daftarTanggal.forEach(function (tgl) {
+                sholatList.forEach(function (s) {
+                  var d = (absenMap[sw.nis] && absenMap[sw.nis][tgl] && absenMap[sw.nis][tgl][s]);
+                  if (d && (d.status === 'Hadir' || d.status === 'Terlambat')) {
+                    hMap[s]++;
+                    sumPerSholat[s]++;
+                    totalHadirKelas++;
+                  }
+                });
               });
             });
 
@@ -12490,74 +12868,87 @@
 
             var r = [(idx + 1), k, stList.length];
             sholatList.forEach(function (s) { r.push(hMap[s]); });
-            var avgPerSiswa = stList.length ? (totalHadirKelas / stList.length).toFixed(1) : 0;
-            var totalKapasitas = stList.length * sholatList.length;
-            var pct = totalKapasitas ? Math.round((totalHadirKelas / totalKapasitas) * 100) : 0;
-            r.push(avgPerSiswa);
-            r.push(pct + '%');
+            var capKelas = stList.length * (daftarTanggal.length * sholatList.length);
+            var pct = capKelas ? Math.round((totalHadirKelas / capKelas) * 100) : 0;
+            r.push(totalHadirKelas, capKelas, pct + '%');
             rows.push(r);
           });
 
+          rows.push([]);
           var rekapSekolah = ['TOTAL KESELURUHAN', '', totSiswaAll];
           sholatList.forEach(function (s) { rekapSekolah.push(sumPerSholat[s]); });
-          var avgGlobal = totSiswaAll ? (totHadirGlobal / totSiswaAll).toFixed(1) : 0;
-          var capGlobal = totSiswaAll * sholatList.length;
+          var capGlobal = totSiswaAll * (daftarTanggal.length * sholatList.length);
           var pctGlobal = capGlobal ? Math.round((totHadirGlobal / capGlobal) * 100) : 0;
-          rekapSekolah.push(avgGlobal, pctGlobal + '%');
-          rows.push([]);
+          rekapSekolah.push(totHadirGlobal, capGlobal, pctGlobal + '%');
           rows.push(rekapSekolah);
         }
 
         var ws = XLSX.utils.aoa_to_sheet(rows);
-        ws['!cols'] = [{ wch: 6 }, { wch: 18 }, { wch: 14 }, { wch: 14 }, { wch: 14 }, { wch: 14 }, { wch: 14 }, { wch: 14 }];
+        ws['!cols'] = [{ wch: 6 }, { wch: 20 }, { wch: 14 }, { wch: 16 }, { wch: 14 }, { wch: 14 }, { wch: 14 }, { wch: 16 }];
         return ws;
       }
 
-      // Helper membuat sheet gabungan semua siswa
-      function buatSheetGabungan(students, tanggal, jenis, sholatList) {
+      // 7. Sheet Gabungan Semua Siswa
+      function buatSheetGabunganRentang(students, startTgl, endTgl, daftarTanggal, absenMap, jenis, sholatList, isSingleDate) {
         var rows = [];
-        var judul = (jenis === 'dhuha') ? 'LAPORAN PRESENSI SHOLAT SUNNAH DHUHA - SEMUA KELAS' :
-                    (jenis === 'fardhu' ? 'LAPORAN PRESENSI SHOLAT FARDHU (5 WAKTU) - SEMUA KELAS' : 'LAPORAN PRESENSI SHOLAT LENGKAP - SEMUA KELAS');
+        var judul = (jenis === 'dhuha') ? 'LAPORAN PRESENSI SHOLAT SUNNAH DHUHA - SELURUH SISWA' :
+                    (jenis === 'lengkap' ? 'LAPORAN PRESENSI SHOLAT LENGKAP (6 WAKTU) - SELURUH SISWA' : 'LAPORAN PRESENSI SHOLAT FARDHU (5 WAKTU) - SELURUH SISWA');
         rows.push([judul]);
-        rows.push(['Tanggal: ' + tanggal, 'Total Siswa: ' + students.length]);
+        var periodeStr = isSingleDate ? ('Tanggal: ' + startTgl) : ('Periode: ' + startTgl + ' s.d. ' + endTgl + ' (' + daftarTanggal.length + ' Hari)');
+        rows.push([periodeStr, 'Total Siswa: ' + students.length]);
         rows.push([]);
 
-        var cols = ['No', 'NIS', 'Nama Siswa', 'Kelas', 'JK'];
-        if (jenis === 'dhuha') {
-          cols.push('Status Dhuha', 'Jam Absen', 'Jarak (m)', 'Keterangan', 'Link Foto');
-        } else {
-          sholatList.forEach(function (s) {
-            cols.push(s + ' Status');
-            cols.push(s + ' Jam');
+        if (isSingleDate && jenis === 'dhuha') {
+          rows.push(['No', 'NIS', 'Nama Siswa', 'Kelas', 'JK', 'Status Dhuha', 'Jam Absen', 'Jarak (m)', 'Keterangan', 'Link Foto']);
+          students.forEach(function (sw, idx) {
+            var d = (absenMap[sw.nis] && absenMap[sw.nis][startTgl] && absenMap[sw.nis][startTgl]['Dhuha']) || {};
+            rows.push([(idx + 1), sw.nis, sw.nama, sw.kelas || '-', sw.jk || '-', d.status || 'Belum', (d.jam || '').slice(0, 8), d.jarak || '-', d.keterangan || '-', d.fotoUrl || '-']);
           });
-          cols.push('Total Hadir (/' + sholatList.length + ')');
-          cols.push('% Kehadiran');
-        }
-        rows.push(cols);
+        } else if (jenis === 'dhuha') {
+          var cols = ['No', 'NIS', 'Nama Siswa', 'Kelas', 'JK'];
+          daftarTanggal.forEach(function (t) { cols.push(t.slice(8, 10) + '/' + t.slice(5, 7)); });
+          cols.push('Hadir (H)', 'Telat (T)', 'Halangan (R)', 'Belum (–)', '% Kehadiran');
+          rows.push(cols);
 
-        students.forEach(function (sw, idx) {
-          var r = [(idx + 1), sw.nis, sw.nama, sw.kelas, sw.jk || '-'];
-          if (jenis === 'dhuha') {
-            var d = (sw.sholat && sw.sholat['Dhuha']) || {};
-            r.push(d.status || 'Belum');
-            r.push((d.jam || '').slice(0, 8));
-            r.push(d.jarak ? String(d.jarak) : '-');
-            r.push(d.keterangan || '-');
-            r.push(d.fotoUrl || '-');
-          } else {
-            var h = 0;
-            sholatList.forEach(function (s) {
-              var d = (sw.sholat && sw.sholat[s]) || {};
-              var st = d.status || 'Belum';
-              if (st === 'Hadir' || st === 'Terlambat') h++;
-              r.push(st);
-              r.push((d.jam || '').slice(0, 8));
+          students.forEach(function (sw, idx) {
+            var h = 0, t = 0, r = 0, b = 0, tglCells = [];
+            daftarTanggal.forEach(function (tgl) {
+              var d = (absenMap[sw.nis] && absenMap[sw.nis][tgl] && absenMap[sw.nis][tgl]['Dhuha']);
+              if (!d) { b++; tglCells.push('–'); }
+              else if (d.status === 'Hadir') { h++; tglCells.push(d.jam ? ('H (' + d.jam.slice(0, 5) + ')') : 'H'); }
+              else if (d.status === 'Terlambat') { t++; tglCells.push(d.jam ? ('T (' + d.jam.slice(0, 5) + ')') : 'T'); }
+              else if (d.status === 'Halangan') { r++; tglCells.push('R'); }
+              else { b++; tglCells.push('–'); }
             });
-            r.push(h);
-            r.push(Math.round((h / sholatList.length) * 100) + '%');
-          }
-          rows.push(r);
-        });
+            var pct = daftarTanggal.length ? Math.round(((h + t) / daftarTanggal.length) * 100) : 0;
+            rows.push([(idx + 1), sw.nis, sw.nama, sw.kelas || '-', sw.jk || '-'].concat(tglCells).concat([h, t, r, b, pct + '%']));
+          });
+        } else {
+          var targetPerSiswa = daftarTanggal.length * sholatList.length;
+          var colsF = ['No', 'NIS', 'Nama Siswa', 'Kelas', 'JK'];
+          sholatList.forEach(function (s) { colsF.push('Hadir ' + s); });
+          colsF.push('Total Hadir', 'Target (' + targetPerSiswa + ')', '% Kehadiran');
+          rows.push(colsF);
+
+          students.forEach(function (sw, idx) {
+            var hMap = {}, hTot = 0;
+            sholatList.forEach(function (s) { hMap[s] = 0; });
+            daftarTanggal.forEach(function (tgl) {
+              sholatList.forEach(function (s) {
+                var d = (absenMap[sw.nis] && absenMap[sw.nis][tgl] && absenMap[sw.nis][tgl][s]);
+                if (d && (d.status === 'Hadir' || d.status === 'Terlambat')) {
+                  hMap[s]++;
+                  hTot++;
+                }
+              });
+            });
+            var r = [(idx + 1), sw.nis, sw.nama, sw.kelas || '-', sw.jk || '-'];
+            sholatList.forEach(function (s) { r.push(hMap[s]); });
+            var pct = targetPerSiswa ? Math.round((hTot / targetPerSiswa) * 100) : 0;
+            r.push(hTot, targetPerSiswa, pct + '%');
+            rows.push(r);
+          });
+        }
 
         var ws = XLSX.utils.aoa_to_sheet(rows);
         return ws;
