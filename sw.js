@@ -1,5 +1,5 @@
 // Service Worker untuk S I I P - Sistem Informasi Ibadah Pelajar (PWA / WebAPK)
-const CACHE_NAME = 'siip-pwa-v24';
+const CACHE_NAME = 'siip-pwa-v25';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
