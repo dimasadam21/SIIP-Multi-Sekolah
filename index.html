@@ -5056,12 +5056,18 @@
   <div id="loginView">
     <div class="app-header header-stacked" id="headerLogin">
       <div class="header-inner">
-        <div class="header-logo-box" id="logoBoxLogin">
-          <img src="icon-192.png" alt="Logo S I I P">
+        <div class="header-logo-row" style="display:flex;align-items:center;justify-content:center;gap:12px;">
+          <div class="header-logo-box logo-smkn1" id="logoBoxLoginLeft" title="SMK Negeri 1 Magelang">
+            <img src="logo-smkn1.png" alt="Logo SMKN 1 Magelang" style="object-fit:contain;">
+          </div>
+          <div class="header-logo-box logo-gpai" id="logoBoxLoginRight" title="GPAI SMKN 1 Magelang">
+            <img src="logo-gpai.png" alt="Logo GPAI" style="object-fit:contain;">
+          </div>
         </div>
         <div class="header-text-box">
           <h1 id="titleLogin">S I I P</h1>
-          <div id="loginSchool" class="header-sub-text">Sistem Informasi Ibadah Pelajar</div>
+          <div id="loginSchool" class="header-sub-text">SMK Negeri 1 Magelang</div>
+          <div style="font-size:11px;color:#34d399;font-weight:700;margin-top:2px;letter-spacing:0.4px;">MGMP PAI &amp; Budi Pekerti</div>
         </div>
       </div>
       <button type="button" id="btnAdminHeader" class="admin-btn" title="Login Admin" onclick="bukaAdminLogin()">⚙️</button>
@@ -5116,12 +5122,18 @@
   <div id="appView" class="hidden">
     <div class="app-header header-stacked" id="headerDash">
       <div class="header-inner">
-        <div class="header-logo-box" id="logoBoxDash">
-          <img src="icon-192.png" alt="Logo S I I P">
+        <div class="header-logo-row" style="display:flex;align-items:center;justify-content:center;gap:12px;">
+          <div class="header-logo-box logo-smkn1" id="logoBoxDashLeft" title="SMK Negeri 1 Magelang">
+            <img src="logo-smkn1.png" alt="Logo SMKN 1 Magelang" style="object-fit:contain;">
+          </div>
+          <div class="header-logo-box logo-gpai" id="logoBoxDashRight" title="GPAI SMKN 1 Magelang">
+            <img src="logo-gpai.png" alt="Logo GPAI" style="object-fit:contain;">
+          </div>
         </div>
         <div class="header-text-box">
           <h1 id="titleDash">S I I P</h1>
-          <div id="dashSchool" class="header-sub-text">Sistem Informasi Ibadah Pelajar</div>
+          <div id="dashSchool" class="header-sub-text">SMK Negeri 1 Magelang</div>
+          <div style="font-size:11px;color:#34d399;font-weight:700;margin-top:2px;letter-spacing:0.4px;">MGMP PAI &amp; Budi Pekerti</div>
           <p id="tglSekarang"></p>
         </div>
       </div>
@@ -5482,12 +5494,17 @@
   <div id="adminView" class="hidden">
       <div class="app-header admin header-stacked" id="headerAdmin">
         <div class="header-inner">
-          <div class="header-logo-box" id="logoBoxAdmin">
-            <span class="emoji-logo">🛡️</span>
+          <div class="header-logo-row" style="display:flex;align-items:center;justify-content:center;gap:12px;">
+            <div class="header-logo-box logo-smkn1" title="SMK Negeri 1 Magelang">
+              <img src="logo-smkn1.png" alt="Logo SMKN 1 Magelang" style="object-fit:contain;">
+            </div>
+            <div class="header-logo-box logo-gpai" title="GPAI SMKN 1 Magelang">
+              <img src="logo-gpai.png" alt="Logo GPAI" style="object-fit:contain;">
+            </div>
           </div>
           <div class="header-text-box">
             <h1 id="adminSchool">Panel Admin</h1>
-            <p>Pengelolaan Presensi Ibadah & Sholat</p>
+            <p>Pengelolaan Presensi Ibadah &bull; SMKN 1 Magelang</p>
           </div>
           <button class="btn btn-sm" type="button" onclick="sinkronkanSemuaAdmin(this)"
             style="background:rgba(255,255,255,0.18);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:10px;padding:6px 14px;font-size:12px;font-weight:700;margin-top:6px;cursor:pointer;">
@@ -9888,13 +9905,21 @@
         var boxes = document.querySelectorAll('.header-logo-box');
         boxes.forEach(function (box) {
           if (box.id === 'prevLogoBox') return;
+          if (box.classList.contains('logo-smkn1')) {
+            box.innerHTML = '<img src="logo-smkn1.png" alt="Logo SMKN 1 Magelang" style="object-fit:contain;">';
+            return;
+          }
+          if (box.classList.contains('logo-gpai')) {
+            box.innerHTML = '<img src="logo-gpai.png" alt="Logo GPAI" style="object-fit:contain;">';
+            return;
+          }
           if (b64 && (b64.indexOf('data:') === 0 || b64.indexOf('http') === 0)) {
-            box.innerHTML = '<img src="' + b64 + '" alt="Logo">';
+            box.innerHTML = '<img src="' + b64 + '" alt="Logo" style="object-fit:contain;">';
           } else if (b64 && b64.length <= 8) {
             box.innerHTML = '<span class="emoji-logo">' + b64 + '</span>';
           } else {
             var isAdm = box.closest('.admin');
-            box.innerHTML = isAdm ? '<span class="emoji-logo">🛡️</span>' : '<img src="icon-192.png" alt="Logo S I I P">';
+            box.innerHTML = isAdm ? '<span class="emoji-logo">🛡️</span>' : '<img src="icon-192.png" alt="Logo S I I P" style="object-fit:contain;">';
           }
         });
       }
@@ -12991,7 +13016,17 @@
           tbl = (tabLaporan === 'kalender' ? $('tblKalender') : $('tblDetail')).outerHTML;
         }
         var w = window.open('', '_blank');
-        w.document.write('<html><head><title>' + judul + '</title><style>body{font-family:\'Plus Jakarta Sans\',Arial,sans-serif;padding:16px}h3{margin:0 0 4px}p.sub{margin:0 0 10px;color:#555;font-size:12px}table{border-collapse:collapse;width:100%;font-size:11px}th,td{border:1px solid #999;padding:4px 6px;text-align:center}img{display:none}.selcell{padding:0;background:none!important;color:#000!important}</style></head><body><h3>' + judul + '</h3>' + (sub ? '<p class="sub">' + sub + '</p>' : '') + tbl + '</body></html>');
+        var kopHtml = '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:2.5px solid #047857;padding-bottom:10px;margin-bottom:14px;">' +
+          '<img src="logo-smkn1.png" style="height:68px;width:auto;object-fit:contain;display:block;" alt="SMKN 1">' +
+          '<div style="text-align:center;flex:1;padding:0 12px;">' +
+            '<div style="font-size:16px;font-weight:700;margin-bottom:2px;letter-spacing:1px;font-family:\'Traditional Arabic\',Arial,sans-serif;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>' +
+            '<div style="font-size:14px;font-weight:800;color:#047857;letter-spacing:0.5px;">RAPOR IBADAH &amp; CAPAIAN AMALIAH</div>' +
+            '<div style="font-size:12px;font-weight:700;color:#1e293b;">Sistem Informasi Ibadah Pelajar • TAHUN AJARAN 2025/2026</div>' +
+            '<div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">MUSYAWARAH GURU MATA PELAJARAN (MGMP) PAI &amp; BUDI PEKERTI • SMK NEGERI 1 MAGELANG</div>' +
+          '</div>' +
+          '<img src="logo-gpai.png" style="height:68px;width:auto;object-fit:contain;display:block;" alt="GPAI">' +
+        '</div>';
+        w.document.write('<html><head><title>' + judul + '</title><style>body{font-family:\'Plus Jakarta Sans\',Arial,sans-serif;padding:16px}h3{margin:0 0 4px}p.sub{margin:0 0 10px;color:#555;font-size:12px}table{border-collapse:collapse;width:100%;font-size:11px}th,td{border:1px solid #999;padding:4px 6px;text-align:center}.selcell{padding:0;background:none!important;color:#000!important}</style></head><body>' + kopHtml + '<h3>' + judul + '</h3>' + (sub ? '<p class="sub">' + sub + '</p>' : '') + tbl + '</body></html>');
         w.document.close(); w.focus(); setTimeout(function () { w.print(); }, 400);
       }
 

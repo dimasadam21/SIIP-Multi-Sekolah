@@ -1,5 +1,5 @@
 // Service Worker untuk S I I P - Sistem Informasi Ibadah Pelajar (PWA / WebAPK)
-const CACHE_NAME = 'siip-pwa-v25';
+const CACHE_NAME = 'siip-pwa-v26';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -12,7 +12,10 @@ const ASSETS_TO_CACHE = [
   './icon-maskable-512.png',
   './apple-touch-icon.png',
   './logo-siip.png',
-  './favicon.png'
+  './favicon.png',
+  './logo-smkn1.png',
+  './logo-gpai.png',
+  './logo-banner.png'
 ];
 
 self.addEventListener('install', (event) => {
