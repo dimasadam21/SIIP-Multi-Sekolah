@@ -5,7 +5,7 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>S I I P - Sistem Informasi Ibadah Pelajar</title>
+  <title>S I I P Multi-Sekolah - Sistem Informasi Ibadah Pelajar</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -5659,7 +5659,371 @@
       }
     }
 
-  </style>
+  
+/* ================= MULTI-SEKOLAH & SUPER ADMIN STYLING ================= */
+    .login-wrap {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 16px 50px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .login-card-container {
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    /* Kartu Pemilih Sekolah */
+    .sekolah-picker-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.96));
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.65), 0 0 16px rgba(56, 189, 248, 0.1);
+      backdrop-filter: blur(12px);
+    }
+
+    .sekolah-picker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .sekolah-picker-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sekolah-active-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 10px;
+    }
+
+    .sekolah-badge-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 2px;
+      object-fit: contain;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .sekolah-badge-info h4 {
+      margin: 0;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #f8fafc;
+      line-height: 1.3;
+    }
+
+    .sekolah-badge-info p {
+      margin: 3px 0 0;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* Banner Impersonasi Super Admin saat mengelola sekolah */
+    .superadmin-impersonate-banner {
+      background: linear-gradient(135deg, #854d0e, #713f12);
+      color: #fef08a;
+      border-bottom: 2px solid #eab308;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 101;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    .superadmin-impersonate-banner button {
+      background: #fef08a;
+      color: #713f12;
+      border: none;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .superadmin-impersonate-banner button:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* ================= SUPER ADMIN VIEW STYLING ================= */
+    #superAdminView {
+      min-height: 100vh;
+      background: #060b17;
+      color: #f1f5f9;
+      padding-bottom: 60px;
+    }
+
+    .sa-header {
+      background: linear-gradient(135deg, #090e1a, #0f172a);
+      border-bottom: 1px solid rgba(234, 179, 8, 0.35);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+    }
+
+    .sa-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sa-shield-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 14px rgba(234, 179, 8, 0.4);
+      flex-shrink: 0;
+    }
+
+    .sa-header-titles h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fef08a;
+      letter-spacing: 0.5px;
+    }
+
+    .sa-header-titles p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .sa-nav-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 24px 6px;
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sa-nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sa-nav-btn:hover {
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sa-nav-btn.active {
+      background: rgba(234, 179, 8, 0.16);
+      color: #fef08a;
+      border-color: rgba(234, 179, 8, 0.45);
+    }
+
+    .sa-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .sa-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .sa-metric-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .sa-metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .sa-metric-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #f8fafc;
+      line-height: 1.2;
+    }
+
+    .sa-metric-lbl {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .sa-school-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .sa-school-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+    }
+
+    .sa-school-card-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sa-school-card-left {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      flex: 1 1 300px;
+    }
+
+    .sa-school-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 3px;
+      object-fit: contain;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .sa-school-info h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+
+    .sa-school-info p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .sa-school-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .sa-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .sa-badge-blue { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .sa-badge-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .sa-badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    .sa-school-card-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-superadmin {
+      background: linear-gradient(135deg, #ca8a04, #a16207);
+      color: #ffffff;
+      font-weight: 700;
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      padding: 9px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(202, 138, 4, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-superadmin:hover {
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      transform: translateY(-1px);
+    }
+  
+</style>
 </head>
 
 <body>
@@ -5795,78 +6159,77 @@
         onclick="bukaAdminLogin()">⚙️</button>
     </div>
     <div class="wrap login-wrap">
-      <div class="login-layout-grid">
-        <!-- KOLOM KIRI (SESUAI KOTAK MERAH USER): MASKOT SI IPIN & SUBTITLE -->
-        <div class="login-col-mascot">
-          <div id="mascotGreetingSection" class="mascot-section">
-            <div class="mascot-stage" id="mascotStage" onclick="putarSuaraIpin(false)" title="Ketuk SI IPIN untuk mendengarkan salam! 🔊">
-              <div class="mascot-aura"></div>
-              <div class="mascot-img-wrap" id="mascotImgWrap">
-                <img src="mascot-ipin.png" alt="Maskot SI IPIN" class="mascot-img" id="mascotImg" width="185" height="250">
-              </div>
-              <div class="mascot-shadow"></div>
-              <div class="mascot-hint-badge">✨ Ketuk Aku!</div>
-            </div>
-
-            <div class="mascot-speech-bubble" id="mascotBubble" onclick="putarSuaraIpin(false)" style="cursor:pointer;" title="Ketuk SI IPIN atau teks untuk mendengarkan salam! 🔊">
-              <div class="mascot-tag-row">
-                <span class="mascot-tag-badge">🤖 SI IPIN</span>
-                <span class="mascot-tag-title">Maskot Cerdas Presensi Ibadah</span>
-              </div>
-              <p class="mascot-subtitle-text" id="mascotSubtitle" style="margin-bottom:2px;">
-                &ldquo;Assalamu’alaikum! Aku <span class="highlight-ipin">SI IPIN</span>. Yuk, jangan lupa <span class="highlight-sholat">presensi sholat hari ini</span> dan <span class="highlight-belajar">belajar bersama</span>&rdquo;
-              </p>
+      <div class="login-card-container">
+        <!-- KARTU PEMILIHAN SEKOLAH (MULTI-SEKOLAH) -->
+        <div class="sekolah-picker-card">
+          <div class="sekolah-picker-header">
+            <span class="sekolah-picker-title">🏛️ Pilih Sekolah Anda</span>
+            <span class="tag" id="badgeTotalSekolah" style="font-size:10px; background:rgba(56,189,248,0.2); color:#38bdf8;">Multi-Sekolah</span>
+          </div>
+          <select id="pilihSekolahLogin" onchange="gantiSekolahLogin(this.value)" style="width:100%; padding:10px 12px; border-radius:10px; background:#0f172a; border:1px solid rgba(56,189,248,0.3); color:#f8fafc; font-size:14px; font-weight:700; cursor:pointer;">
+            <!-- Populated dynamically via JavaScript -->
+          </select>
+          <div class="sekolah-active-badge" id="boxSekolahAktif">
+            <img src="logo-smkn1.png" alt="Logo" class="sekolah-badge-logo" id="logoSekolahAktif">
+            <div class="sekolah-badge-info">
+              <h4 id="namaSekolahAktif">SMK Negeri 1 Magelang</h4>
+              <p id="alamatSekolahAktif">Jl. Cawang No. 2, Magelang, Jawa Tengah</p>
             </div>
           </div>
         </div>
 
-        <!-- KOLOM KANAN: FORM LOGIN & AKSI APLIKASI -->
-        <div class="login-col-form">
-          <div class="card" style="margin-top:0;">
-            <label for="nisInput">Masukkan NIS atau Nama Siswa</label>
-            <div class="ac-wrap">
-              <input type="text" id="nisInput" name="nama_atau_nis" placeholder="Ketik NIS atau nama siswa..."
-                autocomplete="off" inputmode="text" autocapitalize="words" spellcheck="false">
-              <div id="acList" class="ac-list hidden"></div>
-            </div>
-            <div class="hint">Ketik NIS atau nama lalu pilih dari daftar, atau ketik langsung.</div>
-            <label for="passInput" style="margin-top:14px;">Password</label>
-            <div style="position:relative;">
-              <input type="password" id="passInput" placeholder="Masukkan password" autocomplete="current-password"
-                style="padding-right:42px;">
-              <button type="button" class="btn-toggle-eye" onclick="toggleLihatPass('passInput', this)"
-                title="Lihat/Sembunyikan">👁️</button>
-            </div>
-            <div class="hint" id="loginPassHint">Password default = <b>Nomor NIS</b> masing-masing siswa. Segera ganti
-              setelah masuk.</div>
-            <button id="loginBtn" class="btn btn-primary" style="margin-top:16px;"><span>Masuk</span></button>
+        <!-- FORM LOGIN SISWA -->
+        <div class="card" style="margin-top:0;">
+          <label for="nisInput">Masukkan NIS atau Nama Siswa</label>
+          <div class="ac-wrap">
+            <input type="text" id="nisInput" name="nama_atau_nis" placeholder="Ketik NIS atau nama siswa..."
+              autocomplete="off" inputmode="text" autocapitalize="words" spellcheck="false">
+            <div id="acList" class="ac-list hidden"></div>
           </div>
-
-          <!-- FITUR INSTAL APLIKASI S I I P (PROPOSIONAL, PROFESIONAL & ELEGAN) -->
-          <div id="pwaInstallCard" class="pwa-action-card" onclick="bukaModalInstalApp()" role="button" tabindex="0"
-            title="Klik untuk pasang aplikasi di Android, iPhone atau Komputer">
-            <div class="pwa-card-icon-box">
-              <img src="icon-192.png" alt="S I I P">
-            </div>
-            <div class="pwa-card-content">
-              <div class="pwa-card-heading">
-                <span class="pwa-card-title">Instal Aplikasi S I I P</span>
-                <span class="pwa-card-pill">App</span>
-              </div>
-              <div class="pwa-card-subtitle">Android • iPhone (iOS) • Komputer</div>
-            </div>
-            <div class="pwa-card-action">
-              <span class="pwa-action-btn">
-                <span>📲</span>
-                <span>Pasang</span>
-              </span>
-            </div>
+          <div class="hint">Ketik NIS atau nama lalu pilih dari daftar, atau ketik langsung.</div>
+          <label for="passInput" style="margin-top:14px;">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="passInput" placeholder="Masukkan password" autocomplete="current-password"
+              style="padding-right:42px;">
+            <button type="button" class="btn-toggle-eye" onclick="toggleLihatPass('passInput', this)"
+              title="Lihat/Sembunyikan">👁️</button>
           </div>
-
-          <button type="button" id="btnPanelMasukAdmin" class="btn btn-outline btn-block-mt" onclick="bukaAdminLogin()">⚙️
-            Panel Masuk Admin</button>
+          <div class="hint" id="loginPassHint">Password default = <b>Nomor NIS</b> masing-masing siswa. Segera ganti
+            setelah masuk.</div>
+          <button id="loginBtn" class="btn btn-primary" style="margin-top:16px;"><span>Masuk Siswa</span></button>
         </div>
 
+        <!-- FITUR INSTAL APLIKASI S I I P -->
+        <div id="pwaInstallCard" class="pwa-action-card" onclick="bukaModalInstalApp()" role="button" tabindex="0"
+          title="Klik untuk pasang aplikasi di Android, iPhone atau Komputer">
+          <div class="pwa-card-icon-box">
+            <img src="icon-192.png" alt="S I I P">
+          </div>
+          <div class="pwa-card-content">
+            <div class="pwa-card-heading">
+              <span class="pwa-card-title">Instal Aplikasi S I I P</span>
+              <span class="pwa-card-pill">App</span>
+            </div>
+            <div class="pwa-card-subtitle">Android • iPhone (iOS) • Komputer</div>
+          </div>
+          <div class="pwa-card-action">
+            <span class="pwa-action-btn">
+              <span>📲</span>
+              <span>Pasang</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- DUAL ADMIN ACTIONS: ADMIN SEKOLAH & SUPER ADMIN -->
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:14px; margin-bottom:8px;">
+          <button type="button" id="btnPanelMasukAdmin" class="btn btn-outline" onclick="bukaAdminLogin()" style="width:100%; font-weight:700;">
+            ⚙️ Panel Masuk Admin Sekolah
+          </button>
+          <button type="button" id="btnPortalSuperAdmin" class="btn btn-outline" onclick="bukaSuperAdminLogin()"
+            style="width:100%; border-color:#eab308; color:#fde047; font-weight:700; background:rgba(234, 179, 8, 0.08);">
+            🛡️ Portal Super Admin Nasional
+          </button>
+        </div>
       </div>
       <div class="foot">&copy; S I I P - Sistem Informasi Ibadah Pelajar</div>
     </div>
@@ -16693,7 +17056,890 @@
         });
       });
     }
-  </script>
+  
+
+    /* =====================================================================
+       S I I P  M U L T I - S E K O L A H  &  S U P E R  A D M I N  E N G I N E
+       ===================================================================== */
+    var DEFAULT_DAFTAR_SEKOLAH = [
+      {
+        id: 'SCH_001',
+        npsn: '20328888',
+        nama: 'SMK Negeri 1 Magelang',
+        jenjang: 'SMK',
+        alamat: 'Jl. Cawang No. 2, Magelang, Jawa Tengah',
+        logo: 'logo-smkn1.png',
+        admin_user: 'admin',
+        admin_pass: '123',
+        status: 'Aktif',
+        radius_meter: 150,
+        titik_lat: -7.4725,
+        titik_lng: 110.2198,
+        wajib_radius: 'TIDAK',
+        tanggal_daftar: '2026-01-10'
+      },
+      {
+        id: 'SCH_002',
+        npsn: '20327777',
+        nama: 'SMA Negeri 1 Magelang',
+        jenjang: 'SMA',
+        alamat: 'Jl. Cempaka No. 1, Magelang, Jawa Tengah',
+        logo: 'icon-192.png',
+        admin_user: 'admin_sman1',
+        admin_pass: '123',
+        status: 'Aktif',
+        radius_meter: 200,
+        titik_lat: -7.4812,
+        titik_lng: 110.2245,
+        wajib_radius: 'TIDAK',
+        tanggal_daftar: '2026-02-15'
+      },
+      {
+        id: 'SCH_003',
+        npsn: '20326666',
+        nama: 'SMP Negeri 1 Magelang',
+        jenjang: 'SMP',
+        alamat: 'Jl. Pahlawan No. 5, Magelang, Jawa Tengah',
+        logo: 'icon-192.png',
+        admin_user: 'admin_smpn1',
+        admin_pass: '123',
+        status: 'Aktif',
+        radius_meter: 150,
+        titik_lat: -7.4689,
+        titik_lng: 110.2154,
+        wajib_radius: 'TIDAK',
+        tanggal_daftar: '2026-03-01'
+      }
+    ];
+
+    var DAFTAR_SEKOLAH = [];
+    var SEKOLAH_AKTIF_ID = 'SCH_001';
+    var IS_SUPER_ADMIN = false;
+
+    var SUPER_ADMIN_CONFIG = {
+      username: 'superadmin',
+      password: 'superadmin2026'
+    };
+
+    function initMultiSekolah() {
+      // 1. Muat kredensial super admin tersimpan
+      try {
+        var saCfg = localStorage.getItem('siip_superadmin_cfg');
+        if (saCfg) {
+          var p = JSON.parse(saCfg);
+          if (p.username) SUPER_ADMIN_CONFIG.username = p.username;
+          if (p.password) SUPER_ADMIN_CONFIG.password = p.password;
+        }
+      } catch (e) { }
+
+      // 2. Muat daftar sekolah dari storage
+      try {
+        var raw = localStorage.getItem('siip_daftar_sekolah_v1');
+        if (raw) {
+          DAFTAR_SEKOLAH = JSON.parse(raw);
+        }
+      } catch (e) { }
+
+      if (!Array.isArray(DAFTAR_SEKOLAH) || !DAFTAR_SEKOLAH.length) {
+        DAFTAR_SEKOLAH = DEFAULT_DAFTAR_SEKOLAH;
+        simpanDaftarSekolahStorage();
+      }
+
+      // 3. Muat preferensi sekolah terakhir
+      try {
+        var lastId = localStorage.getItem('siip_sekolah_terpilih');
+        if (lastId && findSekolahById(lastId)) {
+          SEKOLAH_AKTIF_ID = lastId;
+        }
+      } catch (e) { }
+
+      renderPilihanSekolahLogin();
+      terapkanSekolahAktifKeUI();
+    }
+
+    function simpanDaftarSekolahStorage() {
+      try {
+        localStorage.setItem('siip_daftar_sekolah_v1', JSON.stringify(DAFTAR_SEKOLAH));
+      } catch (e) { }
+    }
+
+    function findSekolahById(id) {
+      if (!Array.isArray(DAFTAR_SEKOLAH)) return null;
+      for (var i = 0; i < DAFTAR_SEKOLAH.length; i++) {
+        if (DAFTAR_SEKOLAH[i].id === id) return DAFTAR_SEKOLAH[i];
+      }
+      return null;
+    }
+
+    function renderPilihanSekolahLogin() {
+      var sel = $('pilihSekolahLogin');
+      if (!sel) return;
+      var h = '';
+      DAFTAR_SEKOLAH.forEach(function (s) {
+        var selAttr = (s.id === SEKOLAH_AKTIF_ID) ? ' selected' : '';
+        h += '<option value="' + esc(s.id) + '"' + selAttr + '>' + esc(s.nama) + ' (' + esc(s.jenjang) + ')</option>';
+      });
+      sel.innerHTML = h;
+
+      var b = $('badgeTotalSekolah');
+      if (b) b.textContent = DAFTAR_SEKOLAH.length + ' Sekolah Terdaftar';
+    }
+
+    function gantiSekolahLogin(sekolahId) {
+      var s = findSekolahById(sekolahId);
+      if (!s) return;
+      SEKOLAH_AKTIF_ID = sekolahId;
+      try { localStorage.setItem('siip_sekolah_terpilih', sekolahId); } catch (e) { }
+      terapkanSekolahAktifKeUI();
+      toast('Sekolah aktif dialihkan ke ' + s.nama, 'ok');
+    }
+
+    function terapkanSekolahAktifKeUI() {
+      var s = findSekolahById(SEKOLAH_AKTIF_ID) || DAFTAR_SEKOLAH[0];
+      if (!s) return;
+
+      if ($('namaSekolahAktif')) $('namaSekolahAktif').textContent = s.nama;
+      if ($('alamatSekolahAktif')) $('alamatSekolahAktif').textContent = (s.npsn ? 'NPSN: ' + s.npsn + ' • ' : '') + (s.alamat || '');
+      if ($('logoSekolahAktif')) $('logoSekolahAktif').src = s.logo || 'icon-192.png';
+
+      // Update header sekolah
+      if ($('loginSchool')) $('loginSchool').textContent = s.nama;
+      if ($('adminSchool')) $('adminSchool').textContent = s.nama;
+      if ($('dashSchool')) $('dashSchool').textContent = s.nama;
+
+      // Update input pengaturan nama sekolah
+      if ($('setNama')) $('setNama').value = s.nama;
+      if ($('setNamaSub')) $('setNamaSub').value = s.nama;
+
+      // Update konfigurasi default admin
+      if (PENGATURAN) {
+        PENGATURAN.nama_sekolah = s.nama;
+        PENGATURAN.admin_user = s.admin_user;
+        PENGATURAN.admin_pass = s.admin_pass;
+        PENGATURAN.radius_meter = s.radius_meter || 150;
+      }
+    }
+
+    // =====================================================================
+    // PORTAL & DASHBOARD SUPER ADMIN
+    // =====================================================================
+    function bukaSuperAdminLogin() {
+      var m = $('superAdminLoginModal');
+      if (!m) return;
+      m.classList.remove('hidden');
+      m.style.display = 'flex';
+      setTimeout(function () {
+        if ($('saLoginPass')) $('saLoginPass').focus();
+      }, 100);
+    }
+
+    function tutupSuperAdminLogin() {
+      var m = $('superAdminLoginModal');
+      if (!m) return;
+      m.classList.add('hidden');
+      m.style.display = 'none';
+    }
+
+    function doSuperAdminLogin() {
+      var u = ($('saLoginUser') && $('saLoginUser').value.trim()) || '';
+      var p = ($('saLoginPass') && $('saLoginPass').value.trim()) || '';
+
+      if (u !== SUPER_ADMIN_CONFIG.username || p !== SUPER_ADMIN_CONFIG.password) {
+        toast('Username atau password Super Admin salah!', 'err');
+        return;
+      }
+
+      IS_SUPER_ADMIN = true;
+      tutupSuperAdminLogin();
+      bukaSuperAdminDashboard();
+      toast('Berhasil masuk sebagai Super Admin!', 'ok');
+    }
+
+    function bukaSuperAdminDashboard() {
+      if ($('loginView')) $('loginView').classList.add('hidden');
+      if ($('adminView')) $('adminView').classList.add('hidden');
+      if ($('appView')) $('appView').classList.add('hidden');
+
+      var sa = $('superAdminView');
+      if (sa) sa.classList.remove('hidden');
+
+      renderSuperAdminDashboard();
+      window.scrollTo(0, 0);
+    }
+
+    function logoutSuperAdmin() {
+      IS_SUPER_ADMIN = false;
+      if ($('superAdminView')) $('superAdminView').classList.add('hidden');
+      if ($('bannerImpersonateSuperAdmin')) $('bannerImpersonateSuperAdmin').classList.add('hidden');
+      if ($('loginView')) $('loginView').classList.remove('hidden');
+      toast('Telah keluar dari Super Admin.', 'info');
+      window.scrollTo(0, 0);
+    }
+
+    function gantiTabSuperAdmin(tabName) {
+      ['sekolah', 'stat', 'admin', 'setting'].forEach(function (t) {
+        var btn = $('saNavBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+        var content = $('saTabContent' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) btn.classList.toggle('active', t === tabName);
+        if (content) content.classList.toggle('hidden', t !== tabName);
+      });
+      if (tabName === 'stat') renderStatistikSuperAdmin();
+      if (tabName === 'admin') renderAkunAdminSuperAdmin();
+    }
+
+    function renderSuperAdminDashboard() {
+      // Update metrics
+      if ($('saMetricTotalSekolah')) $('saMetricTotalSekolah').textContent = DAFTAR_SEKOLAH.length;
+      var aktifCount = DAFTAR_SEKOLAH.filter(function (s) { return s.status === 'Aktif'; }).length;
+      if ($('saMetricSekolahAktif')) $('saMetricSekolahAktif').textContent = aktifCount;
+
+      renderDaftarSekolahSuperAdmin();
+    }
+
+    function renderDaftarSekolahSuperAdmin() {
+      var cont = $('saListSekolahContainer');
+      if (!cont) return;
+
+      var q = ($('saCariSekolah') && $('saCariSekolah').value.toLowerCase().trim()) || '';
+      var list = DAFTAR_SEKOLAH.filter(function (s) {
+        if (!q) return true;
+        return (s.nama && s.nama.toLowerCase().includes(q)) ||
+               (s.npsn && s.npsn.toLowerCase().includes(q)) ||
+               (s.alamat && s.alamat.toLowerCase().includes(q));
+      });
+
+      if (!list.length) {
+        cont.innerHTML = '<div class="card" style="text-align:center; padding:30px; color:#94a3b8;">Tidak ada sekolah yang cocok dengan pencarian.</div>';
+        return;
+      }
+
+      var h = '';
+      list.forEach(function (s) {
+        var statusClass = s.status === 'Aktif' ? 'sa-badge-green' : 'sa-badge-amber';
+        h += '<div class="sa-school-card">';
+        h += '  <div class="sa-school-card-inner">';
+        h += '    <div class="sa-school-card-left">';
+        h += '      <img src="' + esc(s.logo || 'icon-192.png') + '" alt="Logo" class="sa-school-logo">';
+        h += '      <div class="sa-school-info">';
+        h += '        <h3>' + esc(s.nama) + '</h3>';
+        h += '        <p>' + esc(s.alamat || 'Alamat belum diatur') + '</p>';
+        h += '        <div class="sa-school-badges">';
+        h += '          <span class="sa-badge sa-badge-blue">NPSN: ' + esc(s.npsn || '-') + '</span>';
+        h += '          <span class="sa-badge sa-badge-blue">' + esc(s.jenjang) + '</span>';
+        h += '          <span class="sa-badge ' + statusClass + '">● ' + esc(s.status) + '</span>';
+        h += '          <span class="sa-badge sa-badge-blue">Radius: ' + (s.radius_meter || 150) + 'm</span>';
+        h += '        </div>';
+        h += '      </div>';
+        h += '    </div>';
+
+        h += '    <div class="sa-school-card-actions">';
+        h += '      <button type="button" class="btn btn-primary btn-sm" onclick="masukSebagaiAdminSekolah(\'' + esc(s.id) + '\')" style="font-weight:700;">';
+        h += '        <span>🚀 Kelola Sekolah Ini</span>';
+        h += '      </button>';
+        h += '      <button type="button" class="btn btn-outline btn-sm" onclick="bukaModalEditSekolah(\'' + esc(s.id) + '\')">';
+        h += '        <span>✏️ Edit</span>';
+        h += '      </button>';
+        h += '      <button type="button" class="btn btn-outline btn-sm" onclick="hapusSekolahSuperAdmin(\'' + esc(s.id) + '\')" style="border-color:#ef4444; color:#f87171;">';
+        h += '        <span>🗑️ Hapus</span>';
+        h += '      </button>';
+        h += '    </div>';
+        h += '  </div>';
+        h += '</div>';
+      });
+
+      cont.innerHTML = h;
+    }
+
+    function renderStatistikSuperAdmin() {
+      var tbody = $('saTabelStatistikSekolah');
+      if (!tbody) return;
+      var h = '';
+      DAFTAR_SEKOLAH.forEach(function (s) {
+        h += '<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">';
+        h += '  <td style="padding:10px; font-weight:700;">' + esc(s.nama) + '</td>';
+        h += '  <td style="padding:10px;">' + esc(s.npsn || '-') + '</td>';
+        h += '  <td style="padding:10px;"><span class="sa-badge sa-badge-blue">' + esc(s.jenjang) + '</span></td>';
+        h += '  <td style="padding:10px; color:#94a3b8;">' + esc(s.alamat || '-') + '</td>';
+        h += '  <td style="padding:10px; font-family:monospace; color:#38bdf8;">' + esc(s.admin_user || 'admin') + '</td>';
+        h += '  <td style="padding:10px;"><span class="sa-badge ' + (s.status === 'Aktif' ? 'sa-badge-green' : 'sa-badge-amber') + '">' + esc(s.status) + '</span></td>';
+        h += '</tr>';
+      });
+      tbody.innerHTML = h;
+    }
+
+    function renderAkunAdminSuperAdmin() {
+      var cont = $('saListAkunAdminContainer');
+      if (!cont) return;
+      var h = '';
+      DAFTAR_SEKOLAH.forEach(function (s) {
+        h += '<div style="background:rgba(15,23,42,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">';
+        h += '  <div>';
+        h += '    <div style="font-weight:700; color:#f8fafc; font-size:14px;">' + esc(s.nama) + '</div>';
+        h += '    <div style="font-size:12px; color:#94a3b8; margin-top:2px;">Username Admin: <b style="color:#38bdf8;">' + esc(s.admin_user || 'admin') + '</b> • Password: <b style="color:#fde047;">' + esc(s.admin_pass || '123') + '</b></div>';
+        h += '  </div>';
+        h += '  <div style="display:flex; gap:8px;">';
+        h += '    <button type="button" class="btn btn-outline btn-xs" onclick="resetPasswordAdminSekolah(\'' + esc(s.id) + '\')">🔑 Reset Password</button>';
+        h += '    <button type="button" class="btn btn-outline btn-xs" onclick="masukSebagaiAdminSekolah(\'' + esc(s.id) + '\')">🚀 Masuk Panel</button>';
+        h += '  </div>';
+        h += '</div>';
+      });
+      cont.innerHTML = h;
+    }
+
+    // =====================================================================
+    // CRUD SEKOLAH (SUPER ADMIN)
+    // =====================================================================
+    function bukaModalTambahSekolah() {
+      var m = $('modalTambahSekolah');
+      if (!m) return;
+      $('tbhNamaSekolah').value = '';
+      $('tbhNpsnSekolah').value = '';
+      $('tbhAlamatSekolah').value = '';
+      $('tbhAdminUser').value = '';
+      $('tbhAdminPass').value = '123';
+      m.classList.remove('hidden');
+      m.style.display = 'flex';
+    }
+
+    function tutupModalTambahSekolah() {
+      var m = $('modalTambahSekolah');
+      if (m) { m.classList.add('hidden'); m.style.display = 'none'; }
+    }
+
+    function simpanSekolahBaru() {
+      var nama = ($('tbhNamaSekolah').value || '').trim();
+      var npsn = ($('tbhNpsnSekolah').value || '').trim();
+      var jenjang = $('tbhJenjangSekolah').value || 'SMK';
+      var alamat = ($('tbhAlamatSekolah').value || '').trim();
+      var u = ($('tbhAdminUser').value || '').trim() || ('admin_' + npsn);
+      var p = ($('tbhAdminPass').value || '').trim() || '123';
+      var radius = parseInt($('tbhRadius').value, 10) || 150;
+      var wajib = $('tbhWajibRadius').value || 'TIDAK';
+
+      if (!nama) return toast('Nama sekolah wajib diisi!', 'err');
+      if (!npsn) return toast('NPSN / Kode sekolah wajib diisi!', 'err');
+
+      var newId = 'SCH_' + Date.now().toString(36).toUpperCase();
+      var obj = {
+        id: newId,
+        npsn: npsn,
+        nama: nama,
+        jenjang: jenjang,
+        alamat: alamat,
+        logo: 'icon-192.png',
+        admin_user: u,
+        admin_pass: p,
+        status: 'Aktif',
+        radius_meter: radius,
+        titik_lat: -7.4725,
+        titik_lng: 110.2198,
+        wajib_radius: wajib,
+        tanggal_daftar: new Date().toISOString().slice(0, 10)
+      };
+
+      DAFTAR_SEKOLAH.push(obj);
+      simpanDaftarSekolahStorage();
+      tutupModalTambahSekolah();
+      renderSuperAdminDashboard();
+      renderPilihanSekolahLogin();
+      toast('Sekolah ' + nama + ' berhasil didaftarkan!', 'ok');
+    }
+
+    function bukaModalEditSekolah(id) {
+      var s = findSekolahById(id);
+      if (!s) return;
+      $('edtIdSekolah').value = s.id;
+      $('edtNamaSekolah').value = s.nama;
+      $('edtNpsnSekolah').value = s.npsn || '';
+      $('edtJenjangSekolah').value = s.jenjang || 'SMK';
+      $('edtAlamatSekolah').value = s.alamat || '';
+      $('edtAdminUser').value = s.admin_user || '';
+      $('edtAdminPass').value = s.admin_pass || '';
+      $('edtStatusSekolah').value = s.status || 'Aktif';
+      $('edtRadius').value = s.radius_meter || 150;
+
+      var m = $('modalEditSekolah');
+      if (m) { m.classList.remove('hidden'); m.style.display = 'flex'; }
+    }
+
+    function tutupModalEditSekolah() {
+      var m = $('modalEditSekolah');
+      if (m) { m.classList.add('hidden'); m.style.display = 'none'; }
+    }
+
+    function simpanPerubahanSekolah() {
+      var id = $('edtIdSekolah').value;
+      var s = findSekolahById(id);
+      if (!s) return;
+
+      var nama = ($('edtNamaSekolah').value || '').trim();
+      var npsn = ($('edtNpsnSekolah').value || '').trim();
+      if (!nama || !npsn) return toast('Nama dan NPSN wajib diisi!', 'err');
+
+      s.nama = nama;
+      s.npsn = npsn;
+      s.jenjang = $('edtJenjangSekolah').value;
+      s.alamat = ($('edtAlamatSekolah').value || '').trim();
+      s.admin_user = ($('edtAdminUser').value || '').trim() || s.admin_user;
+      s.admin_pass = ($('edtAdminPass').value || '').trim() || s.admin_pass;
+      s.status = $('edtStatusSekolah').value;
+      s.radius_meter = parseInt($('edtRadius').value, 10) || 150;
+
+      simpanDaftarSekolahStorage();
+      tutupModalEditSekolah();
+      renderSuperAdminDashboard();
+      renderPilihanSekolahLogin();
+      if (SEKOLAH_AKTIF_ID === id) terapkanSekolahAktifKeUI();
+      toast('Perubahan data sekolah berhasil disimpan!', 'ok');
+    }
+
+    function hapusSekolahSuperAdmin(id) {
+      var s = findSekolahById(id);
+      if (!s) return;
+      if (DAFTAR_SEKOLAH.length <= 1) {
+        return toast('Minimal harus tersisa 1 sekolah di sistem!', 'err');
+      }
+      if (!confirm('Apakah Anda yakin ingin menghapus sekolah ' + s.nama + '?')) return;
+
+      DAFTAR_SEKOLAH = DAFTAR_SEKOLAH.filter(function (x) { return x.id !== id; });
+      if (SEKOLAH_AKTIF_ID === id) {
+        SEKOLAH_AKTIF_ID = DAFTAR_SEKOLAH[0].id;
+      }
+      simpanDaftarSekolahStorage();
+      renderSuperAdminDashboard();
+      renderPilihanSekolahLogin();
+      terapkanSekolahAktifKeUI();
+      toast('Sekolah ' + s.nama + ' berhasil dihapus.', 'ok');
+    }
+
+    function resetPasswordAdminSekolah(id) {
+      var s = findSekolahById(id);
+      if (!s) return;
+      var baru = prompt('Masukkan password baru untuk Admin ' + s.nama + ':', '123');
+      if (baru !== null && baru.trim()) {
+        s.admin_pass = baru.trim();
+        simpanDaftarSekolahStorage();
+        renderAkunAdminSuperAdmin();
+        toast('Password admin untuk ' + s.nama + ' berhasil direset menjadi: ' + s.admin_pass, 'ok');
+      }
+    }
+
+    // =====================================================================
+    // FITUR DIRECT ACCESS / IMPERSONASI SUPER ADMIN KE ADMIN SEKOLAH
+    // =====================================================================
+    function masukSebagaiAdminSekolah(id) {
+      var s = findSekolahById(id);
+      if (!s) return;
+
+      SEKOLAH_AKTIF_ID = s.id;
+      terapkanSekolahAktifKeUI();
+
+      // Atur token admin
+      ADMIN_TOKEN = 'SUPERADMIN_TOKEN_' + s.id;
+
+      if ($('superAdminView')) $('superAdminView').classList.add('hidden');
+      if ($('loginView')) $('loginView').classList.add('hidden');
+      if ($('appView')) $('appView').classList.add('hidden');
+
+      // Tampilkan banner impersonasi
+      var b = $('bannerImpersonateSuperAdmin');
+      if (b) {
+        b.classList.remove('hidden');
+        if ($('lblImpersonateSchool')) $('lblImpersonateSchool').textContent = s.nama;
+      }
+
+      if ($('adminView')) $('adminView').classList.remove('hidden');
+      if ($('adminSchool')) $('adminSchool').textContent = s.nama;
+
+      bukaTabAdmin('laporan');
+      toast('Masuk ke Panel Admin ' + s.nama, 'ok');
+      window.scrollTo(0, 0);
+    }
+
+    function kembaliKeSuperAdmin() {
+      if ($('adminView')) $('adminView').classList.add('hidden');
+      if ($('bannerImpersonateSuperAdmin')) $('bannerImpersonateSuperAdmin').classList.add('hidden');
+      bukaSuperAdminDashboard();
+    }
+
+    function simpanKredensialSuperAdmin() {
+      var u = ($('saSetUsername').value || '').trim();
+      var p = ($('saSetPassword').value || '').trim();
+      if (!u) return toast('Username tidak boleh kosong!', 'err');
+      if (!p) return toast('Password tidak boleh kosong!', 'err');
+
+      SUPER_ADMIN_CONFIG.username = u;
+      SUPER_ADMIN_CONFIG.password = p;
+      try {
+        localStorage.setItem('siip_superadmin_cfg', JSON.stringify(SUPER_ADMIN_CONFIG));
+      } catch (e) { }
+
+      if ($('saUserBadge')) $('saUserBadge').textContent = '👤 ' + u;
+      $('saSetPassword').value = '';
+      toast('Kredensial Super Admin berhasil diperbarui!', 'ok');
+    }
+
+    function eksporDataMultiSekolah() {
+      var data = {
+        waktu_ekspor: new Date().toISOString(),
+        aplikasi: 'SIIP Multi-Sekolah',
+        daftar_sekolah: DAFTAR_SEKOLAH,
+        super_admin: { username: SUPER_ADMIN_CONFIG.username }
+      };
+      var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'SIIP_Multi_Sekolah_Backup_' + new Date().toISOString().slice(0, 10) + '.json';
+      a.click();
+      toast('Berkas backup berhasil diunduh!', 'ok');
+    }
+
+    function imporDataMultiSekolah(e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      var reader = new FileReader();
+      reader.onload = function (evt) {
+        try {
+          var j = JSON.parse(evt.target.result);
+          if (Array.isArray(j.daftar_sekolah) && j.daftar_sekolah.length) {
+            DAFTAR_SEKOLAH = j.daftar_sekolah;
+            simpanDaftarSekolahStorage();
+            renderSuperAdminDashboard();
+            renderPilihanSekolahLogin();
+            toast('Data multi-sekolah berhasil dipulihkan (' + DAFTAR_SEKOLAH.length + ' sekolah).', 'ok');
+          } else {
+            toast('Format berkas backup tidak valid.', 'err');
+          }
+        } catch (err) {
+          toast('Gagal membaca file JSON: ' + err.message, 'err');
+        }
+      };
+      reader.readAsText(f);
+    }
+
+    // Inisialisasi Multi-Sekolah otomatis saat aplikasi dimuat
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMultiSekolah);
+    } else {
+      initMultiSekolah();
+    }
+  
+</script>
+
+  <!-- ================= BANNER IMPERSONASI SUPER ADMIN ================= -->
+  <div id="bannerImpersonateSuperAdmin" class="superadmin-impersonate-banner hidden">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span>🛡️</span>
+      <span>MODE SUPER ADMIN: Anda sedang mengelola <b id="lblImpersonateSchool">SMK Negeri 1 Magelang</b></span>
+    </div>
+    <button type="button" onclick="kembaliKeSuperAdmin()">⬅️ Kembali ke Portal Super Admin</button>
+  </div>
+
+  <!-- ================= SUPER ADMIN VIEW ================= -->
+  <div id="superAdminView" class="hidden">
+    <div class="sa-header">
+      <div class="sa-header-left">
+        <div class="sa-shield-icon">🛡️</div>
+        <div class="sa-header-titles">
+          <h2>PORTAL SUPER ADMIN NASIONAL</h2>
+          <p>S I I P • Sistem Informasi Ibadah Pelajar Multi-Sekolah</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="sa-badge sa-badge-amber" id="saUserBadge">👤 superadmin</span>
+        <button type="button" class="btn btn-outline btn-sm" onclick="logoutSuperAdmin()" style="border-color:#ef4444; color:#f87171;">
+          🚪 Keluar
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigasi Tab Super Admin -->
+    <div class="sa-nav-bar">
+      <button type="button" class="sa-nav-btn active" id="saNavBtnSekolah" onclick="gantiTabSuperAdmin('sekolah')">
+        🏛️ Manajemen Sekolah
+      </button>
+      <button type="button" class="sa-nav-btn" id="saNavBtnStat" onclick="gantiTabSuperAdmin('stat')">
+        📊 Statistik Multi-Sekolah
+      </button>
+      <button type="button" class="sa-nav-btn" id="saNavBtnAdmin" onclick="gantiTabSuperAdmin('admin')">
+        👥 Akun Admin Sekolah
+      </button>
+      <button type="button" class="sa-nav-btn" id="saNavBtnSetting" onclick="gantiTabSuperAdmin('setting')">
+        ⚙️ Pengaturan Super Admin
+      </button>
+    </div>
+
+    <div class="sa-container">
+      <!-- 4 KARTU STATISTIK UTAMA -->
+      <div class="sa-metrics-grid">
+        <div class="sa-metric-card">
+          <div class="sa-metric-icon" style="background:rgba(56, 189, 248, 0.15); color:#38bdf8;">🏛️</div>
+          <div>
+            <div class="sa-metric-val" id="saMetricTotalSekolah">3</div>
+            <div class="sa-metric-lbl">Total Sekolah Terdaftar</div>
+          </div>
+        </div>
+        <div class="sa-metric-card">
+          <div class="sa-metric-icon" style="background:rgba(16, 185, 129, 0.15); color:#34d399;">👥</div>
+          <div>
+            <div class="sa-metric-val" id="saMetricTotalSiswa">0</div>
+            <div class="sa-metric-lbl">Total Siswa Lintas Sekolah</div>
+          </div>
+        </div>
+        <div class="sa-metric-card">
+          <div class="sa-metric-icon" style="background:rgba(245, 158, 11, 0.15); color:#fbbf24;">🕌</div>
+          <div>
+            <div class="sa-metric-val" id="saMetricTotalPresensi">0</div>
+            <div class="sa-metric-lbl">Total Rekap Presensi Ibadah</div>
+          </div>
+        </div>
+        <div class="sa-metric-card">
+          <div class="sa-metric-icon" style="background:rgba(168, 85, 247, 0.15); color:#c084fc;">⚡</div>
+          <div>
+            <div class="sa-metric-val" id="saMetricSekolahAktif">3</div>
+            <div class="sa-metric-lbl">Sekolah Status Aktif</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: MANAJEMEN SEKOLAH -->
+      <div id="saTabContentSekolah">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+          <div>
+            <h3 style="margin:0; font-size:18px; font-weight:800; color:#f8fafc;">Daftar Seluruh Sekolah</h3>
+            <p style="margin:2px 0 0; font-size:12px; color:#94a3b8;">Tambah, edit data sekolah, reset password admin, dan kelola panel sekolah langsung.</p>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="text" id="saCariSekolah" placeholder="Cari nama sekolah / NPSN..." oninput="renderDaftarSekolahSuperAdmin()"
+              style="padding:8px 14px; border-radius:10px; background:#0f172a; border:1px solid rgba(255,255,255,0.15); color:#fff; font-size:13px; width:220px;">
+            <button type="button" class="btn btn-primary" onclick="bukaModalTambahSekolah()" style="padding:9px 18px; font-weight:700;">
+              <span>+ Tambah Sekolah Baru</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- LIST SEKOLAH -->
+        <div id="saListSekolahContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- TAB 2: STATISTIK MULTI-SEKOLAH -->
+      <div id="saTabContentStat" class="hidden">
+        <div class="card" style="margin-top:0;">
+          <h3 style="margin:0 0 12px 0; font-size:16px;">📈 Rekapitulasi Statistik per Sekolah</h3>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.15); text-align:left; color:#94a3b8;">
+                  <th style="padding:10px;">Nama Sekolah</th>
+                  <th style="padding:10px;">NPSN</th>
+                  <th style="padding:10px;">Jenjang</th>
+                  <th style="padding:10px;">Kota / Wilayah</th>
+                  <th style="padding:10px;">Admin User</th>
+                  <th style="padding:10px;">Status</th>
+                </tr>
+              </thead>
+              <tbody id="saTabelStatistikSekolah">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: AKUN ADMIN SEKOLAH -->
+      <div id="saTabContentAdmin" class="hidden">
+        <div class="card" style="margin-top:0;">
+          <h3 style="margin:0 0 8px 0; font-size:16px;">👥 Manajemen Akun Admin Setiap Sekolah</h3>
+          <p class="hint" style="margin-bottom:16px;">Super Admin berwenang melihat username admin dan mereset password admin sekolah jika admin sekolah lupa kredensial login.</p>
+          <div id="saListAkunAdminContainer">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: PENGATURAN SUPER ADMIN -->
+      <div id="saTabContentSetting" class="hidden">
+        <div class="card" style="margin-top:0; max-width:640px;">
+          <h3 style="margin:0 0 14px 0; font-size:16px;">🔐 Kredensial Super Admin</h3>
+          <div class="fg">
+            <label for="saSetUsername">Username Super Admin</label>
+            <input type="text" id="saSetUsername" value="superadmin">
+          </div>
+          <div class="fg" style="margin-top:12px;">
+            <label for="saSetPassword">Password Baru Super Admin</label>
+            <input type="password" id="saSetPassword" placeholder="Masukkan password baru...">
+          </div>
+          <button type="button" class="btn btn-primary" onclick="simpanKredensialSuperAdmin()" style="margin-top:16px;">
+            💾 Simpan Kredensial Super Admin
+          </button>
+        </div>
+
+        <div class="card" style="margin-top:16px; max-width:640px;">
+          <h3 style="margin:0 0 10px 0; font-size:16px;">💾 Backup & Restore Database Multi-Sekolah</h3>
+          <p class="hint">Simpan seluruh konfigurasi daftar sekolah dan kredensial dalam bentuk berkas JSON untuk cadangan.</p>
+          <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline" onclick="eksporDataMultiSekolah()">
+              📥 Download Backup JSON
+            </button>
+            <label class="btn btn-outline" style="cursor:pointer; margin:0;">
+              📤 Pulihkan dari File JSON
+              <input type="file" id="saFileRestore" accept=".json" style="display:none;" onchange="imporDataMultiSekolah(event)">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL LOGIN SUPER ADMIN ================= -->
+  <div id="superAdminLoginModal" class="modal hidden" style="align-items:center; justify-content:center; display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:16px;">
+    <div class="modal-box" style="max-width:420px; width:100%; border:1px solid rgba(234, 179, 8, 0.4); box-shadow:0 16px 40px rgba(0,0,0,0.8); background:#0f172a; border-radius:18px;">
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="width:54px; height:54px; border-radius:14px; background:linear-gradient(135deg, #eab308, #ca8a04); color:#000; font-size:28px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:10px; box-shadow:0 4px 16px rgba(234,179,8,0.4);">
+          🛡️
+        </div>
+        <h3 style="margin:0; font-size:18px; font-weight:800; color:#fef08a;">PORTAL SUPER ADMIN</h3>
+        <p style="margin:4px 0 0; font-size:12px; color:#94a3b8;">Otoritas tertinggi pengelolaan aplikasi SIIP Multi-Sekolah</p>
+      </div>
+
+      <div class="fg">
+        <label for="saLoginUser" style="font-size:12.5px; font-weight:700;">Username Super Admin</label>
+        <input type="text" id="saLoginUser" placeholder="Ketik username super admin..." value="superadmin" autocomplete="username">
+      </div>
+
+      <div class="fg" style="margin-top:12px;">
+        <label for="saLoginPass" style="font-size:12.5px; font-weight:700;">Password Super Admin</label>
+        <div style="position:relative;">
+          <input type="password" id="saLoginPass" placeholder="Ketik password super admin..." autocomplete="current-password" style="padding-right:40px;">
+          <button type="button" class="btn-toggle-eye" onclick="toggleLihatPass('saLoginPass', this)">👁️</button>
+        </div>
+        <div class="hint" style="color:#eab308;">Default password awal: <b>superadmin2026</b></div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="tutupSuperAdminLogin()" style="flex:1;">Batal</button>
+        <button type="button" class="btn-superadmin" onclick="doSuperAdminLogin()" style="flex:2; justify-content:center;">
+          <span>🛡️ Masuk Super Admin</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL TAMBAH SEKOLAH ================= -->
+  <div id="modalTambahSekolah" class="modal hidden" style="align-items:center; justify-content:center; display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:16px;">
+    <div class="modal-box" style="max-width:540px; width:100%; border:1px solid rgba(56, 189, 248, 0.4); max-height:90vh; overflow-y:auto; background:#0f172a; border-radius:18px;">
+      <h3 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:#38bdf8;">+ Tambah Sekolah Baru</h3>
+      <p style="margin:0 0 16px 0; font-size:12px; color:#94a3b8;">Daftarkan sekolah baru ke dalam sistem SIIP Multi-Sekolah.</p>
+
+      <div class="form-grid">
+        <div class="fg-full">
+          <label for="tbhNamaSekolah">Nama Lengkap Sekolah *</label>
+          <input type="text" id="tbhNamaSekolah" placeholder="Contoh: SMA Negeri 2 Magelang">
+        </div>
+        <div>
+          <label for="tbhNpsnSekolah">NPSN / Kode Sekolah *</label>
+          <input type="text" id="tbhNpsnSekolah" placeholder="Contoh: 20329999">
+        </div>
+        <div>
+          <label for="tbhJenjangSekolah">Jenjang Pendidikan</label>
+          <select id="tbhJenjangSekolah">
+            <option value="SD">SD / MI</option>
+            <option value="SMP">SMP / MTs</option>
+            <option value="SMA">SMA / MA</option>
+            <option value="SMK" selected>SMK</option>
+          </select>
+        </div>
+        <div class="fg-full">
+          <label for="tbhAlamatSekolah">Alamat / Wilayah</label>
+          <input type="text" id="tbhAlamatSekolah" placeholder="Contoh: Jl. Diponegoro No. 10, Magelang">
+        </div>
+        <div>
+          <label for="tbhAdminUser">Username Admin Sekolah *</label>
+          <input type="text" id="tbhAdminUser" placeholder="Contoh: admin_sman2">
+        </div>
+        <div>
+          <label for="tbhAdminPass">Password Admin Sekolah *</label>
+          <input type="text" id="tbhAdminPass" value="123">
+        </div>
+        <div>
+          <label for="tbhRadius">Radius Presensi (Meter)</label>
+          <input type="number" id="tbhRadius" value="150">
+        </div>
+        <div>
+          <label for="tbhWajibRadius">Wajib dalam Radius?</label>
+          <select id="tbhWajibRadius">
+            <option value="TIDAK" selected>TIDAK (Fleksibel)</option>
+            <option value="YA">YA (Ketat GPS)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="tutupModalTambahSekolah()">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="simpanSekolahBaru()">💾 Simpan Sekolah</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL EDIT SEKOLAH ================= -->
+  <div id="modalEditSekolah" class="modal hidden" style="align-items:center; justify-content:center; display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:16px;">
+    <div class="modal-box" style="max-width:540px; width:100%; border:1px solid rgba(245, 158, 11, 0.4); max-height:90vh; overflow-y:auto; background:#0f172a; border-radius:18px;">
+      <h3 style="margin:0 0 6px 0; font-size:18px; font-weight:800; color:#fbbf24;">✏️ Edit Data Sekolah</h3>
+      <p style="margin:0 0 16px 0; font-size:12px; color:#94a3b8;">Ubah informasi sekolah, status, dan reset password admin.</p>
+      <input type="hidden" id="edtIdSekolah">
+
+      <div class="form-grid">
+        <div class="fg-full">
+          <label for="edtNamaSekolah">Nama Lengkap Sekolah *</label>
+          <input type="text" id="edtNamaSekolah">
+        </div>
+        <div>
+          <label for="edtNpsnSekolah">NPSN / Kode Sekolah *</label>
+          <input type="text" id="edtNpsnSekolah">
+        </div>
+        <div>
+          <label for="edtJenjangSekolah">Jenjang Pendidikan</label>
+          <select id="edtJenjangSekolah">
+            <option value="SD">SD / MI</option>
+            <option value="SMP">SMP / MTs</option>
+            <option value="SMA">SMA / MA</option>
+            <option value="SMK">SMK</option>
+          </select>
+        </div>
+        <div class="fg-full">
+          <label for="edtAlamatSekolah">Alamat / Wilayah</label>
+          <input type="text" id="edtAlamatSekolah">
+        </div>
+        <div>
+          <label for="edtAdminUser">Username Admin Sekolah *</label>
+          <input type="text" id="edtAdminUser">
+        </div>
+        <div>
+          <label for="edtAdminPass">Password Admin Sekolah</label>
+          <input type="text" id="edtAdminPass">
+        </div>
+        <div>
+          <label for="edtStatusSekolah">Status Sekolah</label>
+          <select id="edtStatusSekolah">
+            <option value="Aktif">Aktif</option>
+            <option value="Nonaktif">Nonaktif (Dibekukan)</option>
+          </select>
+        </div>
+        <div>
+          <label for="edtRadius">Radius Meter</label>
+          <input type="number" id="edtRadius">
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="tutupModalEditSekolah()">Batal</button>
+        <button type="button" class="btn btn-primary" onclick="simpanPerubahanSekolah()">💾 Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>

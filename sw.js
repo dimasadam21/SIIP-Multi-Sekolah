@@ -1,5 +1,5 @@
-// Service Worker untuk S I I P - Sistem Informasi Ibadah Pelajar (PWA / WebAPK)
-const CACHE_NAME = 'siip-pwa-v27';
+// Service Worker untuk S I I P Multi-Sekolah - Sistem Informasi Ibadah Pelajar
+const CACHE_NAME = 'siip-multi-sekolah-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -15,9 +15,7 @@ const ASSETS_TO_CACHE = [
   './favicon.png',
   './logo-smkn1.png',
   './logo-gpai.png',
-  './logo-banner.png',
-  './mascot-ipin.png',
-  './suara-si-ipin.mp3'
+  './logo-banner.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -48,7 +46,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== location.origin) return;
 
-  // Network-First untuk dokumen HTML & file JS agar pembaruan konfigurasi selalu seketika (realtime)
+  // Network-First untuk dokumen HTML & file JS agar pembaruan data selalu realtime
   const isNetworkFirst = event.request.mode === 'navigate' ||
                          url.pathname === '/' ||
                          url.pathname.endsWith('.html') ||
