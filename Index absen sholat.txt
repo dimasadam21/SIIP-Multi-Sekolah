@@ -6695,7 +6695,8 @@
               <label for="setSuaraMaskot" style="font-weight:700;">🎙️ Pilihan Karakter Suara</label>
               <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
                 <select id="setSuaraMaskot" style="flex:1; min-width:260px;" onchange="updateDeskripsiSuara()">
-                  <option value="ipin" selected>🤖 SI IPIN (Robot Ceria & Cerdas) — Default Resmi</option>
+                  <option value="ipin" selected>🤖 SI IPIN (Robot Ceria & Cerdas) — Suara Asli Resmi</option>
+                  <option value="robot_energik">⚡ Robot Laki-laki Energik (Lucu & Khas Sopan) — Rekomendasi Karakter Baru</option>
                   <option value="ustadz">👳‍♂️ Ustaz (Pria Natural & Berwibawa) — Hangat & Santun</option>
                   <option value="ustadzah">🧕 Ustazah (Wanita Lembut & Sejuk) — Ramah & Teduh</option>
                   <option value="santri_putra">👦 Santri Putra (Remaja Ceria) — Energik & Bersemangat</option>
@@ -6708,6 +6709,30 @@
               </div>
               <div class="hint" id="hintDeskripsiSuara" style="margin-top:6px; color:#0369a1; font-weight:600;">
                 ℹ️ <b>Karakter (Maskot Resmi):</b> Suara asli maskot SI IPIN yang ceria, ramah, dan bersahabat.
+              </div>
+            </div>
+
+            <!-- FITUR BARU: DURASI & KECEPATAN BERBICARA MASKOT -->
+            <div class="fg-full" style="background:rgba(2, 132, 199, 0.06); padding:12px 14px; border-radius:12px; border:1px solid rgba(56, 189, 248, 0.25);">
+              <label for="setKecepatanSuaraMaskot" style="font-weight:700; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span>⚡ Kecepatan Berbicara Maskot (Durasi & Tempo Suara)</span>
+                <span id="badgeKecepatanSuara" style="background:#e0f2fe; color:#0369a1; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:800; border:1px solid rgba(2, 132, 199, 0.2);">1.0x (Normal)</span>
+              </label>
+              <div style="display:flex; align-items:center; gap:12px; margin-top:8px;">
+                <span style="font-size:11.5px; font-weight:700; color:#64748b;">🐢 0.75x (Lambat)</span>
+                <input type="range" id="setKecepatanSuaraMaskot" min="0.75" max="1.35" step="0.05" value="1.0"
+                  style="flex:1; cursor:pointer;" oninput="updateTampilanKecepatanSuara(this.value)">
+                <span style="font-size:11.5px; font-weight:700; color:#64748b;">🚀 1.35x (Cepat/Energik)</span>
+              </div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
+                <button type="button" class="btn btn-outline btn-xs" onclick="setPresetKecepatan(0.85)" style="font-size:11px; padding:3px 8px;">🐢 Santai (0.85x)</button>
+                <button type="button" class="btn btn-outline btn-xs" onclick="setPresetKecepatan(0.95)" style="font-size:11px; padding:3px 8px;">🕊️ Tenang (0.95x)</button>
+                <button type="button" class="btn btn-outline btn-xs" onclick="setPresetKecepatan(1.0)" style="font-size:11px; padding:3px 8px; font-weight:700; border-color:#0284c7; color:#0284c7;">⭐ Normal (1.0x)</button>
+                <button type="button" class="btn btn-outline btn-xs" onclick="setPresetKecepatan(1.15)" style="font-size:11px; padding:3px 8px;">⚡ Energik (1.15x)</button>
+                <button type="button" class="btn btn-outline btn-xs" onclick="setPresetKecepatan(1.25)" style="font-size:11px; padding:3px 8px;">🚀 Lincah (1.25x)</button>
+              </div>
+              <div class="hint" style="margin-top:6px;">
+                💡 <b>Tips:</b> Mengatur cepat/lambatnya maskot berbicara. Perubahan kecepatan langsung dapat Anda dengar saat menekan tombol <b>Dengar Contoh Suara</b> di atas.
               </div>
             </div>
 
@@ -9984,7 +10009,8 @@
           suaraMaskot: pengMap.suara_maskot || 'ipin',
           statusSuaraMaskot: pengMap.status_suara_maskot || 'aktif',
           autoPlaySuara: pengMap.auto_play_suara || 'ya',
-          teksSalamMaskot: pengMap.teks_salam_maskot || ''
+          teksSalamMaskot: pengMap.teks_salam_maskot || '',
+          kecepatanSuaraMaskot: pengMap.kecepatan_suara_maskot || '1.0'
         };
       },
 
@@ -11221,6 +11247,8 @@
         else hint.textContent = 'Pesan hanya dikirimkan khusus ke daftar nomor HP atau NIS yang tertulis di bawah.';
       }
       if (m === 'kelas') renderWaKelasCheckboxes();
+        updateDeskripsiSuara();
+        if ($('setKecepatanSuaraMaskot')) updateTampilanKecepatanSuara($('setKecepatanSuaraMaskot').value);
     }
 
     function renderWaKelasCheckboxes() {
@@ -12836,6 +12864,7 @@
       status_suara_maskot: 'setStatusSuaraMaskot',
       auto_play_suara: 'setAutoPlaySuara',
       teks_salam_maskot: 'setTeksSalamMaskot',
+      kecepatan_suara_maskot: 'setKecepatanSuaraMaskot',
       wa_target_kelas: 'setWaTargetKelas',
       wa_target_nomor: 'setWaTargetNomor',
       pesan_sukses: 'setPesanSukses',
@@ -16121,6 +16150,8 @@
     var SIIPIN_AUTOPLAY = 'ya';
     var SIIPIN_ADMIN_PREVIEW_PLAYING = false;
 
+    var SIIPIN_VOICE_SPEED = 1.0;
+
     var VOICE_PRESETS = {
       ipin: {
         id: 'ipin',
@@ -16132,6 +16163,17 @@
         ttsPitch: 1.18,
         ttsRate: 1.0,
         preferGender: 'any'
+      },
+      robot_energik: {
+        id: 'robot_energik',
+        nama: 'Robot Cowok Energik (Lucu & Khas Sopan)',
+        kategori: 'Robot Santri Ceria',
+        deskripsi: 'Suara robot santri laki-laki yang energik, lincah, lucu, ramah, dan berkarakter khas santun mengajak ibadah.',
+        detune: 50,
+        rate: 1.08,
+        ttsPitch: 1.18,
+        ttsRate: 1.08,
+        preferGender: 'male'
       },
       ustadz: {
         id: 'ustadz',
@@ -16212,6 +16254,8 @@
         if (savedStatus) SIIPIN_VOICE_STATUS = savedStatus;
         var savedText = klonStorage.getItem('siipin_teks_salam');
         if (savedText && savedText.trim()) SIIPIN_CURRENT_TEXT = savedText.trim();
+        var savedSpeed = klonStorage.getItem('siipin_kecepatan_suara');
+        if (savedSpeed) SIIPIN_VOICE_SPEED = parseFloat(savedSpeed) || 1.0;
       } catch (e) { }
 
       // Muat & decode buffer suara asli untuk Web Audio API pitch-shifter
@@ -16312,9 +16356,16 @@
       var preset = VOICE_PRESETS[voiceKey] || VOICE_PRESETS['ipin'];
       var ctx = getAudioContextSafe();
 
+      var currentSpd = parseFloat(SIIPIN_VOICE_SPEED) || 1.0;
+      if (currentSpd < 0.6) currentSpd = 0.6;
+      if (currentSpd > 1.8) currentSpd = 1.8;
+
       // 1. Jika preset adalah SI IPIN (default), gunakan file audio MP3 langsung untuk performa instan
       if (preset.id === 'ipin' && SIIPIN_AUDIO) {
-        try { SIIPIN_AUDIO.currentTime = 0; } catch (e) { }
+        try { 
+          SIIPIN_AUDIO.currentTime = 0; 
+          SIIPIN_AUDIO.playbackRate = currentSpd;
+        } catch (e) { }
         var p = SIIPIN_AUDIO.play();
         if (p !== undefined) {
           p.then(function () {
@@ -16327,7 +16378,7 @@
         }
       }
 
-      // 2. Jika preset menggunakan Web Audio Buffer (Ustaz, Ustazah, Santri), gunakan Web Audio pitch & formant shifter
+      // 2. Jika preset menggunakan Web Audio Buffer (Ustaz, Ustazah, Santri, Robot Energik), gunakan Web Audio pitch & formant shifter
       if (preset.id !== 'natural_browser' && ctx && SIIPIN_DECODED_BUF) {
         try {
           var src = ctx.createBufferSource();
@@ -16337,7 +16388,9 @@
             src.detune.value = preset.detune;
           }
           if (preset.rate) {
-            src.playbackRate.value = preset.rate;
+            src.playbackRate.value = preset.rate * currentSpd;
+          } else {
+            src.playbackRate.value = currentSpd;
           }
 
           var targetNode = ctx.destination;
@@ -16357,6 +16410,22 @@
             f.gain.value = 3.5;
             src.connect(f);
             f.connect(targetNode);
+          } else if (preset.id === 'robot_energik') {
+            // Filter karakter robot santri laki-laki yang energik, lucu, dan khas sopan
+            var fRobot = ctx.createBiquadFilter();
+            fRobot.type = 'peaking';
+            fRobot.frequency.value = 1680; // Resonansi formant robotik ceria
+            fRobot.Q.value = 4.2;
+            fRobot.gain.value = 7.5;
+
+            var fPresence = ctx.createBiquadFilter();
+            fPresence.type = 'highshelf';
+            fPresence.frequency.value = 3200;
+            fPresence.gain.value = 3.5; // Kejernihan vokal santun
+
+            src.connect(fRobot);
+            fRobot.connect(fPresence);
+            fPresence.connect(targetNode);
           } else {
             src.connect(targetNode);
           }
@@ -16391,7 +16460,10 @@
       var utter = new SpeechSynthesisUtterance(text);
       utter.lang = 'id-ID';
       utter.pitch = preset.ttsPitch || 1.0;
-      utter.rate = preset.ttsRate || 0.98;
+      var curSpd = parseFloat(SIIPIN_VOICE_SPEED) || 1.0;
+      if (curSpd < 0.6) curSpd = 0.6;
+      if (curSpd > 1.8) curSpd = 1.8;
+      utter.rate = (preset.ttsRate || 0.98) * curSpd;
 
       var voices = window.speechSynthesis.getVoices();
       var idVoices = voices.filter(function (v) {
@@ -16439,10 +16511,38 @@
       hint.innerHTML = 'ℹ️ <b>Karakter (' + esc(preset.kategori) + '):</b> ' + esc(preset.deskripsi);
     }
 
+    function updateTampilanKecepatanSuara(val) {
+      var num = parseFloat(val) || 1.0;
+      var badge = $('badgeKecepatanSuara');
+      if (badge) {
+        var desc = 'Normal';
+        if (num <= 0.8) desc = 'Sangat Santai';
+        else if (num < 0.95) desc = 'Santai';
+        else if (num >= 0.95 && num <= 1.05) desc = 'Normal';
+        else if (num <= 1.2) desc = 'Energik';
+        else desc = 'Sangat Cepat & Lincah';
+        badge.textContent = num.toFixed(2).replace(/\.00$/, '') + 'x (' + desc + ')';
+      }
+      SIIPIN_VOICE_SPEED = num;
+    }
+
+    function setPresetKecepatan(val) {
+      var slider = $('setKecepatanSuaraMaskot');
+      if (slider) {
+        slider.value = val;
+        updateTampilanKecepatanSuara(val);
+      }
+    }
+
     function pratinjauSuaraAdmin() {
       var sel = $('setSuaraMaskot');
       if (!sel) return;
       var voiceKey = sel.value;
+
+      var slider = $('setKecepatanSuaraMaskot');
+      if (slider) {
+        SIIPIN_VOICE_SPEED = parseFloat(slider.value) || 1.0;
+      }
 
       if (SIIPIN_ADMIN_PREVIEW_PLAYING) {
         hentikanPratinjauSuaraAdmin();
@@ -16486,18 +16586,21 @@
       var status = ($('setStatusSuaraMaskot') && $('setStatusSuaraMaskot').value) || 'aktif';
       var auto = ($('setAutoPlaySuara') && $('setAutoPlaySuara').value) || 'ya';
       var teks = ($('setTeksSalamMaskot') && $('setTeksSalamMaskot').value) || '';
+      var speed = ($('setKecepatanSuaraMaskot') && $('setKecepatanSuaraMaskot').value) || '1.0';
 
       var payload = {
         suara_maskot: voice,
         status_suara_maskot: status,
         auto_play_suara: auto,
-        teks_salam_maskot: teks
+        teks_salam_maskot: teks,
+        kecepatan_suara_maskot: speed
       };
 
       try {
         klonStorage.setItem('siipin_suara_pilihan', voice);
         klonStorage.setItem('siipin_status_suara', status);
         klonStorage.setItem('siipin_autoplay', auto);
+        klonStorage.setItem('siipin_kecepatan_suara', speed);
         if (teks.trim()) klonStorage.setItem('siipin_teks_salam', teks.trim());
         else klonStorage.removeItem('siipin_teks_salam');
       } catch (e) { }
@@ -16505,6 +16608,7 @@
       SIIPIN_ACTIVE_VOICE = voice;
       SIIPIN_VOICE_STATUS = status;
       SIIPIN_AUTOPLAY = auto;
+      SIIPIN_VOICE_SPEED = parseFloat(speed) || 1.0;
       SIIPIN_CURRENT_TEXT = (teks && teks.trim()) ? teks.trim() : SIIPIN_DEFAULT_TEXT;
       perbaruiTampilanSubtitleLogin();
 
@@ -16539,6 +16643,13 @@
           else klonStorage.removeItem('siipin_teks_salam');
         } catch (e) { }
         if ($('setTeksSalamMaskot')) $('setTeksSalamMaskot').value = res.teksSalamMaskot;
+      }
+      if (res.kecepatanSuaraMaskot) {
+        var spd = parseFloat(res.kecepatanSuaraMaskot) || 1.0;
+        SIIPIN_VOICE_SPEED = spd;
+        try { klonStorage.setItem('siipin_kecepatan_suara', String(spd)); } catch (e) { }
+        if ($('setKecepatanSuaraMaskot')) $('setKecepatanSuaraMaskot').value = spd;
+        updateTampilanKecepatanSuara(spd);
       }
       perbaruiTampilanSubtitleLogin();
       updateDeskripsiSuara();
