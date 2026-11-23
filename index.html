@@ -5153,17 +5153,21 @@
       width: 100%;
     }
 
-    /* Di layar Desktop & Tablet (>= 768px): Tampilan Berdampingan (Side-by-Side Sesuai Kotak Merah) */
-    @media (min-width: 768px) {
+    .login-col-spacer {
+      display: none;
+    }
+
+    /* Di layar Tablet sedang (768px - 879px): Tampilan Berdampingan Proporsional */
+    @media (min-width: 768px) and (max-width: 879px) {
       .login-wrap {
-        max-width: 880px;
-        padding: 18px 24px 60px;
+        max-width: 760px;
+        padding: 16px 20px 50px;
       }
 
       .login-layout-grid {
         display: grid;
-        grid-template-columns: 340px 1fr;
-        gap: 32px;
+        grid-template-columns: 270px 1fr;
+        gap: 20px;
         align-items: start;
       }
 
@@ -5175,15 +5179,71 @@
       .login-col-form .card {
         margin-top: 0 !important;
       }
+
+      .login-col-spacer {
+        display: none !important;
+      }
     }
 
-    @media (min-width: 1024px) {
+    /* Di layar Desktop & Layar Lebar (>= 880px): Sesuai Kotak & Lingkaran Merah User */
+    /* Form Login Presisi di Tengah Layar (Kotak Merah), Maskot SI IPIN di Kiri (Lingkaran Merah) */
+    @media (min-width: 880px) {
       .login-wrap {
-        max-width: 940px;
+        max-width: 1240px;
+        padding: 18px 24px 60px;
       }
+
       .login-layout-grid {
-        grid-template-columns: 360px 1fr;
-        gap: 40px;
+        display: grid;
+        grid-template-columns: 1fr minmax(380px, 440px) 1fr;
+        gap: 28px;
+        align-items: start;
+      }
+
+      .login-col-mascot {
+        width: 100%;
+        max-width: 320px;
+        justify-self: end; /* Ditempatkan di sisi kiri (lingkaran merah user) */
+        position: sticky;
+        top: 20px;
+      }
+
+      .login-col-form {
+        width: 100%;
+        max-width: 440px;
+        justify-self: center; /* Presisi di tengah layar (kotak merah user) di bawah logo */
+      }
+
+      .login-col-form .card {
+        margin-top: 0 !important;
+      }
+
+      .login-col-spacer {
+        display: block !important;
+        width: 100%;
+        max-width: 320px;
+        justify-self: start;
+        pointer-events: none;
+        visibility: hidden;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .login-wrap {
+        max-width: 1320px;
+      }
+
+      .login-layout-grid {
+        grid-template-columns: 1fr 440px 1fr;
+        gap: 36px;
+      }
+
+      .login-col-mascot {
+        max-width: 340px;
+      }
+
+      .login-col-spacer {
+        max-width: 340px;
       }
     }
 
@@ -5434,6 +5494,7 @@
       justify-content: center;
       gap: 8px;
       margin-top: 4px;
+      flex-wrap: wrap;
     }
 
     .mascot-audio-btn {
@@ -5840,6 +5901,9 @@
           <button type="button" id="btnPanelMasukAdmin" class="btn btn-outline btn-block-mt" onclick="bukaAdminLogin()">⚙️
             Panel Masuk Admin</button>
         </div>
+
+        <!-- KOLOM KANAN: PENYEIMBANG RUANG PRESISI AGAR FORM LOGIN TEPAT DI TENGAH LAYAR -->
+        <div class="login-col-spacer" aria-hidden="true"></div>
       </div>
       <div class="foot">&copy; S I I P - Sistem Informasi Ibadah Pelajar</div>
     </div>
