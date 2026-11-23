@@ -6616,6 +6616,69 @@
           </div>
         </div>
 
+        <!-- PENGATURAN SUARA MASKOT SI IPIN (PILIHAN SUARA NATURAL) -->
+        <div class="card set-card" style="border: 2px solid #0284c7; background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 120px);">
+          <div class="set-head">
+            <span class="set-ic" style="background:#e0f2fe; color:#0284c7;">🔊</span>
+            <div>
+              <div class="set-t">Pengaturan Karakter Suara Maskot SI IPIN</div>
+              <div class="set-d">Pilih karakter suara alami yang menyapa siswa di halaman awal login. Tersedia pilihan suara pria (Ustaz), wanita (Ustazah), santri, dan suara asli SI IPIN. Anda dapat mendengarkan contohnya secara langsung sebelum menyimpan.</div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="fg-full">
+              <label for="setSuaraMaskot" style="font-weight:700;">🎙️ Pilihan Karakter Suara</label>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                <select id="setSuaraMaskot" style="flex:1; min-width:260px;" onchange="updateDeskripsiSuara()">
+                  <option value="ipin" selected>🤖 SI IPIN (Robot Ceria & Cerdas) — Default Resmi</option>
+                  <option value="ustadz">👳‍♂️ Ustaz (Pria Natural & Berwibawa) — Hangat & Santun</option>
+                  <option value="ustadzah">🧕 Ustazah (Wanita Lembut & Sejuk) — Ramah & Teduh</option>
+                  <option value="santri_putra">👦 Santri Putra (Remaja Ceria) — Energik & Bersemangat</option>
+                  <option value="santri_putri">👧 Santri Putri (Remaja Santun) — Sopan, Jernih & Merdu</option>
+                  <option value="natural_browser">🌐 Suara Alami AI Perangkat (Neural Browser TTS)</option>
+                </select>
+                <button type="button" class="btn btn-outline btn-sm" id="btnPreviewSuaraAdmin" onclick="pratinjauSuaraAdmin()" style="flex:0 0 auto; padding:9px 16px; border-color:#0284c7; color:#0284c7; font-weight:700;">
+                  <span id="icPreviewAdmin">▶️</span> <span id="lblPreviewAdmin">Dengar Contoh Suara</span>
+                </button>
+              </div>
+              <div class="hint" id="hintDeskripsiSuara" style="margin-top:6px; color:#0369a1; font-weight:600;">
+                ℹ️ <b>Karakter (Maskot Resmi):</b> Suara asli maskot SI IPIN yang ceria, ramah, dan bersahabat.
+              </div>
+            </div>
+
+            <div>
+              <label for="setStatusSuaraMaskot">🔔 Status Fitur Suara</label>
+              <select id="setStatusSuaraMaskot">
+                <option value="aktif" selected>🔊 Aktif (Bersuara & Ada Subtitle)</option>
+                <option value="bisu">🔇 Bisu (Hanya Subtitle & Maskot Bergerak, Tanpa Suara)</option>
+              </select>
+              <div class="hint">Jika disetel bisu, maskot tetap bergerak namun tombol suara dinonaktifkan.</div>
+            </div>
+
+            <div>
+              <label for="setAutoPlaySuara">✨ Putar Otomatis saat Layar Disentuh</label>
+              <select id="setAutoPlaySuara">
+                <option value="ya" selected>Ya (Sapa otomatis saat pertama kali layar disentuh)</option>
+                <option value="tidak">Tidak (Hanya bersuara jika tombol speaker / maskot diklik)</option>
+              </select>
+              <div class="hint">Kebijakan browser memerlukan sentuhan pertama pengguna sebelum audio dapat diputar.</div>
+            </div>
+
+            <div class="fg-full">
+              <label for="setTeksSalamMaskot">💬 Teks Kalimat Ucapan Salam (Subtitle & Narasi)</label>
+              <textarea id="setTeksSalamMaskot" rows="2" placeholder="Assalamu’alaikum! Aku SI IPIN. Yuk, jangan lupa presensi sholat hari ini dan belajar bersama"></textarea>
+              <div class="hint">Kosongkan untuk menggunakan kalimat salam standar bawaan SI IPIN.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border); display:flex; justify-content:flex-end;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="simpanPengaturanSuaraCepat()" style="width:auto; padding:8px 18px;">
+              💾 Simpan Pengaturan Suara Saja
+            </button>
+          </div>
+        </div>
+
         <!-- Identitas & Geofence -->
         <div class="card set-card">
           <div class="set-head"><span class="set-ic">🏫</span>
@@ -9853,7 +9916,11 @@
           sholatSaatIni: sholatNow,
           daftarSholatAktif: aktifList,
           wajibDalamRadius: pengMap.wajib_dalam_radius || 'TIDAK',
-          adminPass: pengMap.admin_pass || klonStorage.getItem('admin_active_pass') || '123'
+          adminPass: pengMap.admin_pass || klonStorage.getItem('admin_active_pass') || '123',
+          suaraMaskot: pengMap.suara_maskot || 'ipin',
+          statusSuaraMaskot: pengMap.status_suara_maskot || 'aktif',
+          autoPlaySuara: pengMap.auto_play_suara || 'ya',
+          teksSalamMaskot: pengMap.teks_salam_maskot || ''
         };
       },
 
@@ -11431,6 +11498,7 @@
         try { klonStorage.setItem('admin_active_pass', res.adminPass); } catch (e) { }
         updateAdminPassHintUI(res.adminPass);
       }
+      terapkanPengaturanSuaraUI(res);
     }
 
     function muatDaftarSiswaJikaPerlu(skipJikaSudahLogin) {
@@ -12669,6 +12737,11 @@
               updateWaHpCount();
               renderWaKelasCheckboxes();
               initFormImportPresensi();
+        if (PENGATURAN && PENGATURAN.suara_maskot && $('setSuaraMaskot')) $('setSuaraMaskot').value = PENGATURAN.suara_maskot;
+        if (PENGATURAN && PENGATURAN.status_suara_maskot && $('setStatusSuaraMaskot')) $('setStatusSuaraMaskot').value = PENGATURAN.status_suara_maskot;
+        if (PENGATURAN && PENGATURAN.auto_play_suara && $('setAutoPlaySuara')) $('setAutoPlaySuara').value = PENGATURAN.auto_play_suara;
+        if (PENGATURAN && PENGATURAN.teks_salam_maskot && $('setTeksSalamMaskot')) $('setTeksSalamMaskot').value = PENGATURAN.teks_salam_maskot;
+        updateDeskripsiSuara();
             }
           }).getSemuaSiswa(ADMIN_TOKEN);
         } else {
@@ -12695,6 +12768,10 @@
       wa_max_kirim: 'setWaMaxKirim',
       wa_template_pesan: 'setWaTemplatePesan',
       wa_target_mode: 'setWaTargetMode',
+      suara_maskot: 'setSuaraMaskot',
+      status_suara_maskot: 'setStatusSuaraMaskot',
+      auto_play_suara: 'setAutoPlaySuara',
+      teks_salam_maskot: 'setTeksSalamMaskot',
       wa_target_kelas: 'setWaTargetKelas',
       wa_target_nomor: 'setWaTargetNomor',
       pesan_sukses: 'setPesanSukses',
@@ -15967,31 +16044,141 @@
       updatePwaStatusUI();
     });
   
-    // ================= SISTEM MASKOT SI IPIN (ANIMASI, SUARA & SUBTITLE) =================
+    // ================= SISTEM MASKOT SI IPIN (MULTI-SUARA NATURAL & PENGATURAN ADMIN) =================
     var SIIPIN_AUDIO = null;
     var SIIPIN_IS_PLAYING = false;
-    var SIIPIN_TEXT = "Assalamu’alaikum! Aku SI IPIN. Yuk, jangan lupa presensi sholat hari ini dan belajar bersama.";
+    var SIIPIN_AUDIO_CTX = null;
+    var SIIPIN_DECODED_BUF = null;
+    var SIIPIN_ACTIVE_SRC = null;
+    var SIIPIN_DEFAULT_TEXT = "Assalamu’alaikum! Aku SI IPIN. Yuk, jangan lupa presensi sholat hari ini dan belajar bersama.";
+    var SIIPIN_CURRENT_TEXT = SIIPIN_DEFAULT_TEXT;
+    var SIIPIN_ACTIVE_VOICE = 'ipin';
+    var SIIPIN_VOICE_STATUS = 'aktif';
+    var SIIPIN_AUTOPLAY = 'ya';
+    var SIIPIN_ADMIN_PREVIEW_PLAYING = false;
+
+    var VOICE_PRESETS = {
+      ipin: {
+        id: 'ipin',
+        nama: 'SI IPIN (Robot Ceria & Cerdas)',
+        kategori: 'Maskot Resmi SIIP',
+        deskripsi: 'Suara asli maskot SI IPIN yang ceria, ramah, dan bersahabat.',
+        detune: 0,
+        rate: 1.0,
+        ttsPitch: 1.18,
+        ttsRate: 1.0,
+        preferGender: 'any'
+      },
+      ustadz: {
+        id: 'ustadz',
+        nama: 'Ustaz (Pria Natural & Berwibawa)',
+        kategori: 'Dewasa Pria (Bariton Hangat)',
+        deskripsi: 'Suara pria dewasa yang hangat, tenang, santun, dan berwibawa khas guru agama.',
+        detune: -360,
+        rate: 0.94,
+        ttsPitch: 0.82,
+        ttsRate: 0.94,
+        preferGender: 'male'
+      },
+      ustadzah: {
+        id: 'ustadzah',
+        nama: 'Ustazah (Wanita Lembut & Sejuk)',
+        kategori: 'Dewasa Wanita (Sejuk & Santun)',
+        deskripsi: 'Suara wanita yang lembut, santun, sejuk, dan penuh keteduhan.',
+        detune: 250,
+        rate: 1.02,
+        ttsPitch: 1.15,
+        ttsRate: 0.98,
+        preferGender: 'female'
+      },
+      santri_putra: {
+        id: 'santri_putra',
+        nama: 'Santri Putra (Remaja Ceria)',
+        kategori: 'Remaja Laki-laki',
+        deskripsi: 'Suara santri putra yang ceria, energik, dan bersemangat mengajak ibadah.',
+        detune: 160,
+        rate: 1.05,
+        ttsPitch: 1.25,
+        ttsRate: 1.04,
+        preferGender: 'male'
+      },
+      santri_putri: {
+        id: 'santri_putri',
+        nama: 'Santri Putri (Remaja Santun)',
+        kategori: 'Remaja Perempuan',
+        deskripsi: 'Suara santri putri yang sopan, lembut, santun, dan jernih.',
+        detune: 360,
+        rate: 1.02,
+        ttsPitch: 1.35,
+        ttsRate: 1.0,
+        preferGender: 'female'
+      },
+      natural_browser: {
+        id: 'natural_browser',
+        nama: 'Suara Alami AI Perangkat (Neural Browser)',
+        kategori: 'AI Natural',
+        deskripsi: 'Menggunakan suara Neural / Natural AI Bahasa Indonesia terbaik bawaan browser/HP.',
+        detune: 0,
+        rate: 1.0,
+        ttsPitch: 1.0,
+        ttsRate: 0.96,
+        preferGender: 'any'
+      }
+    };
+
+    function getAudioContextSafe() {
+      if (!SIIPIN_AUDIO_CTX) {
+        var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          SIIPIN_AUDIO_CTX = new AudioContextClass();
+        }
+      }
+      if (SIIPIN_AUDIO_CTX && SIIPIN_AUDIO_CTX.state === 'suspended') {
+        SIIPIN_AUDIO_CTX.resume().catch(function () { });
+      }
+      return SIIPIN_AUDIO_CTX;
+    }
 
     function initSiIpinAudio() {
-      if (SIIPIN_AUDIO) return;
+      // Baca preferensi tersimpan di local storage jika ada
       try {
-        SIIPIN_AUDIO = new Audio('suara-si-ipin.mp3');
-        SIIPIN_AUDIO.preload = 'auto';
-        SIIPIN_AUDIO.addEventListener('play', function () {
-          setSiIpinPlayingState(true);
-        });
-        SIIPIN_AUDIO.addEventListener('ended', function () {
-          setSiIpinPlayingState(false);
-        });
-        SIIPIN_AUDIO.addEventListener('pause', function () {
-          setSiIpinPlayingState(false);
-        });
-        SIIPIN_AUDIO.addEventListener('error', function (err) {
-          console.warn('Audio mp3 note, falling back to Web Speech:', err);
-        });
-      } catch (e) {
-        console.warn('Init audio err:', e);
+        var savedVoice = klonStorage.getItem('siipin_suara_pilihan');
+        if (savedVoice && VOICE_PRESETS[savedVoice]) SIIPIN_ACTIVE_VOICE = savedVoice;
+        var savedStatus = klonStorage.getItem('siipin_status_suara');
+        if (savedStatus) SIIPIN_VOICE_STATUS = savedStatus;
+        var savedText = klonStorage.getItem('siipin_teks_salam');
+        if (savedText && savedText.trim()) SIIPIN_CURRENT_TEXT = savedText.trim();
+      } catch (e) { }
+
+      // Muat & decode buffer suara asli untuk Web Audio API pitch-shifter
+      if (!SIIPIN_DECODED_BUF) {
+        var ctx = getAudioContextSafe();
+        if (ctx) {
+          var req = new XMLHttpRequest();
+          req.open('GET', 'suara-si-ipin.mp3', true);
+          req.responseType = 'arraybuffer';
+          req.onload = function () {
+            if (req.status === 200 || (req.status === 0 && req.response)) {
+              ctx.decodeAudioData(req.response, function (decoded) {
+                SIIPIN_DECODED_BUF = decoded;
+              }, function () { });
+            }
+          };
+          req.onerror = function () { };
+          req.send();
+        }
       }
+
+      if (!SIIPIN_AUDIO) {
+        try {
+          SIIPIN_AUDIO = new Audio('suara-si-ipin.mp3');
+          SIIPIN_AUDIO.preload = 'auto';
+        } catch (e) { }
+      }
+    }
+
+    function getSalamMaskotText() {
+      return (SIIPIN_CURRENT_TEXT && SIIPIN_CURRENT_TEXT.trim()) ? SIIPIN_CURRENT_TEXT.trim() : SIIPIN_DEFAULT_TEXT;
     }
 
     function setSiIpinPlayingState(isPlaying) {
@@ -16010,6 +16197,10 @@
     }
 
     function hentikanSuaraIpin() {
+      if (SIIPIN_ACTIVE_SRC) {
+        try { SIIPIN_ACTIVE_SRC.stop(); } catch (e) { }
+        SIIPIN_ACTIVE_SRC = null;
+      }
       if (SIIPIN_AUDIO) {
         try {
           SIIPIN_AUDIO.pause();
@@ -16017,14 +16208,18 @@
         } catch (e) { }
       }
       if (window.speechSynthesis && window.speechSynthesis.speaking) {
-        try {
-          window.speechSynthesis.cancel();
-        } catch (e) { }
+        try { window.speechSynthesis.cancel(); } catch (e) { }
       }
       setSiIpinPlayingState(false);
+      hentikanPratinjauSuaraAdmin();
     }
 
     function putarSuaraIpin(forceRestart) {
+      if (SIIPIN_VOICE_STATUS === 'bisu') {
+        toast('Mode suara sedang dinonaktifkan di menu pengaturan.', 'info');
+        return;
+      }
+
       initSiIpinAudio();
 
       // Animasi keceriaan maskot saat diklik
@@ -16041,53 +16236,126 @@
         return;
       }
 
-      // Coba putar file audio MP3 resmi SI IPIN terlebih dahulu
-      if (SIIPIN_AUDIO) {
-        if (forceRestart) {
-          try { SIIPIN_AUDIO.currentTime = 0; } catch (e) { }
-        }
-        var playPromise = SIIPIN_AUDIO.play();
-        if (playPromise !== undefined) {
-          playPromise.then(function () {
-            setSiIpinPlayingState(true);
-          }).catch(function (err) {
-            console.warn('MP3 playback prevented or failed, using speech synthesis fallback:', err);
-            putarSuaraIpinSpeechSynthesis();
+      hentikanSuaraIpin();
+      putarKarakterSuara(SIIPIN_ACTIVE_VOICE, function () {
+        setSiIpinPlayingState(true);
+      }, function () {
+        setSiIpinPlayingState(false);
+      });
+    }
+
+    function putarKarakterSuara(voiceKey, onStart, onEnd) {
+      var preset = VOICE_PRESETS[voiceKey] || VOICE_PRESETS['ipin'];
+      var ctx = getAudioContextSafe();
+
+      // 1. Jika preset adalah SI IPIN (default), gunakan file audio MP3 langsung untuk performa instan
+      if (preset.id === 'ipin' && SIIPIN_AUDIO) {
+        try { SIIPIN_AUDIO.currentTime = 0; } catch (e) { }
+        var p = SIIPIN_AUDIO.play();
+        if (p !== undefined) {
+          p.then(function () {
+            if (onStart) onStart();
+            SIIPIN_AUDIO.onended = function () { if (onEnd) onEnd(); };
+          }).catch(function () {
+            putarSuaraDenganTTS(preset, onStart, onEnd);
           });
           return;
         }
       }
 
-      // Fallback: Web Speech API
-      putarSuaraIpinSpeechSynthesis();
+      // 2. Jika preset menggunakan Web Audio Buffer (Ustaz, Ustazah, Santri), gunakan Web Audio pitch & formant shifter
+      if (preset.id !== 'natural_browser' && ctx && SIIPIN_DECODED_BUF) {
+        try {
+          var src = ctx.createBufferSource();
+          src.buffer = SIIPIN_DECODED_BUF;
+
+          if (src.detune && preset.detune !== 0) {
+            src.detune.value = preset.detune;
+          }
+          if (preset.rate) {
+            src.playbackRate.value = preset.rate;
+          }
+
+          var targetNode = ctx.destination;
+          if (preset.id === 'ustadz') {
+            // Filter kehangatan nada bariton pria (Ustaz)
+            var f = ctx.createBiquadFilter();
+            f.type = 'lowshelf';
+            f.frequency.value = 350;
+            f.gain.value = 4.5;
+            src.connect(f);
+            f.connect(targetNode);
+          } else if (preset.id === 'ustadzah') {
+            // Filter kelembutan vokal wanita (Ustazah)
+            var f = ctx.createBiquadFilter();
+            f.type = 'peaking';
+            f.frequency.value = 2200;
+            f.gain.value = 3.5;
+            src.connect(f);
+            f.connect(targetNode);
+          } else {
+            src.connect(targetNode);
+          }
+
+          src.onended = function () {
+            SIIPIN_ACTIVE_SRC = null;
+            if (onEnd) onEnd();
+          };
+
+          SIIPIN_ACTIVE_SRC = src;
+          src.start(0);
+          if (onStart) onStart();
+          return;
+        } catch (e) {
+          console.warn('Web Audio playback note, using TTS fallback:', e);
+        }
+      }
+
+      // 3. Fallback: Gunakan SpeechSynthesis Engine dengan profil suara Bahasa Indonesia
+      putarSuaraDenganTTS(preset, onStart, onEnd);
     }
 
-    function putarSuaraIpinSpeechSynthesis() {
+    function putarSuaraDenganTTS(preset, onStart, onEnd) {
       if (!('speechSynthesis' in window)) {
-        toast('Assalamu’alaikum! Aku SI IPIN. Yuk, jangan lupa presensi sholat hari ini!', 'ok', 4000);
+        if (onEnd) onEnd();
+        toast('Audio tidak didukung di perangkat ini.', 'info');
         return;
       }
 
       window.speechSynthesis.cancel();
-      var utter = new SpeechSynthesisUtterance(SIIPIN_TEXT);
+      var text = getSalamMaskotText();
+      var utter = new SpeechSynthesisUtterance(text);
       utter.lang = 'id-ID';
-      utter.rate = 1.0;
-      utter.pitch = 1.18; // suara ramah & ceria
+      utter.pitch = preset.ttsPitch || 1.0;
+      utter.rate = preset.ttsRate || 0.98;
 
-      // Cari suara Bahasa Indonesia terbaik jika tersedia
       var voices = window.speechSynthesis.getVoices();
-      var idVoice = voices.find(function (v) { return v.lang && (v.lang.indexOf('id') === 0 || v.lang.indexOf('ID') === 0); });
-      if (idVoice) utter.voice = idVoice;
+      var idVoices = voices.filter(function (v) {
+        var l = (v.lang || '').toLowerCase();
+        return l.indexOf('id') === 0 || l.indexOf('in') === 0 || (v.name && v.name.toLowerCase().indexOf('indonesia') > -1);
+      });
 
-      utter.onstart = function () {
-        setSiIpinPlayingState(true);
-      };
-      utter.onend = function () {
-        setSiIpinPlayingState(false);
-      };
-      utter.onerror = function () {
-        setSiIpinPlayingState(false);
-      };
+      if (idVoices.length > 0) {
+        if (preset.preferGender === 'male') {
+          var male = idVoices.find(function (v) {
+            var n = v.name.toLowerCase();
+            return n.indexOf('male') > -1 || n.indexOf('ardi') > -1 || n.indexOf('pria') > -1;
+          });
+          utter.voice = male || idVoices[0];
+        } else if (preset.preferGender === 'female') {
+          var female = idVoices.find(function (v) {
+            var n = v.name.toLowerCase();
+            return n.indexOf('female') > -1 || n.indexOf('gadis') > -1 || n.indexOf('wanita') > -1 || n.indexOf('damayanti') > -1;
+          });
+          utter.voice = female || idVoices[0];
+        } else {
+          utter.voice = idVoices[0];
+        }
+      }
+
+      utter.onstart = function () { if (onStart) onStart(); };
+      utter.onend = function () { if (onEnd) onEnd(); };
+      utter.onerror = function () { if (onEnd) onEnd(); };
 
       window.speechSynthesis.speak(utter);
     }
@@ -16097,8 +16365,153 @@
       putarSuaraIpin(false);
     }
 
-    // Auto-trigger audio ramah pada interaksi pertama (sesuai kebijakan autoplay peramban)
+    // ---------- FITUR ADMIN: PRATINJAU SUARA & PENGATURAN ----------
+    function updateDeskripsiSuara() {
+      var sel = $('setSuaraMaskot');
+      var hint = $('hintDeskripsiSuara');
+      if (!sel || !hint) return;
+      var key = sel.value;
+      var preset = VOICE_PRESETS[key] || VOICE_PRESETS['ipin'];
+      hint.innerHTML = 'ℹ️ <b>Karakter (' + esc(preset.kategori) + '):</b> ' + esc(preset.deskripsi);
+    }
+
+    function pratinjauSuaraAdmin() {
+      var sel = $('setSuaraMaskot');
+      if (!sel) return;
+      var voiceKey = sel.value;
+
+      if (SIIPIN_ADMIN_PREVIEW_PLAYING) {
+        hentikanPratinjauSuaraAdmin();
+        return;
+      }
+
+      hentikanSuaraIpin();
+      initSiIpinAudio();
+
+      var btn = $('btnPreviewSuaraAdmin');
+      var ic = $('icPreviewAdmin');
+      var lbl = $('lblPreviewAdmin');
+      if (btn) btn.style.background = '#e0f2fe';
+      if (ic) ic.textContent = '⏹️';
+      if (lbl) lbl.textContent = 'Hentikan Contoh';
+      SIIPIN_ADMIN_PREVIEW_PLAYING = true;
+
+      putarKarakterSuara(voiceKey, function () {
+        SIIPIN_ADMIN_PREVIEW_PLAYING = true;
+      }, function () {
+        hentikanPratinjauSuaraAdmin();
+      });
+    }
+
+    function hentikanPratinjauSuaraAdmin() {
+      SIIPIN_ADMIN_PREVIEW_PLAYING = false;
+      var btn = $('btnPreviewSuaraAdmin');
+      var ic = $('icPreviewAdmin');
+      var lbl = $('lblPreviewAdmin');
+      if (btn) btn.style.background = 'transparent';
+      if (ic) ic.textContent = '▶️';
+      if (lbl) lbl.textContent = 'Dengar Contoh Suara';
+    }
+
+    function simpanPengaturanSuaraCepat() {
+      if (!ADMIN_TOKEN) {
+        toast('Sesi admin tidak valid.', 'err');
+        return;
+      }
+      var voice = ($('setSuaraMaskot') && $('setSuaraMaskot').value) || 'ipin';
+      var status = ($('setStatusSuaraMaskot') && $('setStatusSuaraMaskot').value) || 'aktif';
+      var auto = ($('setAutoPlaySuara') && $('setAutoPlaySuara').value) || 'ya';
+      var teks = ($('setTeksSalamMaskot') && $('setTeksSalamMaskot').value) || '';
+
+      var payload = {
+        suara_maskot: voice,
+        status_suara_maskot: status,
+        auto_play_suara: auto,
+        teks_salam_maskot: teks
+      };
+
+      try {
+        klonStorage.setItem('siipin_suara_pilihan', voice);
+        klonStorage.setItem('siipin_status_suara', status);
+        klonStorage.setItem('siipin_autoplay', auto);
+        if (teks.trim()) klonStorage.setItem('siipin_teks_salam', teks.trim());
+        else klonStorage.removeItem('siipin_teks_salam');
+      } catch (e) { }
+
+      SIIPIN_ACTIVE_VOICE = voice;
+      SIIPIN_VOICE_STATUS = status;
+      SIIPIN_AUTOPLAY = auto;
+      SIIPIN_CURRENT_TEXT = (teks && teks.trim()) ? teks.trim() : SIIPIN_DEFAULT_TEXT;
+      perbaruiTampilanSubtitleLogin();
+
+      gas().withSuccessHandler(function (res) {
+        toast('Pengaturan suara maskot berhasil disimpan!', 'ok');
+      }).withFailureHandler(function (err) {
+        toast('Tersimpan di peramban (Catatan server: ' + err.message + ')', 'ok');
+      }).simpanPengaturan(ADMIN_TOKEN, payload);
+    }
+
+    function terapkanPengaturanSuaraUI(res) {
+      if (!res) return;
+      if (res.suaraMaskot) {
+        SIIPIN_ACTIVE_VOICE = res.suaraMaskot;
+        try { klonStorage.setItem('siipin_suara_pilihan', res.suaraMaskot); } catch (e) { }
+        if ($('setSuaraMaskot')) $('setSuaraMaskot').value = res.suaraMaskot;
+      }
+      if (res.statusSuaraMaskot) {
+        SIIPIN_VOICE_STATUS = res.statusSuaraMaskot;
+        try { klonStorage.setItem('siipin_status_suara', res.statusSuaraMaskot); } catch (e) { }
+        if ($('setStatusSuaraMaskot')) $('setStatusSuaraMaskot').value = res.statusSuaraMaskot;
+      }
+      if (res.autoPlaySuara) {
+        SIIPIN_AUTOPLAY = res.autoPlaySuara;
+        try { klonStorage.setItem('siipin_autoplay', res.autoPlaySuara); } catch (e) { }
+        if ($('setAutoPlaySuara')) $('setAutoPlaySuara').value = res.autoPlaySuara;
+      }
+      if (res.teksSalamMaskot !== undefined) {
+        SIIPIN_CURRENT_TEXT = (res.teksSalamMaskot && res.teksSalamMaskot.trim()) ? res.teksSalamMaskot.trim() : SIIPIN_DEFAULT_TEXT;
+        try {
+          if (res.teksSalamMaskot && res.teksSalamMaskot.trim()) klonStorage.setItem('siipin_teks_salam', res.teksSalamMaskot.trim());
+          else klonStorage.removeItem('siipin_teks_salam');
+        } catch (e) { }
+        if ($('setTeksSalamMaskot')) $('setTeksSalamMaskot').value = res.teksSalamMaskot;
+      }
+      perbaruiTampilanSubtitleLogin();
+      updateDeskripsiSuara();
+    }
+
+    function perbaruiTampilanSubtitleLogin() {
+      var sub = $('mascotSubtitle');
+      if (!sub) return;
+      var txt = getSalamMaskotText();
+      // Render teks dengan sorotan warna cerah
+      if (txt === SIIPIN_DEFAULT_TEXT) {
+        sub.innerHTML = '&ldquo;Assalamu’alaikum! Aku <span class="highlight-ipin">SI IPIN</span>. Yuk, jangan lupa <span class="highlight-sholat">presensi sholat hari ini</span> dan <span class="highlight-belajar">belajar bersama</span>&rdquo;';
+      } else {
+        sub.innerHTML = '&ldquo;' + esc(txt) + '&rdquo;';
+      }
+
+      var btn = $('btnSuaraIpin');
+      if (btn) {
+        if (SIIPIN_VOICE_STATUS === 'bisu') {
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+          var lbl = $('labelAudioIpin');
+          if (lbl) lbl.textContent = 'Suara Dinonaktifkan';
+        } else {
+          btn.style.opacity = '1';
+          btn.style.cursor = 'pointer';
+          var lbl = $('labelAudioIpin');
+          if (lbl && !SIIPIN_IS_PLAYING) lbl.textContent = 'Dengarkan Suara';
+        }
+      }
+    }
+
+    // Auto-trigger audio ramah pada interaksi pertama (sesuai pengaturan autoplay admin & browser policy)
     function setupAutoGreetingIpin() {
+      initSiIpinAudio();
+      perbaruiTampilanSubtitleLogin();
+
       var hasGreeted = false;
       function handleFirstTouch() {
         if (hasGreeted) return;
@@ -16107,7 +16520,7 @@
         document.removeEventListener('touchstart', handleFirstTouch);
         var loginV = $('loginView');
         if (loginV && !loginV.classList.contains('hidden')) {
-          if (!SIIPIN_IS_PLAYING) {
+          if (SIIPIN_VOICE_STATUS === 'aktif' && SIIPIN_AUTOPLAY !== 'tidak' && !SIIPIN_IS_PLAYING) {
             putarSuaraIpin(false);
           }
         }
