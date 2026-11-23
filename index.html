@@ -5487,14 +5487,9 @@
       font-weight: 700;
     }
 
-    /* Tombol Aksi Suara */
+    /* Tombol Aksi Suara (Dihilangkan sesuai permintaan) */
     .mascot-audio-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 4px;
-      flex-wrap: wrap;
+      display: none !important;
     }
 
     .mascot-audio-btn {
@@ -5830,27 +5825,14 @@
               <div class="mascot-hint-badge">✨ Ketuk Aku!</div>
             </div>
 
-            <div class="mascot-speech-bubble" id="mascotBubble">
+            <div class="mascot-speech-bubble" id="mascotBubble" onclick="putarSuaraIpin(false)" style="cursor:pointer;" title="Ketuk SI IPIN atau teks untuk mendengarkan salam! 🔊">
               <div class="mascot-tag-row">
                 <span class="mascot-tag-badge">🤖 SI IPIN</span>
                 <span class="mascot-tag-title">Maskot Cerdas Presensi Ibadah</span>
               </div>
-              <p class="mascot-subtitle-text" id="mascotSubtitle">
+              <p class="mascot-subtitle-text" id="mascotSubtitle" style="margin-bottom:2px;">
                 &ldquo;Assalamu’alaikum! Aku <span class="highlight-ipin">SI IPIN</span>. Yuk, jangan lupa <span class="highlight-sholat">presensi sholat hari ini</span> dan <span class="highlight-belajar">belajar bersama</span>&rdquo;
               </p>
-              <div class="mascot-audio-row">
-                <button type="button" class="mascot-audio-btn" id="btnSuaraIpin" onclick="toggleSuaraIpin(event)">
-                  <span id="iconAudioIpin" class="audio-icon">🔊</span>
-                  <span id="labelAudioIpin">Dengarkan Suara</span>
-                  <span class="audio-waves hidden" id="audioWavesIpin">
-                    <span></span><span></span><span></span><span></span>
-                  </span>
-                </button>
-                <button type="button" class="mascot-replay-btn" id="btnReplayIpin" onclick="putarSuaraIpin(true); event.stopPropagation();" title="Putar ulang dari awal">
-                  <span>🔁</span>
-                  <span>Ulangi</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
