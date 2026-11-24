@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * AUTO GIT PUSH WATCHER - PRESENSI IBADAH KOMPLIT
+ * AUTO GIT PUSH WATCHER - S I I P MULTI-SEKOLAH & SUPER ADMIN
  * ==============================================================================
  * Skrip ini memantau perubahan berkas secara realtime di dalam folder ini.
  * Setiap kali Anda melakukan revisi, penambahan, atau pengeditan:

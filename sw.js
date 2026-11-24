@@ -1,5 +1,5 @@
 // Service Worker untuk S I I P Multi-Sekolah - Sistem Informasi Ibadah Pelajar
-const CACHE_NAME = 'siip-multi-sekolah-v2';
+const CACHE_NAME = 'siip-multi-sekolah-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

@@ -1,14 +1,15 @@
-param(
-    [string]$AppUrl = "https://presensi-ibadah-kloning.vercel.app",
-    [string]$PackageName = "com.siip.presensiibadah",
-    [string]$AppName = "S I I P",
-    [string]$OutputApkName = "SIIP_Presensi_Ibadah.apk"
+﻿param(
+    [string]$AppUrl = "https://siip-multi-sekolah.vercel.app",
+    [string]$PackageName = "com.siip.multisekolah",
+    [string]$AppName = "SIIP Multi-Sekolah",
+    [string]$OutputApkName = "SIIP_Multi_Sekolah.apk"
 )
 
 $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $PSScriptRoot
 $BuildDir = Join-Path $PSScriptRoot "output"
+$pkgPath = $PackageName.Replace('.', '\')
 $SdkDir = "C:\Users\admin\AppData\Local\Android\Sdk"
 $BuildToolsDir = Join-Path $SdkDir "build-tools\29.0.3"
 $AndroidJar = Join-Path $SdkDir "platforms\android-34\android.jar"
@@ -30,7 +31,7 @@ New-Item -ItemType Directory -Path "$BuildDir\res\mipmap-xhdpi" -Force | Out-Nul
 New-Item -ItemType Directory -Path "$BuildDir\res\mipmap-xxhdpi" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BuildDir\res\mipmap-xxxhdpi" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BuildDir\assets" -Force | Out-Null
-New-Item -ItemType Directory -Path "$BuildDir\src\com\siip\presensiibadah" -Force | Out-Null
+New-Item -ItemType Directory -Path "$BuildDir\src\$pkgPath" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BuildDir\gen" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BuildDir\bin" -Force | Out-Null
 New-Item -ItemType Directory -Path "$BuildDir\dex" -Force | Out-Null
@@ -142,8 +143,8 @@ Write-Utf8NoBom -path "$BuildDir\AndroidManifest.xml" -content @"
 "@
 
 # MainActivity.java
-Write-Utf8NoBom -path "$BuildDir\src\com\siip\presensiibadah\MainActivity.java" -content @"
-package com.siip.presensiibadah;
+Write-Utf8NoBom -path "$BuildDir\src\$pkgPath\MainActivity.java" -content @"
+package $PackageName;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -325,14 +326,14 @@ if ($LASTEXITCODE -ne 0) { throw "aapt2 link failed" }
 
 Write-Host "=== COMPILING JAVA SOURCE CODE WITH ECJ ==="
 $javaFiles = @(
-    "$BuildDir\gen\com\siip\presensiibadah\R.java",
-    "$BuildDir\src\com\siip\presensiibadah\MainActivity.java"
+    "$BuildDir\gen\$pkgPath\R.java",
+    "$BuildDir\src\$pkgPath\MainActivity.java"
 )
 & java -jar $EcjJar -7 -cp $AndroidJar $javaFiles -d "$BuildDir\bin"
 if ($LASTEXITCODE -ne 0) { throw "ECJ compilation failed" }
 
 Write-Host "=== CONVERTING BYTECODE TO DEX WITH D8 ==="
-$classFiles = Get-ChildItem -Path "$BuildDir\bin\com\siip\presensiibadah\*.class" | Select-Object -ExpandProperty FullName
+$classFiles = Get-ChildItem -Path "$BuildDir\bin\$pkgPath\*.class" | Select-Object -ExpandProperty FullName
 & java -cp $D8Jar com.android.tools.r8.D8 --output "$BuildDir\dex" --lib $AndroidJar $classFiles
 if ($LASTEXITCODE -ne 0) { throw "D8 dexing failed" }
 

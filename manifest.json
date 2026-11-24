@@ -1,8 +1,8 @@
 {
-  "id": "siip-presensi-ibadah",
-  "name": "S I I P - Sistem Informasi Ibadah Pelajar",
-  "short_name": "S I I P",
-  "description": "Aplikasi Presensi Sholat 5 Waktu & Dhuha Siswa terintegrasi Cloud Supabase, GPS Radius, dan Kamera Selfie",
+  "id": "siip-multi-sekolah",
+  "name": "S I I P Multi-Sekolah - Sistem Informasi Ibadah Pelajar",
+  "short_name": "SIIP Multi",
+  "description": "Aplikasi Presensi Ibadah Terpadu Multi-Sekolah & Super Admin Nasional",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

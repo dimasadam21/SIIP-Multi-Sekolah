@@ -17124,7 +17124,7 @@
     function initMultiSekolah() {
       // 1. Muat kredensial super admin tersimpan
       try {
-        var saCfg = localStorage.getItem('siip_superadmin_cfg');
+        var saCfg = klonStorage.getItem('superadmin_cfg');
         if (saCfg) {
           var p = JSON.parse(saCfg);
           if (p.username) SUPER_ADMIN_CONFIG.username = p.username;
@@ -17134,7 +17134,7 @@
 
       // 2. Muat daftar sekolah dari storage
       try {
-        var raw = localStorage.getItem('siip_daftar_sekolah_v1');
+        var raw = klonStorage.getItem('daftar_sekolah_v1');
         if (raw) {
           DAFTAR_SEKOLAH = JSON.parse(raw);
         }
@@ -17147,7 +17147,7 @@
 
       // 3. Muat preferensi sekolah terakhir
       try {
-        var lastId = localStorage.getItem('siip_sekolah_terpilih');
+        var lastId = klonStorage.getItem('sekolah_terpilih');
         if (lastId && findSekolahById(lastId)) {
           SEKOLAH_AKTIF_ID = lastId;
         }
@@ -17159,7 +17159,7 @@
 
     function simpanDaftarSekolahStorage() {
       try {
-        localStorage.setItem('siip_daftar_sekolah_v1', JSON.stringify(DAFTAR_SEKOLAH));
+        klonStorage.setItem('daftar_sekolah_v1', JSON.stringify(DAFTAR_SEKOLAH));
       } catch (e) { }
     }
 
@@ -17189,7 +17189,7 @@
       var s = findSekolahById(sekolahId);
       if (!s) return;
       SEKOLAH_AKTIF_ID = sekolahId;
-      try { localStorage.setItem('siip_sekolah_terpilih', sekolahId); } catch (e) { }
+      try { klonStorage.setItem('sekolah_terpilih', sekolahId); } catch (e) { }
       terapkanSekolahAktifKeUI();
       toast('Sekolah aktif dialihkan ke ' + s.nama, 'ok');
     }
@@ -17571,7 +17571,7 @@
       SUPER_ADMIN_CONFIG.username = u;
       SUPER_ADMIN_CONFIG.password = p;
       try {
-        localStorage.setItem('siip_superadmin_cfg', JSON.stringify(SUPER_ADMIN_CONFIG));
+        klonStorage.setItem('superadmin_cfg', JSON.stringify(SUPER_ADMIN_CONFIG));
       } catch (e) { }
 
       if ($('saUserBadge')) $('saUserBadge').textContent = '👤 ' + u;
