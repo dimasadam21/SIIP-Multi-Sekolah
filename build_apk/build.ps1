@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$AppUrl = "https://siip-multi-sekolah.vercel.app",
     [string]$PackageName = "com.siip.multisekolah",
     [string]$AppName = "SIIP Multi-Sekolah",
